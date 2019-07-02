@@ -210,7 +210,9 @@ __webpack_require__.r(__webpack_exports__);
   onNavigationBarButtonTap: function onNavigationBarButtonTap(e) {
     switch (e.index) {
       case 0:
-        console.log('点击通讯录', " at pages\\paper\\paper.vue:131");
+        uni.navigateTo({
+          url: '../user-list/user-list' });
+
         this.hidepopup();
         break;
       case 1:

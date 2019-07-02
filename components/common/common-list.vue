@@ -7,7 +7,7 @@
 			<view class="u-f-ac u-f-jsb">
 				<view class="u-f-ac">
 					{{item.username}}
-					<view class="tag-sex icon iconfont" :class="[item.sex == 0 ? 'icon-nan' : 'icon-nv tag-sex-nv']">{{item.age}}</view>
+					<tag-sex-age :sex="item.sex" :age="item.age"></tag-sex-age>
 				</view>
 				<view v-show="!isguanzhu" class="u-f-ac" @tap="guanzhu">
 					<view class="icon iconfont icon-zengjia"></view>关注
@@ -45,8 +45,12 @@
 </template>
 
 <script>
+	import tagSexAge from "./tag-sex-age.vue"
 	export default {
 		name: "common-list",
+		components:{
+			tagSexAge
+		},
 		props: {
 			item: Object,
 			index: Number
@@ -68,105 +72,5 @@
 </script>
 
 <style>
-	.common-list {
-		padding: 20upx;
-	}
-
-	.common-list-l {
-		flex-shrink: 0;
-	}
-
-	.common-list-l image {
-		width: 90upx;
-		height: 90upx;
-		border-radius: 100%;
-	}
-
-	.common-list-r {
-		flex: 1;
-		margin-left: 15upx;
-		border-bottom: 1upx solid #EEEEEE;
-	}
-
-	.common-list-r>view:nth-child(1)>view:first-child {
-		color: #999999;
-		font-size: 30upx;
-	}
-
-	.common-list-r>view:nth-child(1)>view:last-child {
-		background: #EEEEEE;
-		padding: 0 10upx;
-		font-size: 26upx;
-	}
-
-	.tag-sex {
-		background: #007AFF;
-		color: #FFFFFF;
-		font-size: 23upx;
-		padding: 5upx 10upx;
-		margin-left: 10upx;
-		border-radius: 20upx;
-		line-height: 22upx;
-	}
-
-	.tag-sex-nv {
-		background: #fb0606;
-	}
-
-	.common-list-r>view:nth-child(2) {
-		font-size: 32upx;
-		padding: 12upx 0;
-	}
-
-	.common-list-r>view:nth-child(3) {
-		position: relative;
-	}
-
-	.common-list-r>view:nth-child(3)>image {
-		width: 100%;
-		border-radius: 10upx;
-	}
-
-	.common-list-play,
-	.common-list-playinfo {
-		position: absolute;
-		color: #FFFFFF;
-	}
-
-	.common-list-play {
-		font-size: 130upx;
-	}
-
-	.common-list-playinfo {
-		right: 10upx;
-		bottom: 10upx;
-		background: rgba(51, 51, 51, 0.73);
-		border-radius: 20upx;
-		padding: 0 20upx;
-		font-size: 26upx;
-	}
-
-	.common-list-share {
-		background: #EEEEEE;
-		width: 100%;
-		padding: 10upx;
-		border-radius: 10upx;
-	}
-
-	.common-list-share>image {
-		width: 200upx;
-		height: 150upx;
-		margin-right: 10upx;
-	}
-
-	.common-list-r>view:nth-child(4)>view {
-		color: #AAAAAA;
-		margin: 10upx 0;
-	}
-
-	.common-list-r>view:nth-child(4)>view:nth-child(2)>view {
-		font-size: 28upx;
-		margin-left: 10upx;
-		padding-left: 5upx;
-	}
+	@import '../../common/list.css';
 </style>

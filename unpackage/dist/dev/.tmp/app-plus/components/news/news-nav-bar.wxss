@@ -30,7 +30,8 @@
 	border-bottom: 5rpx solid #FEDE33;
 	border-top: 5rpx solid #FEDE33;
 	width: 70rpx;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	position: absolute;
 	bottom: 12rpx;
 }

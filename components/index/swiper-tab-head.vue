@@ -5,7 +5,7 @@
 				<view class="swiper-tab-list" 
 				:class="{'active': tabIndex== index}" 
 				@tap="tabtap(index)" :style="scrollItemStyle">
-					{{tab.name}}
+					{{tab.name}} {{tab.num?tab.num:''}}
 					<view class="swiper-tab-line"></view>
 				</view>
 			</block>

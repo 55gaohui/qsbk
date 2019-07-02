@@ -7,7 +7,10 @@
     "pages/search/search",
     "pages/add-input/add-input",
     "pages/topic-nav/topic-nav",
-    "pages/topic-detail/topic-detail"
+    "pages/topic-detail/topic-detail",
+    "pages/user-list/user-list",
+    "pages/user-chat/user-chat",
+    "pages/detail/detail"
   ],
   "subPackages": [],
   "window": {
@@ -48,11 +51,12 @@
       }
     ]
   },
+  "nvueCompiler": "weex",
   "splashscreen": {
     "alwaysShowBeforeRender": true,
     "autoclose": false
   },
   "appname": "仿糗事百科",
-  "compilerVersion": "1.9.9",
+  "compilerVersion": "2.0.1",
   "usingComponents": {}
 }

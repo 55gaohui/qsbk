@@ -101,7 +101,9 @@
 			},
 			//进入详情页
 			opendetail() {
-
+				uni.navigateTo({
+					url: '../../pages/detail/detail?detailData='+JSON.stringify(this.item),
+				});
 			}
 		}
 	}

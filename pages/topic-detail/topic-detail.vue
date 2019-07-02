@@ -184,7 +184,7 @@
 		},
 		//下拉刷新
 		onPullDownRefresh() {
-			
+			console.log('2');
 			this.getdata();
 		},
 		methods: {

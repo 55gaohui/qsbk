@@ -10,7 +10,8 @@
 .topic-list image.data-v-325e1d3c{
 	width: 150rpx;
 	height: 150rpx;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	margin-right: 20rpx;
 }
 .topic-list>view>view.data-v-325e1d3c{

@@ -9,12 +9,14 @@
 .index-list1>view:first-child image.data-v-00ffcbc2 {
 	width: 85rpx;
 	height: 85rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
 	margin-right: 10rpx;
 }
 .index-list1>view.data-v-00ffcbc2:last-child {
 	background: #F4F4F4;
-	border-radius: 5rpx;
+	-webkit-border-radius: 5rpx;
+	        border-radius: 5rpx;
 	padding: 0 10rpx;
 }
 .index-list2.data-v-00ffcbc2 {
@@ -27,7 +29,8 @@
 }
 .index-list3>image.data-v-00ffcbc2 {
 	width: 100%;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 }
 .index-list4 view.data-v-00ffcbc2 {
 	color: #999999;
@@ -50,7 +53,8 @@
 	color: #FFFFFF;
 	bottom: 8rpx;
 	right: 8rpx;
-	border-radius: 40rpx;
+	-webkit-border-radius: 40rpx;
+	        border-radius: 40rpx;
 	font-size: 22rpx;
 	padding: 0 12rpx;
 }

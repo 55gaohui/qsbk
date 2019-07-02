@@ -21,7 +21,8 @@
 	        flex: 1;
 	background: #dddddd;
 	color: #9e9e9e;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	margin: 0 10rpx;
 }
 

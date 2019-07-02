@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniBadge = function uniBadge() {return __webpack_require__.e(/*! import() | components/uni-badge/uni-badge */ "components/uni-badge/uni-badge").then(__webpack_require__.bind(null, /*! ../uni-badge/uni-badge.vue */ "../../../vue/qsbk/components/uni-badge/uni-badge.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniBadge = function uniBadge() {return __webpack_require__.e(/*! import() | components/uni-badge/uni-badge */ "components/uni-badge/uni-badge").then(__webpack_require__.bind(null, /*! ../uni-badge/uni-badge.vue */ "../../../vue/qsbk/components/uni-badge/uni-badge.vue"));};var _default =
 
 
 
@@ -125,7 +125,15 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
   props: {
     item: Object,
-    index: Number } };exports.default = _default;
+    index: Number },
+
+  methods: {
+    opendetail: function opendetail() {
+      uni.navigateTo({
+        url: '../user-chat/user-chat' });
+
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),
 

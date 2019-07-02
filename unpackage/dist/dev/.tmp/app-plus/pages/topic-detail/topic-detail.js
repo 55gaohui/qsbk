@@ -266,7 +266,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   //下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {
-
+    console.log('2', " at pages\\topic-detail\\topic-detail.vue:187");
     this.getdata();
   },
   methods: {

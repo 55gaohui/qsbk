@@ -14,6 +14,7 @@
 	width: 70rpx;
 	margin: auto;
 	border-top: 6rpx solid #fede33;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 }
 

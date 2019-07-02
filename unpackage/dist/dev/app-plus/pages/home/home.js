@@ -1,1 +1,2 @@
+setCssToHead([".",[1],"home-list.",[1],"data-v-626c9157 { padding: ",[0,20],"; }\n.",[1],"home-adv.",[1],"data-v-626c9157 { padding: ",[0,40],"; }\n.",[1],"home-adv\x3ewx-image.",[1],"data-v-626c9157 { -webkit-border-radius: ",[0,20],"; border-radius: ",[0,20],"; width: 100%; }\n",],undefined,{path:"./pages/home/home.wxss"})();
 document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/home/home.wxml') } }));

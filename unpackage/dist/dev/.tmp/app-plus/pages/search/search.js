@@ -80,17 +80,39 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var indexList = function indexList() {return __webpack_require__.e(/*! import() | components/index/index-list */ "components/index/index-list").then(__webpack_require__.bind(null, /*! ../../components/index/index-list.vue */ "../../../vue/qsbk/components/index/index-list.vue"));};var loadMore = function loadMore() {return __webpack_require__.e(/*! import() | components/common/load-more */ "components/common/load-more").then(__webpack_require__.bind(null, /*! ../../components/common/load-more.vue */ "../../../vue/qsbk/components/common/load-more.vue"));};var noThing = function noThing() {return __webpack_require__.e(/*! import() | components/common/no-thing */ "components/common/no-thing").then(__webpack_require__.bind(null, /*! ../../components/common/no-thing.vue */ "../../../vue/qsbk/components/common/no-thing.vue"));};var _default =
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  name: "search",
+  components: {
+    indexList: indexList,
+    loadMore: loadMore,
+    noThing: noThing },
+
+  data: function data() {
+    return {
+      issearch: false,
+      loadtext: "上拉加载更多",
+      list: [],
+      searchtext: '' };
 
   },
   //监听原生标题导航按钮点击事件
@@ -103,13 +125,121 @@ var _default =
   },
   //监听原生输入框 文本发生改变
   onNavigationBarSearchInputChanged: function onNavigationBarSearchInputChanged(e) {
-    console.log(e.text, " at pages\\search\\search.vue:24");
+    this.searchtext = e.text;
   },
   //监听 原生键盘内的搜索按钮点击
   onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-    console.log(e.text, " at pages\\search\\search.vue:28");
+    if (e.text) {
+      this.getdata();
+    }
   },
-  methods: {} };exports.default = _default;
+  //上拉加载
+  onReachBottom: function onReachBottom() {
+    this.loadmore();
+  },
+  // 监听下拉刷新
+  onPullDownRefresh: function onPullDownRefresh() {
+    console.log('2', " at pages\\search\\search.vue:60");
+    this.getdata();
+    uni.stopPullDownRefresh();
+
+  },
+  methods: {
+    // 搜索事件
+    getdata: function getdata() {var _this = this;
+      //请求服务器   this.searchtext
+      uni.showLoading();
+      setTimeout(function () {
+        var arr = [{
+          userpic: '../../static/demo/userpic/6.jpg',
+          username: '昵称',
+          isguanzhu: false,
+          title: '我是标题',
+          type: 'img', //img：图文；video：视频
+          titlepic: '../../static/demo/datapic/16.jpg',
+          play: "20w",
+          long: "2:15",
+          infonum: {
+            index: 0, //0：没有操作，1：顶，2：踩
+            dingnum: 11,
+            cainum: 11 },
+
+          commentnum: 10,
+          sharenum: 12 },
+
+        {
+          userpic: '../../static/demo/userpic/7.jpg',
+          username: '视频',
+          isguanzhu: true,
+          title: '我是视频内容',
+          type: 'video', //img：图文；video：视频
+          titlepic: '../../static/demo/datapic/16.jpg',
+          play: "20w",
+          long: "2:15",
+          infonum: {
+            index: 2, //0：没有操作，1：顶，2：踩
+            dingnum: 15,
+            cainum: 11 },
+
+          commentnum: 10,
+          sharenum: 12 },
+
+        {
+          userpic: '../../static/demo/userpic/6.jpg',
+          username: '昵称',
+          isguanzhu: false,
+          title: '我是标题',
+          type: 'img', //img：图文；video：视频
+          titlepic: '../../static/demo/datapic/16.jpg',
+          play: "20w",
+          long: "2:15",
+          infonum: {
+            index: 0, //0：没有操作，1：顶，2：踩
+            dingnum: 11,
+            cainum: 11 },
+
+          commentnum: 10,
+          sharenum: 12 }];
+
+
+        _this.list = arr;
+        uni.hideLoading();
+        _this.issearch = true;
+      }, 1000);
+    },
+    loadmore: function loadmore() {var _this2 = this;
+      //如果当前状态是还在加载中，或没有更多数据，直接返回
+      if (this.loadtext != "上拉加载更多") {
+        return;
+      }
+      //修改状态
+      this.loadtext = "加载中";
+      //获取数据
+      setTimeout(function () {
+        //获取完成
+        var obj = {
+          userpic: '../../static/demo/userpic/6.jpg',
+          username: '昵称',
+          isguanzhu: false,
+          title: '我是标题',
+          type: 'img', //img：图文；video：视频
+          titlepic: '../../static/demo/datapic/16.jpg',
+          play: "20w",
+          long: "2:15",
+          infonum: {
+            index: 0, //0：没有操作，1：顶，2：踩
+            dingnum: 11,
+            cainum: 11 },
+
+          commentnum: 10,
+          sharenum: 12 };
+
+        _this2.list.push(obj);
+        _this2.loadtext = "上拉加载更多";
+      }, 1000);
+      //如果没有数据显示
+      // this.loadtext = "没有更多数据";
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),

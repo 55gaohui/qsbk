@@ -4,7 +4,8 @@
 }
 .search-input>input {
 	background: #F4F4F4;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 }
 .topic-search {
 	display: -webkit-box;
@@ -22,7 +23,8 @@
 }
 .topic-swiper image{
 	width: 100%;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 }
 .topic-news{
 	padding: 20rpx;
