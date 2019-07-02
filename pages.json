@@ -213,6 +213,33 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/user-set/user-set",
+            "style" : {
+				"navigationBarTitleText":"设置",
+				"app-plus":{
+					"bounce":"none"
+				}
+			}
+        }
+        ,{
+            "path" : "pages/user-set-repassword/user-set-repassword",
+            "style" : {
+				"navigationBarTitleText":"修改密码",
+				"app-plus":{
+					"bounce":"none"
+				}
+			}
+        }
+        ,{
+            "path" : "pages/user-set-email/user-set-email",
+            "style" : {
+				"navigationBarTitleText":"绑定邮箱",
+				"app-plus":{
+					"bounce":"none"
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

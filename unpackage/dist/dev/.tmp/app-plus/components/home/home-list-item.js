@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -113,7 +113,31 @@ var _default =
   name: "home-list-item",
   props: {
     item: Object,
-    index: Number } };exports.default = _default;
+    index: Number },
+
+  methods: {
+    clickevent: function clickevent() {
+      switch (this.item.clicktype) {
+        case "navigateTo":
+          if (this.item.url) {
+            uni.navigateTo({
+              url: this.item.url });
+
+          }
+          break;
+        case "switchTab":
+          if (this.item.url) {
+            uni.switchTab({
+              url: this.item.url });
+
+          }
+          break;
+        default:
+          break;}
+
+
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),
 

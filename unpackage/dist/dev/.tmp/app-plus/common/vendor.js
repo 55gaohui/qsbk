@@ -308,6 +308,57 @@ createPage(_userList.default);
 
 /***/ }),
 
+/***/ "../../../vue/qsbk/main.js?{\"page\":\"pages%2Fuser-set%2Fuser-set\"}":
+/*!*************************************************************************!*\
+  !*** D:/gaohui/vue/qsbk/main.js?{"page":"pages%2Fuser-set%2Fuser-set"} ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../vue/qsbk/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _userSet = _interopRequireDefault(__webpack_require__(/*! ./pages/user-set/user-set.vue */ "../../../vue/qsbk/pages/user-set/user-set.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_userSet.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../vue/qsbk/main.js?{\"page\":\"pages%2Fuser-set-email%2Fuser-set-email\"}":
+/*!*************************************************************************************!*\
+  !*** D:/gaohui/vue/qsbk/main.js?{"page":"pages%2Fuser-set-email%2Fuser-set-email"} ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../vue/qsbk/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _userSetEmail = _interopRequireDefault(__webpack_require__(/*! ./pages/user-set-email/user-set-email.vue */ "../../../vue/qsbk/pages/user-set-email/user-set-email.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_userSetEmail.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "../../../vue/qsbk/main.js?{\"page\":\"pages%2Fuser-set-repassword%2Fuser-set-repassword\"}":
+/*!***********************************************************************************************!*\
+  !*** D:/gaohui/vue/qsbk/main.js?{"page":"pages%2Fuser-set-repassword%2Fuser-set-repassword"} ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "../../../vue/qsbk/pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _userSetRepassword = _interopRequireDefault(__webpack_require__(/*! ./pages/user-set-repassword/user-set-repassword.vue */ "../../../vue/qsbk/pages/user-set-repassword/user-set-repassword.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_userSetRepassword.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "../../../vue/qsbk/pages.json":
 /*!*************************************!*\
   !*** D:/gaohui/vue/qsbk/pages.json ***!

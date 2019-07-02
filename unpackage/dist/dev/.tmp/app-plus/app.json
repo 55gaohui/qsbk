@@ -10,7 +10,10 @@
     "pages/topic-detail/topic-detail",
     "pages/user-list/user-list",
     "pages/user-chat/user-chat",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/user-set/user-set",
+    "pages/user-set-repassword/user-set-repassword",
+    "pages/user-set-email/user-set-email"
   ],
   "subPackages": [],
   "window": {
