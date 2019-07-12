@@ -82,7 +82,9 @@ __webpack_require__.r(__webpack_exports__);
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
   onLaunch: function onLaunch() {
-
+    // 网路监听（用户目前断网，切换wifi）
+    this.lib.NetWork.On();
+    // 更新检测
   },
   onShow: function onShow() {
 

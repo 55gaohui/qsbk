@@ -124,7 +124,7 @@ __webpack_require__.r(__webpack_exports__);
       tabIndex: 0,
       swiperheight: 500,
       currentIndex: 0,
-      tabbars: [{
+      tabBars: [{
         name: "关注",
         id: "guanzhu" },
 

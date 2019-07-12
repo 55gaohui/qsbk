@@ -98,10 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -114,7 +111,69 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 var _default =
 {
   name: "other-login",
-  props: {} };exports.default = _default;
+  data: function data() {
+    return {
+      providerList: [] };
+
+  },
+  onReady: function onReady() {
+    this.getLoginAuth();
+  },
+  methods: {
+    // 获取当前登录渠道
+    getLoginAuth: function getLoginAuth() {var _this = this;
+      uni.getProvider({
+        service: 'oauth',
+        success: function success(result) {
+          _this.providerList = result.provider.map(function (value) {
+            var providerName = '';
+            var icon = '';
+            switch (value) {
+              case 'weixin':
+                providerName = '微信登录';
+                icon = 'weixin';
+                break;
+              case 'qq':
+                providerName = 'QQ登录';
+                icon = 'QQ';
+                break;
+              case 'sinaweibo':
+                providerName = '新浪微博登录';
+                icon = 'xinlangweibo';
+                break;
+              case 'alipay':
+                providerName = '支付宝登录';
+                icon = 'QQ';
+                break;}
+
+            return {
+              name: providerName,
+              icon: icon,
+              id: value };
+
+          });
+
+        },
+        fail: function fail(error) {
+          console.log('获取登录通道失败', error, " at components\\home\\other-login.vue:58");
+        } });
+
+    },
+    // 登录
+    tologin: function tologin(provider) {
+      uni.login({
+        provider: provider.id,
+        success: function success(res) {
+          console.log('login success:', res, " at components\\home\\other-login.vue:67");
+          // 更新保存在 store 中的登录状态
+          console.log('登录成功，保存到本地存储，修改当前用户登录状态', " at components\\home\\other-login.vue:69");
+        },
+        fail: function fail(err) {
+          console.log('login fail:', err, " at components\\home\\other-login.vue:72");
+        } });
+
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-app-plus/dist/index.js */ "./node_modules/@dcloudio/uni-app-plus/dist/index.js")["default"]))
 
 /***/ }),
 

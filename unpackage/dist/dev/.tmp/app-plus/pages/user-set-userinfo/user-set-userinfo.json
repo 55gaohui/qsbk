@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "编辑资料",
+  "bounce": "none",
+  "usingComponents": {
+    "mpvue-city-picker": "/components/mpvue-citypicker/mpvueCityPicker"
+  }
+}

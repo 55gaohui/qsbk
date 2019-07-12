@@ -143,7 +143,7 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
-      islogin: false,
+      islogin: true,
       homeinfo: {
         userpic: "../../static/demo/userpic/11.jpg",
         username: "昵称",
@@ -188,8 +188,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
   },
-  methods: {},
+  methods: {
+    openLogin: function openLogin() {
+      uni.navigateTo({
+        url: '../login/login' });
 
+    } },
 
   onNavigationBarButtonTap: function onNavigationBarButtonTap(e) {
     if (e.index == 0) {

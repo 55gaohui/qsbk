@@ -123,7 +123,7 @@ __webpack_require__.r(__webpack_exports__);
         todaynum: 1000 },
 
       tabIndex: 0,
-      tabbars: [{
+      tabBars: [{
         name: "最热",
         id: "zuire" },
 

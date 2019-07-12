@@ -117,7 +117,7 @@ var _default =
 {
   name: "swiper-tab-head",
   props: {
-    tabbars: Array,
+    tabBars: Array,
     tabIndex: Number,
     scrollStyle: {
       type: String,

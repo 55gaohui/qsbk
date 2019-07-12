@@ -1,5 +1,5 @@
 <template>
-	<view class="home-info u-f-ac animated fadeIn fast">
+	<view class="home-info u-f-ac animated fadeIn fast" @tap="ToUserSpace()">
 		<image :src="homeinfo.userpic" mode="widthFix" lazy-load></image>
 		<view class="u-f1">
 			<view>{{homeinfo.username}}</view>
@@ -14,6 +14,13 @@
 		name: "home-info",
 		props: {
 			homeinfo: Object
+		},
+		methods:{
+			ToUserSpace(){
+				uni.navigateTo({
+					url: '../../pages/user-space/user-space'
+				});
+			}
 		}
 	}
 </script>

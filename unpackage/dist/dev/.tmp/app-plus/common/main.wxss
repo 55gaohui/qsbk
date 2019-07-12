@@ -13,6 +13,8 @@
 
 
 
+
+
 /* uni.css - 通用组件、模板样式库，可以当作一套ui库应用 */
 @font-face {
 	font-family: uniicons;
@@ -1629,6 +1631,9 @@ radio-group label, checkbox-group label{
     -webkit-transform: translateY(50%);
         -ms-transform: translateY(50%);
             transform: translateY(50%);
+}
+image{
+	will-change: transform
 }
 /*引入公共图标库*/
 @font-face {font-family: "iconfont";

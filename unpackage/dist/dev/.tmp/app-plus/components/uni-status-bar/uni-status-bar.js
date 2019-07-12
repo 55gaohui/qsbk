@@ -108,6 +108,12 @@ __webpack_require__.r(__webpack_exports__);
 var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';var _default =
 {
   name: 'UniStatusBar',
+  props: {
+    bgcolor: {
+      type: String,
+      default: '' } },
+
+
   data: function data() {
     return {
       statusBarHeight: statusBarHeight };

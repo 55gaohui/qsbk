@@ -2,7 +2,7 @@
 	<view>
 		<topic-info :topicInfo="topicInfo"></topic-info>
 		<!-- tab切换 -->
-		<swiper-tab-head :tabbars="tabbars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;" scrollStyle="border-bottom:0;" />
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;" scrollStyle="border-bottom:0;" />
 		<!-- 列表 -->
 		<view class="topic-detail-list">
 			<block v-for="(item, index) in tablist" :key="index">
@@ -23,7 +23,7 @@
 	import topicInfo from "../../components/topic/topic-info.vue"
 	import swiperTabHead from "../../components/index/swiper-tab-head.vue"
 	import commonList from "../../components/common/common-list.vue"
-	import loadMore from "../../components/common/load-more.vue"
+	import loadMore from "../../components/common/load-more.vue";
 	export default {
 		components: {
 			topicInfo,
@@ -41,7 +41,7 @@
 					todaynum: 1000,
 				},
 				tabIndex: 0,
-				tabbars: [{
+				tabBars: [{
 						name: "最热",
 						id: "zuire"
 					},

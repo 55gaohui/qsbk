@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-tab-bar">
 		<scroll-view scroll-x class="uni-swiper-tab" :style="scrollStyle">
-			<block v-for="(tab, index) in tabbars" :key="tab.id">
+			<block v-for="(tab, index) in tabBars" :key="tab.id">
 				<view class="swiper-tab-list" 
 				:class="{'active': tabIndex== index}" 
 				@tap="tabtap(index)" :style="scrollItemStyle">
@@ -17,7 +17,7 @@
 	export default{
 		name:"swiper-tab-head",
 		props:{
-			tabbars: Array,
+			tabBars: Array,
 			tabIndex: Number,
 			scrollStyle: {
 				type: String,

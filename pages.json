@@ -83,18 +83,16 @@
 			}
 		},
 		{
-			"path" : "pages/home/home",
-            "style" : {
-				"navigationBarTitleText":"我的",
-				"app-plus":{
-					"scrollIndicator":"none",
-					"bounce":"none",
-					"titleNView":{
-						"buttons":[
-							{
-								"type":"menu"
-							}
-						]
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"buttons": [{
+							"type": "menu"
+						}]
 					}
 				}
 			}
@@ -134,6 +132,8 @@
 			"path": "pages/add-input/add-input",
 			"style": {
 				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 200,
 					"titleNView": false //关闭原生导航栏 中间标题
 				}
 			}
@@ -150,6 +150,8 @@
 			"style": {
 				"enablePullDownRefresh": true, //开启下拉刷新
 				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 200,
 					"scrollIndicator": "none", //隐藏滚动条
 					"titleNView": {
 						"type": "transparent", //顶部透明显示
@@ -163,7 +165,7 @@
 			"path": "pages/user-list/user-list",
 			"style": {
 				"app-plus": {
-					"animationType":"slide-in-left",
+					"animationType": "slide-in-left",
 					"scrollIndicator": "none", //隐藏滚动条
 					"bounce": "none", //关闭上拉下拉动作反弹效果
 					"titleNView": {
@@ -191,52 +193,97 @@
 					}
 				}
 			}
-		}
-	    ,{
-            "path" : "pages/user-chat/user-chat",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/detail/detail",
-            "style" : {
-				"navigationBarTitleText":"标题",
-				"app-plus":{
-					"scrollIndicator":"none",
-					"bounce":"none",
-					"titleNView":{
-						"buttons":[
-							{
-								"type": "menu"
-							}
-						]
+		}, {
+			"path": "pages/user-chat/user-chat",
+			"style": {}
+		}, {
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "标题",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"buttons": [{
+							"type": "menu"
+						}]
 					}
 				}
 			}
-        }
-        ,{
-            "path" : "pages/user-set/user-set",
+		}, {
+			"path": "pages/user-set/user-set",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/user-set-repassword/user-set-repassword",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/user-set-email/user-set-email",
+			"style": {
+				"navigationBarTitleText": "绑定邮箱",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/user-set-userinfo/user-set-userinfo",
+			"style": {
+				"navigationBarTitleText": "编辑资料",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/user-set-help/user-set-help",
+			"style": {
+				"navigationBarTitleText": "意见反馈",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/user-set-about/user-set-about",
+			"style": {
+				"navigationBarTitleText": "关于糗百",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}
+	    ,{
+            "path" : "pages/login/login",
             "style" : {
-				"navigationBarTitleText":"设置",
-				"app-plus":{
-					"bounce":"none"
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false,
+					"scrollIndicator":"none"
 				}
 			}
         }
         ,{
-            "path" : "pages/user-set-repassword/user-set-repassword",
+            "path" : "pages/user-space/user-space",
             "style" : {
-				"navigationBarTitleText":"修改密码",
-				"app-plus":{
-					"bounce":"none"
-				}
-			}
-        }
-        ,{
-            "path" : "pages/user-set-email/user-set-email",
-            "style" : {
-				"navigationBarTitleText":"绑定邮箱",
-				"app-plus":{
-					"bounce":"none"
+				"navigationBarTitleText": "个人空间",
+				"app-plus": {
+					"bounce": "none",
+					"scrollIndicator":"none",
+					"titleNView":{
+						"type":"transparent",
+						"buttons":[
+							{
+								"type":"menu"
+							}
+						]
+					}
 				}
 			}
         }

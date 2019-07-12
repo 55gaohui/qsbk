@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<swiper-tab-head :tabbars="tabbars" :tabIndex="tabIndex" @tabtap="tabtap" />
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" />
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :current="tabIndex" :style="{height: swiperheight+'px'}" @change="tabChange">
 				<swiper-item v-for="(items, index) in newslist" :key="index">
@@ -42,7 +42,7 @@
 				tabIndex: 0,
 				swiperheight: 500,
 				currentIndex: 0,
-				tabbars: [{
+				tabBars: [{
 						name: "关注",
 						id: "guanzhu"
 					},
