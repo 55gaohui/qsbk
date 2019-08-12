@@ -8,8 +8,7 @@
 	        flex-shrink: 0;
 	width: 100rpx;
 	height: 100rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 	margin-right: 15rpx;
 }
 .home-info>view:first-of-type>view.data-v-49ca0b58:first-child {

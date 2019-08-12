@@ -110,5 +110,6 @@
 		color: #FFFFFF;
 		padding: 2upx 10upx;
 		border-radius: 10upx;
+		z-index: 100;
 	}
 </style>

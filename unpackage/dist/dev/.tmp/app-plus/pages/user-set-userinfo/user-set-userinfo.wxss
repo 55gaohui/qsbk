@@ -30,8 +30,7 @@
 .user-set-userinfo-list>view:last-child>image.data-v-622bce05 {
 	width: 80rpx;
 	height: 80rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 }
 .user-set-userinfo-list>view:last-child>input.data-v-622bce05 {
 	text-align: right;

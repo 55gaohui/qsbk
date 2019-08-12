@@ -15,7 +15,7 @@
 	background: #333333;
 	color: #FFFFFF;
 	padding: 2rpx 10rpx;
-	-webkit-border-radius: 10rpx;
-	        border-radius: 10rpx;
+	border-radius: 10rpx;
+	z-index: 100;
 }
 

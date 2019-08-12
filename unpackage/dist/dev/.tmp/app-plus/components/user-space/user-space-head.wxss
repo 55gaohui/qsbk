@@ -14,8 +14,7 @@
 .user-space-head-info>image.data-v-2f9492ac {
 	width: 150rpx;
 	height: 150rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 }
 .user-space-head-info>view.data-v-2f9492ac:first-of-type {
 	color: #FFFFFF;
@@ -28,8 +27,7 @@
 	color: #333333;
 	border: 1rpx solid #FFE933;
 	padding: 0 15rpx;
-	-webkit-border-radius: 10rpx;
-	        border-radius: 10rpx;
+	border-radius: 10rpx;
 	font-size: 28rpx;
 }
 .active.data-v-2f9492ac {

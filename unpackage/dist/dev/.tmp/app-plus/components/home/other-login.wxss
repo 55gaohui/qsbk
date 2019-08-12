@@ -5,8 +5,7 @@
 .other-login>view>view.data-v-50f50be8 {
 	width: 100rpx;
 	height: 100rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 	font-size: 55rpx;
 	color: #FFFFFF;
 }

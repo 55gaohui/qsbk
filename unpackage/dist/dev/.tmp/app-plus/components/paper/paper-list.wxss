@@ -6,8 +6,7 @@
 .paper-list>image.data-v-f5953f64 {
 	width: 100rpx;
 	height: 100rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 	margin-right: 20rpx;
 	-webkit-flex-shrink: 0;
 	    -ms-flex-negative: 0;

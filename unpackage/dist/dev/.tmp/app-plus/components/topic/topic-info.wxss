@@ -20,8 +20,7 @@
 .topic-info-t>image.data-v-83133bd0 {
 	width: 150rpx;
 	height: 150rpx;
-	-webkit-border-radius: 20rpx;
-	        border-radius: 20rpx;
+	border-radius: 20rpx;
 	position: absolute;
 	top: -75rpx;
 }

@@ -20,7 +20,6 @@
     "pages/login/login",
     "pages/user-space/user-space"
   ],
-  "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "仿糗事百科",
@@ -60,11 +59,12 @@
     ]
   },
   "nvueCompiler": "weex",
+  "renderer": "auto",
   "splashscreen": {
     "alwaysShowBeforeRender": true,
     "autoclose": false
   },
   "appname": "仿糗事百科",
-  "compilerVersion": "2.0.1",
+  "compilerVersion": "2.2.0",
   "usingComponents": {}
 }

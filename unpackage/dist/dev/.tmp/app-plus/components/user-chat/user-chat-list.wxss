@@ -5,8 +5,7 @@
 .user-chat-list>image.data-v-178dceb2 {
 	width: 100rpx;
 	height: 100rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 	-webkit-flex-shrink: 0;
 	    -ms-flex-negative: 0;
 	        flex-shrink: 0;
@@ -16,8 +15,7 @@
 	background: #F4F4F4;
 	padding: 25rpx;
 	margin-left: 20rpx;
-	-webkit-border-radius: 20rpx;
-	        border-radius: 20rpx;
+	border-radius: 20rpx;
 	margin-right: 100rpx;
 }
 .user-chat-list-body.data-v-178dceb2:after {

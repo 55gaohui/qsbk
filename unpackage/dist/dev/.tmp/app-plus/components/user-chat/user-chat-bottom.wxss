@@ -16,8 +16,7 @@
 	        flex: 1;
 	margin-right: 20rpx;
 	padding: 10rpx 20rpx;
-	-webkit-border-radius: 10rpx;
-	        border-radius: 10rpx;
+	border-radius: 10rpx;
 	background: #F7F7F7;
 }
 .user-chat-bottom>view.data-v-303e7abf {
