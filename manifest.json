@@ -64,19 +64,5 @@
             "minified" : true
         },
         "usingComponents" : true
-    },
-	//H5配置
-	 "h5": {
-		"devServer": {
-			"port": 8000,
-			"disableHostCheck": true,
-			"proxy": {
-				"/dpc": {
-					"target": "https://ghfree.cn/api/v1",
-					"changeOrigin": true,  // target是域名的话，需要这个参数
-					"secure": true  // 设置支持https协议的代理
-				}
-			}
-		}
-	}
+    }
 }

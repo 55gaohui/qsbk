@@ -13,6 +13,9 @@
 							<!-- 上拉加载 -->
 							<loadMore :loadtext="items.loadtext" />
 						</template>
+						<template v-else-if="!items.firstload">
+							<view style="font-size: 50upx; font-weight: bold; color: #CCCCCC; padding-top: 100upx;" class="u-f-ajc">Loading ...</view>
+						</template>
 						<template v-else>
 							<no-thing />
 						</template>
@@ -42,31 +45,7 @@
 				tabIndex: 0,
 				swiperheight: 500,
 				currentIndex: 0,
-				tabBars: [{
-						name: "关注",
-						id: "guanzhu"
-					},
-					{
-						name: "推荐",
-						id: "tuijian"
-					},
-					{
-						name: "科技",
-						id: "keji"
-					},
-					{
-						name: "体育",
-						id: "tiyu"
-					},
-					{
-						name: "热点",
-						id: "redian"
-					},
-					{
-						name: "财经",
-						id: "caijing"
-					},
-				],
+				tabBars: [],
 				newslist: [{
 						loadtext: '上拉加载更多',
 						lists: [{
@@ -251,7 +230,7 @@
 				let list = res.data.data.list;
 				let arr = [];
 				let arr2= [];
-				for (let i=0;i<list.length;i++) {
+				for (let i=0; i < list.length; i++) {
 					arr.push({
 						id: list[i].id,
 						name: list[i].classname
@@ -263,9 +242,13 @@
 						firstload:false
 					})
 				}
-				
-				console.log(arr);
 				this.tabBars = arr;
+				this.newslist = arr2;
+				this.tabBars.length > 0 && this.getList();
+			},
+			//获取指定列表
+			async getList(){
+				
 			},
 			//点击事件
 			tabtap(index) {
