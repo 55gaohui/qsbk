@@ -50,23 +50,20 @@
 			},
 			pageToBottom(isfirst = false) {
 				let q = uni.createSelectorQuery().in(this);
-				let itemH =isfirst ? q.selectAll('.char-item') : q.select('.char-item');
-				
+				let itemH =q.selectAll('.char-item');
 				this.$nextTick(() => {
 					itemH.fields({
 						size: true
 					}, data => {
 						if (data) {
-							if(Array.isArray(data)){
+							if(isfirst){
 								for (let i = 0; i < data.length; i++) {
 									this.style.itemH += data[i].height;
 								}
 							}else{
-								this.style.itemH += data.height;
+								this.style.itemH += data[data.length-1].height;
 							}
-						}
-						if (this.style.itemH > this.style.contentH) {
-							this.scrollTop = this.style.itemH;
+							this.scrollTop = (this.style.itemH > this.style.contentH) ? this.style.itemH : 0;
 						}
 					}).exec()
 				})

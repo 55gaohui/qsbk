@@ -215,6 +215,7 @@
 			}
 		},
 		onLoad() {
+			this.getNav();
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100);
@@ -240,6 +241,32 @@
 			}
 		},
 		methods: {
+			//获取文章分类
+			
+			async getNav(){
+				let [err,res] = await this.$http.get('/postclass','',{
+					token: true
+				});
+				if(!this.$http.errorCheck(err,res)) return;
+				let list = res.data.data.list;
+				let arr = [];
+				let arr2= [];
+				for (let i=0;i<list.length;i++) {
+					arr.push({
+						id: list[i].id,
+						name: list[i].classname
+					});
+					arr2.push({
+						loadtext:"上拉加载更多",
+						list:[],
+						page:1,
+						firstload:false
+					})
+				}
+				
+				console.log(arr);
+				this.tabBars = arr;
+			},
 			//点击事件
 			tabtap(index) {
 				this.tabIndex = index;
