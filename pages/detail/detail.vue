@@ -37,31 +37,28 @@
 					list: []
 				},
 				detail: {
-					userpic: "../../static/demo/userpic/8.jpg",
-					username: "昵称",
+					userpic: "",
+					username: "",
 					sex: 0, // 0男，1女
-					age: 25,
+					age: 0,
+					content: '',
 					isguanzhu: false,
-					title: "我是标题",
-					titlepic: "../../static/demo/datapic/28.jpg",
-					morepic: [
-						"../../static/demo/datapic/28.jpg",
-						"../../static/demo/datapic/13.jpg",
-						"../../static/demo/datapic/15.jpg"
-					],
+					title: "",
+					titlepic: "",
+					morepic: [],
 					video: false,
 					share: false,
-					path: "深圳 龙岗",
-					sharenum: 20,
-					commentnum: 30,
-					goodnum: 20
+					path: "",
+					sharenum: 0,
+					commentnum: 0,
+					goodnum: 0,
+					create_time: 0
 				},
 				index: 0,
 				shareshow: false
 			}
 		},
 		onLoad(e) {
-			// console.log(e);
 			this.initdata(JSON.parse(e.detailData));
 			this.getcomment();
 		},
@@ -72,61 +69,77 @@
 			}
 		},
 		methods: {
-			//获取评论
-			getcomment() {
-				let arr = [
-					//一级评论
-					{
-						id: 1,
-						fid: 0,
-						userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
-						username: "小猫咪",
-						time: "1560397710",
-						data: "支持国产，支持DCloud!",
-					},
-					//二级评论
-					{
-						id: 2,
-						fid: 1,
-						userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
-						username: "小猫咪",
-						time: "1560397710",
-						data: "支持国产，支持DCloud!",
-					},
-					{
-						id: 3,
-						fid: 1,
-						userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
-						username: "小猫咪",
-						time: "1560397710",
-						data: "支持国产，支持DCloud!",
-					},
-					{
-						id: 4,
-						fid: 0,
-						userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
-						username: "小猫咪",
-						time: "1560397710",
-						data: "支持国产，支持DCloud!",
-					},
-					{
-						id: 5,
-						fid: 4,
-						userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
-						username: "小猫咪",
-						time: "1560397710",
-						data: "支持国产，支持DCloud!",
-					}
-				]
-				for (let i = 0; i < arr.length; i++) {
-					arr[i].time = time.gettime.gettime(arr[i].time);
-				}
-				this.comment.list = arr;
-			},
+			//初始化数据
 			initdata(obj) {
-				uni.setNavigationBarTitle({
-					title: obj.title
+				// console.log(obj);
+				//修改窗口标题
+				uni.setNavigationBarTitle({title: obj.title})
+				//加载中
+				uni.showLoading({title: 'Loading...',mask: true});
+				obj.morepic = [];
+				obj.content = "";
+				obj.goodnum = obj.infonum.dingnum;
+				this.detail = obj;
+				this.comment.count = obj.commentnum;
+				//获取文章详情
+				this.getdetail();
+				if(this.comment.count){
+					this.getcomment();
+				}
+			},
+			//请求文章详情
+			async getdetail(){
+				let [err,res] = await this.$http.get('/post/'+this.detail.id);
+				let error = this.$http.errorCheck(err,res,()=>{
+					uni.hideLoading();
+				},()=>{
+					uni.hideLoading();
 				})
+				if(!error) return;
+				let data = res.data.data.detail;
+				// console.log(data);
+				this.detail.content = data.content;
+				let images = [];
+				for (var i = 0; i < data.images.length; i++) {
+					images.push(data.images[i].url);
+				}
+				this.detail.morepic = images;
+				this.detail.age = data.user.userinfo.age;
+				this.detail.sex = data.user.userinfo.sex;
+				return uni.hideLoading();
+			},
+			//获取评论
+			async getcomment() {
+				let [err,res] = await this.$http.get('/post/'+this.detail.id+'/comment');
+				if(!this.$http.errorCheck(err,res)) return;
+				let list = res.data.data.list;
+				this.comment.list = this.comment.list.concat(this.__ArrSort(list));
+				console.log(this.comment.list);
+			},
+			// 无限级分类
+			__ArrSort(arr,id=0){
+				// console.log(arr);
+				var temp = [],lev=0;
+				var forFn = function(arr,id,lev){
+					for (let i = 0; i < arr.length; i++) {
+						var item = arr[i];
+						if(item.fid == id){
+							item.lev = lev;
+							temp.push({
+								id:item.id,
+								fid:item.fid,
+								userid:item.user.id,
+								userpic:item.user.userpic,
+								username:item.user.username,
+								time:time.gettime.gettime(item.create_time),
+								data:item.data,
+							});
+							forFn(arr,item.id,lev+1);
+						}
+					}		
+				}
+				forFn(arr,id,lev);
+				return temp;			
 			},
 			submit(data) {
 				// 构建数据

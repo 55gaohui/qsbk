@@ -1,6 +1,6 @@
 export default {
 	// 用户token 测试token：4cd36bf70649475ac0cd6fae78250954474a4350
-	token:false,
+	token:'fda0b3e40d3fd9437be0050c025f50f624ac716f',
 	// 用户信息
 	userinfo:false,
 	//权限验证跳转

@@ -43,12 +43,13 @@ export default {
 	errorCheck(err,res,errfun = false,resfun = false){
 		if(err){
 			typeof errfun === 'function' && errfun();
-			return uni.showToast({title: '加载失败',icon:'none'});
+			uni.showToast({title: '加载失败',icon:'none'});
 			return false;
+
 		}
 		if(res.data.errorCode){
-			typeof errfun === 'function' && resfun();
-			return uni.showToast({title: res.data.msg,icon:'none'});
+			typeof resfun === 'function' && resfun();
+			uni.showToast({title: res.data.msg,icon:'none'})
 			return false;
 		}
 		return true;

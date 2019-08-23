@@ -46,151 +46,7 @@
 				swiperheight: 500,
 				currentIndex: 0,
 				tabBars: [],
-				newslist: [{
-						loadtext: '上拉加载更多',
-						lists: [{
-								userpic: '../../static/demo/userpic/6.jpg',
-								username: '昵称',
-								isguanzhu: false,
-								title: '我是标题',
-								type: 'img', //img：图文；video：视频
-								titlepic: '../../static/demo/datapic/16.jpg',
-								play: "20w",
-								long: "2:15",
-								infonum: {
-									index: 0, //0：没有操作，1：顶，2：踩
-									dingnum: 11,
-									cainum: 11
-								},
-								commentnum: 10,
-								sharenum: 12
-							},
-							{
-								userpic: '../../static/demo/userpic/7.jpg',
-								username: '视频',
-								isguanzhu: true,
-								title: '我是视频内容',
-								type: 'video', //img：图文；video：视频
-								titlepic: '../../static/demo/datapic/16.jpg',
-								play: "20w",
-								long: "2:15",
-								infonum: {
-									index: 2, //0：没有操作，1：顶，2：踩
-									dingnum: 15,
-									cainum: 11
-								},
-								commentnum: 10,
-								sharenum: 12
-							},
-							{
-								userpic: '../../static/demo/userpic/6.jpg',
-								username: '昵称',
-								isguanzhu: false,
-								title: '我是标题',
-								type: 'img', //img：图文；video：视频
-								titlepic: '../../static/demo/datapic/16.jpg',
-								play: "20w",
-								long: "2:15",
-								infonum: {
-									index: 0, //0：没有操作，1：顶，2：踩
-									dingnum: 11,
-									cainum: 11
-								},
-								commentnum: 10,
-								sharenum: 12
-							},
-						]
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: [{
-								userpic: '../../static/demo/userpic/6.jpg',
-								username: '昵称',
-								isguanzhu: false,
-								title: '我是标题',
-								type: 'img', //img：图文；video：视频
-								titlepic: '../../static/demo/datapic/16.jpg',
-								play: "20w",
-								long: "2:15",
-								infonum: {
-									index: 0, //0：没有操作，1：顶，2：踩
-									dingnum: 11,
-									cainum: 11
-								},
-								commentnum: 10,
-								sharenum: 12
-							},
-							{
-								userpic: '../../static/demo/userpic/7.jpg',
-								username: '视频',
-								isguanzhu: true,
-								title: '我是视频内容',
-								type: 'video', //img：图文；video：视频
-								titlepic: '../../static/demo/datapic/16.jpg',
-								play: "20w",
-								long: "2:15",
-								infonum: {
-									index: 2, //0：没有操作，1：顶，2：踩
-									dingnum: 15,
-									cainum: 11
-								},
-								commentnum: 10,
-								sharenum: 12
-							},
-						]
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: [{
-								userpic: '../../static/demo/userpic/6.jpg',
-								username: '昵称',
-								isguanzhu: false,
-								title: '我是标题',
-								type: 'img', //img：图文；video：视频
-								titlepic: '../../static/demo/datapic/16.jpg',
-								play: "20w",
-								long: "2:15",
-								infonum: {
-									index: 0, //0：没有操作，1：顶，2：踩
-									dingnum: 11,
-									cainum: 11
-								},
-								commentnum: 10,
-								sharenum: 12
-							},
-							{
-								userpic: '../../static/demo/userpic/7.jpg',
-								username: '视频',
-								isguanzhu: true,
-								title: '我是视频内容',
-								type: 'video', //img：图文；video：视频
-								titlepic: '../../static/demo/datapic/16.jpg',
-								play: "20w",
-								long: "2:15",
-								infonum: {
-									index: 2, //0：没有操作，1：顶，2：踩
-									dingnum: 15,
-									cainum: 11
-								},
-								commentnum: 10,
-								sharenum: 12
-							},
-						]
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: []
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: []
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: []
-					},
-				]
-
+				newslist: []
 			}
 		},
 		onLoad() {
@@ -237,7 +93,7 @@
 					});
 					arr2.push({
 						loadtext:"上拉加载更多",
-						list:[],
+						lists:[],
 						page:1,
 						firstload:false
 					})
@@ -248,7 +104,50 @@
 			},
 			//获取指定列表
 			async getList(){
-				
+				let url = `/postclass/${this.tabBars[this.tabIndex].id}/post/${this.newslist[this.tabIndex].page}`;
+				let [err,res] = await this.$http.get(url,'',{token:true});
+				let error = this.$http.errorCheck(err,res,()=>{
+					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
+				},()=>{
+					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
+				});
+				if(!error) return;
+				let arr = [];
+				let list = res.data.data.list;
+				for (let i = 0; i < list.length; i++) {
+					arr.push(this.__format(list[i]));
+				}
+				this.newslist[this.tabIndex].lists = this.newslist[this.tabIndex].page>1 ? this.newslist[this.tabIndex].lists.concat(arr) : arr;
+				this.newslist[this.tabIndex].firstload = true;
+				if(list.length<10){
+					this.newslist[this.tabIndex].loadtext = '没有更多数据了';
+				}else{
+					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
+				}
+				return;
+			},
+			// 格式转化
+			__format(item){
+				return {
+					userid:item.user.id,
+					userpic:item.user.userpic,
+					username:item.user.username,
+					isguanzhu:!!item.user.fens.length,
+					id:item.id,
+					title:item.title,
+					type:"img", // img:图文,video:视频
+					titlepic:item.titlepic,
+					video:false,
+					path:item.path,
+					share:!!item.share,
+					infonum:{
+						index:(item.support.length>0) ? (item.support[0].type+1) : 0,//0:没有操作，1:顶,2:踩；
+						dingnum:item.ding_count,
+						cainum:item.cai_count,
+					},
+					commentnum:item.comment_count,
+					sharenum:item.sharenum,
+				}
 			},
 			//点击事件
 			tabtap(index) {
@@ -257,6 +156,7 @@
 			//滑动事件
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
+				this.getList();
 			},
 			loadmore(index) {
 				//如果当前状态是还在加载中，或没有更多数据，直接返回
@@ -265,31 +165,8 @@
 				}
 				//修改状态
 				this.newslist[index].loadtext = "加载中";
-				//获取数据
-				setTimeout(() => {
-					//获取完成
-					let obj = {
-						userpic: '../../static/demo/userpic/6.jpg',
-						username: '昵称',
-						isguanzhu: false,
-						title: '我是标题',
-						type: 'img', //img：图文；video：视频
-						titlepic: '../../static/demo/datapic/16.jpg',
-						play: "20w",
-						long: "2:15",
-						infonum: {
-							index: 0, //0：没有操作，1：顶，2：踩
-							dingnum: 11,
-							cainum: 11
-						},
-						commentnum: 10,
-						sharenum: 12
-					};
-					this.newslist[index].lists.push(obj);
-					this.newslist[index].loadtext = "上拉加载更多";
-				}, 2000);
-				//如果没有数据显示
-				// this.newslist[index].loadtext = "没有更多数据";
+				this.newslist[this.tabIndex].page++;
+				this.getList();
 			}
 		}
 	}

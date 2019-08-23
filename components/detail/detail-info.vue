@@ -14,10 +14,10 @@
 						<view class="icon iconfont icon-zengjia"></view>关注
 					</view>
 				</view>
-				<view class="common-list-r-time">26天前</view>
+				<view class="common-list-r-time" v-show="item.create_time">{{item.create_time}}</view>
 			</view>
 			<view>
-				{{item.title}}
+				{{item.content}}
 			</view>
 			<view class="u-f-ajc" style="flex-direction: column;">
 				<!-- 图片 -->
