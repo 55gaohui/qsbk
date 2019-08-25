@@ -13,7 +13,7 @@
 			<view class="index-list2" @tap="opendetail()">
 				{{item.title}}
 			</view>
-			<view class="index-list3 u-f-ajc" @tap="opendetail()">
+			<view class="index-list3 u-f-ajc" @tap="opendetail()" v-show="item.titlepic">
 				<image :src="item.titlepic" mode="widthFix" lazy-load></image>
 				<template v-if="item.type == 'video'">
 					<view class="index-list-play icon iconfont icon-bofang"></view>

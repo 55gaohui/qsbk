@@ -12,7 +12,7 @@
 		<user-chat-bottom @submit="submit"></user-chat-bottom>
 		
 		<!-- 分享 -->
-		<more-share :show="shareshow" @togle="togle"></more-share>
+		<more-share :show="shareshow" @togle="togle" :sharedata="sharedata"></more-share>
 	</view>
 </template>
 
@@ -32,8 +32,14 @@
 		},
 		data() {
 			return {
+				sharedata:{
+					title: '',
+					url: '',
+					titlepic: '',
+					shareType: 0
+				},
 				comment: {
-					count: 20,
+					count: 0,
 					list: []
 				},
 				detail: {
@@ -60,20 +66,31 @@
 		},
 		onLoad(e) {
 			this.initdata(JSON.parse(e.detailData));
-			this.getcomment();
 		},
 		onNavigationBarButtonTap(e) {
 			// console.log(e.index);
 			if (e.index == 0) {
 				this.togle();
+				
 			}
 		},
 		methods: {
+			//初始化分享
+			__initShare(obj){
+				this.sharedata = {
+					title: obj.title,
+					content: obj.title,
+					url: 'https://ghfree.cn/',
+					titlepic: obj.titlepic ? obj.titlepic : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png',
+					shareType: 0
+				}
+			},
 			//初始化数据
 			initdata(obj) {
-				// console.log(obj);
 				//修改窗口标题
-				uni.setNavigationBarTitle({title: obj.title})
+				uni.setNavigationBarTitle({title: obj.title});
+				//加载分享内容
+				this.__initShare(obj);
 				//加载中
 				uni.showLoading({title: 'Loading...',mask: true});
 				obj.morepic = [];
@@ -113,8 +130,9 @@
 				let [err,res] = await this.$http.get('/post/'+this.detail.id+'/comment');
 				if(!this.$http.errorCheck(err,res)) return;
 				let list = res.data.data.list;
+				console.log(list);
 				this.comment.list = this.comment.list.concat(this.__ArrSort(list));
-				console.log(this.comment.list);
+				// console.log(this.comment.list);
 			},
 			// 无限级分类
 			__ArrSort(arr,id=0){

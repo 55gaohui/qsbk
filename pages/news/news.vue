@@ -35,7 +35,7 @@
 						<!-- 最近更新 -->
 						<view class="topic-news">
 							<view>最近更新</view>
-							<block v-for="(item, index) in list" :key="index">
+							<block v-for="(item, index) in topic.list" :key="index">
 								<topic-list :item="item" :index="index"></topic-list>
 							</block>
 						</view>
@@ -150,54 +150,74 @@
 				}
 				,
 				topic: {
-					swiper: [
-						{src: "../../static/demo/datapic/24.jpg"},
-						{src: "../../static/demo/datapic/43.jpg"},
-						{src: "../../static/demo/datapic/47.jpg"}
-					],
-					nav: [
-						{name: "最新"},
-						{name: "游戏"},
-						{name: "打卡"},
-						{name: "情感"},
-						{name: "故事"},
-						{name: "喜爱"}
-						
-					],
-				},
-				list: [
-					{
-						titlepic: "../../static/demo/demo5.jpg",
-						title: "话题名称",
-						desc: "我是话题描述",
-						totalnum: "20",
-						todaynum: "3"
-					},
-					{
-						titlepic: "../../static/demo/demo5.jpg",
-						title: "话题名称",
-						desc: "我是话题描述",
-						totalnum: "20",
-						todaynum: "3"
-					},
-					{
-						titlepic: "../../static/demo/demo5.jpg",
-						title: "话题名称",
-						desc: "我是话题描述",
-						totalnum: "20",
-						todaynum: "3"
-					},
-					{
-						titlepic: "../../static/demo/demo5.jpg",
-						title: "话题名称",
-						desc: "我是话题描述",
-						totalnum: "20",
-						todaynum: "3"
-					}
-				]
+					swiper: [],
+					nav: [],
+					list: []
+				},	
 			}
 		},
+		onLoad() {
+			uni.getSystemInfo({
+				success: (res) => {
+					let height = res.windowHeight - uni.upx2px(100);
+					this.swiperheight = height;
+				}
+			}),
+			this.__init();
+		},
 		methods: {
+			//初始化数据
+			__init(){
+				this.getSwiper();
+				this.getNav();
+				this.getHot();
+			},
+			//获取banner
+			async getSwiper(){
+				let [err,res] = await this.$http.get('/adsense/1');
+				if(!this.$http.errorCheck(err,res)) return;
+				let list = res.data.data.list;
+				let arr = [];
+				for (var i = 0; i < list.length; i++) {
+					arr.push({
+						src: list[i].src,
+						url: list[i].url
+					})
+				}
+				this.topic.swiper = arr;
+			},
+			//获取热门分类
+			async getNav(){
+				let[err,res] = await this.$http.get('/topicclass');
+				if(!this.$http.errorCheck(err,res)) return;
+				let arr = [];
+				let list = res.data.data.list;
+				for (let i = 0; i < list.length; i++) {
+					arr.push({
+						id:list[i].id,
+						name:list[i].classname
+					})
+				}
+				this.topic.nav = arr;
+			},
+			//获取热门话题
+			async getHot(){
+				let[err,res] = await this.$http.get('/hottopic');
+				if(!this.$http.errorCheck(err,res)) return;
+				let arr = [];
+				let list = res.data.data.list;
+				for (let i = 0; i < list.length; i++) {
+					arr.push({
+						id:list[i].id,
+						titlepic:list[i].titlepic,
+						title:list[i].title,
+						desc:list[i].desc,
+						totalnum:list[i].post_count,
+						todaynum:list[i].todaypost_count,
+					})
+				}
+				this.topic.list = arr;
+			},
 			//点击事件
 			changeTab(index) {
 				this.tabIndex = index
@@ -240,15 +260,7 @@
 				//如果没有数据显示
 				// this.guanzhu.loadtext = "没有更多数据";
 			}
-		},
-		onLoad() {
-			uni.getSystemInfo({
-				success: (res) => {
-					let height = res.windowHeight - uni.upx2px(100);
-					this.swiperheight = height;
-				}
-			})
-		},
+		}
 	}
 </script>
 

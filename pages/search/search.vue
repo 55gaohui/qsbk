@@ -30,7 +30,8 @@
 				issearch: false,
 				loadtext: "上拉加载更多",
 				list: [],
-				searchtext: ''
+				searchtext: '',
+				page: 1
 			}
 		},
 		//监听原生标题导航按钮点击事件
@@ -64,66 +65,56 @@
 		},
 		methods: {
 			// 搜索事件
-			getdata() {
+			async getdata() {
+				uni.showLoading({title:'Loading'});
 				//请求服务器   this.searchtext
-				uni.showLoading();
-				setTimeout(() => {
-					let arr = [{
-							userpic: '../../static/demo/userpic/6.jpg',
-							username: '昵称',
-							isguanzhu: false,
-							title: '我是标题',
-							type: 'img', //img：图文；video：视频
-							titlepic: '../../static/demo/datapic/16.jpg',
-							play: "20w",
-							long: "2:15",
-							infonum: {
-								index: 0, //0：没有操作，1：顶，2：踩
-								dingnum: 11,
-								cainum: 11
-							},
-							commentnum: 10,
-							sharenum: 12
-						},
-						{
-							userpic: '../../static/demo/userpic/7.jpg',
-							username: '视频',
-							isguanzhu: true,
-							title: '我是视频内容',
-							type: 'video', //img：图文；video：视频
-							titlepic: '../../static/demo/datapic/16.jpg',
-							play: "20w",
-							long: "2:15",
-							infonum: {
-								index: 2, //0：没有操作，1：顶，2：踩
-								dingnum: 15,
-								cainum: 11
-							},
-							commentnum: 10,
-							sharenum: 12
-						},
-						{
-							userpic: '../../static/demo/userpic/6.jpg',
-							username: '昵称',
-							isguanzhu: false,
-							title: '我是标题',
-							type: 'img', //img：图文；video：视频
-							titlepic: '../../static/demo/datapic/16.jpg',
-							play: "20w",
-							long: "2:15",
-							infonum: {
-								index: 0, //0：没有操作，1：顶，2：踩
-								dingnum: 11,
-								cainum: 11
-							},
-							commentnum: 10,
-							sharenum: 12
-						}
-					];
-					this.list = arr;
+				let [err,res] = await this.$http.post('/search/post',{
+					keyword: this.searchtext,
+					page: this.page
+				},{token:true});
+				let error = this.$http.errorCheck(err,res,()=>{
 					uni.hideLoading();
-					this.issearch = true;
-				}, 1000);
+				},()=>{
+					uni.hideLoading();
+				})
+				if(!error) return;
+				let arr = [];
+				let list = res.data.data.list;
+				for (let i = 0; i < list.length; i++) {
+					arr.push(this.__format(list[i]));
+				}
+				this.list = this.page>1 ? this.lists.concat(arr) : arr;
+				this.issearch = true;
+				if(list.length<10){
+					this.loadtext = '没有更多数据了';
+				}else{
+					this.loadtext = '上拉加载更多';
+				}
+				uni.hideLoading();
+				return;	
+			},
+			// 格式转化
+			__format(item){
+				return {
+					userid:item.user.id,
+					userpic:item.user.userpic,
+					username:item.user.username,
+					isguanzhu:!!item.user.fens.length,
+					id:item.id,
+					title:item.title,
+					type:"img", // img:图文,video:视频
+					titlepic:item.titlepic,
+					video:false,
+					path:item.path,
+					share:!!item.share,
+					infonum:{
+						index:(item.support.length>0) ? (item.support[0].type+1) : 0,//0:没有操作，1:顶,2:踩；
+						dingnum:item.ding_count,
+						cainum:item.cai_count,
+					},
+					commentnum:item.comment_count,
+					sharenum:item.sharenum,
+				}
 			},
 			loadmore() {
 				//如果当前状态是还在加载中，或没有更多数据，直接返回

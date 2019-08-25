@@ -22,15 +22,26 @@
 	export default {
 		name: "",
 		props: {
-			show: Boolean
+			show: Boolean,
+			sharedata: Object
 		},
 		data() {
 			return {
-				shareText: 'uni-app可以同时发布成原生App、小程序、H5，邀请你一起体验！',
-				href: "https://uniapp.dcloud.io",
-				image: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png',
+				title: '',
+				shareText: '',
+				href: "",
+				image: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png',
 				shareType: 1, //1文字 2图片 0图文 5小程序
 				providerList: []
+			}
+		},
+		watch:{
+			sharedata(newValue, odlValue){
+				this.title = newValue.title;
+				this.shareText = newValue.content;
+				this.href = newValue.url;
+				this.image = newValue.titlepic;
+				this.shareType = newValue.shareType;
 			}
 		},
 		onReady() {
@@ -108,7 +119,6 @@
 			},
 			async share(e) {
 				console.log('分享通道:' + e.id + '； 分享类型:' + this.shareType);
-
 				if (!this.shareText && (this.shareType === 1 || this.shareType === 0)) {
 					uni.showModal({
 						content: '分享内容不能为空',
@@ -152,8 +162,8 @@
 					case 0:
 						shareOPtions.summary = this.shareText;
 						shareOPtions.imageUrl = this.image;
-						shareOPtions.title = '欢迎体验uniapp';
-						shareOPtions.href = 'https://uniapp.dcloud.io';
+						shareOPtions.title = this.title;
+						shareOPtions.href = this.href;
 						break;
 					case 1:
 						shareOPtions.summary = this.shareText;
@@ -162,9 +172,8 @@
 						shareOPtions.imageUrl = this.image;
 						break;
 					case 5:
-						shareOPtions.imageUrl = this.image ? this.image :
-							'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
-						shareOPtions.title = '欢迎体验uniapp';
+						shareOPtions.imageUrl = this.image;
+						shareOPtions.title = this.title;
 						shareOPtions.miniProgram = {
 							id: 'gh_33446d7f7a26',
 							path: '/pages/tabBar/component/component',
@@ -177,17 +186,26 @@
 				}
 
 				if (shareOPtions.type === 0 && plus.os.name === 'iOS') { //如果是图文分享，且是ios平台，则压缩图片 
-					shareOPtions.imageUrl = await this.compress();
+					// shareOPtions.imageUrl = await this.compress();
+					shareOPtions.imageUrl = this.image;	
 				}
-				if (shareOPtions.type === 1 && shareOPtions.provider === 'qq') { //如果是分享文字到qq，则必须加上href和title
-					shareOPtions.href = 'https://uniapp.dcloud.io';
-					shareOPtions.title = '欢迎体验uniapp';
+				
+				if (shareOPtions.provider === 'sinaweibo') {
+					shareOPtions.type = 1;
+					shareOPtions.imageUrl = '';
+				}
+				
+				if (shareOPtions.provider === 'qq') { //如果是分享文字到qq，则必须加上href和title
+					shareOPtions.type = 1;
+					shareOPtions.href = this.href;
+					shareOPtions.title = this.title;
 				}
 				uni.share(shareOPtions);
 			},
 			compress() { //压缩图片 图文分享要求分享图片大小不能超过20Kb
 				console.log('开始压缩');
 				let img = this.image;
+				console.log(img);
 				return new Promise((res) => {
 					var localPath = plus.io.convertAbsoluteFileSystem(img.replace('file://', ''));
 					console.log('after' + localPath);
@@ -195,6 +213,7 @@
 					plus.io.resolveLocalFileSystemURL(localPath, (entry) => {
 						entry.file((file) => { // 可通过entry对象操作图片 
 							console.log('getFile:' + JSON.stringify(file));
+							console.log(file.size);
 							if (file.size > 20480) { // 压缩后size 大于20Kb
 								plus.zip.compressImage({
 									src: img,
@@ -208,6 +227,7 @@
 									let newImg = img.replace('.jpg', '2222.jpg').replace('.JPG', '2222.JPG');
 									res(newImg);
 								}, function(error) {
+									console.log(error);
 									uni.showModal({
 										content: '分享图片太大,需要请重新选择图片!',
 										showCancel: false

@@ -14,7 +14,9 @@
             "autoclose" : true,
             "delay" : 0
         },
-        "modules" : {},
+        "modules" : {
+            "Share" : {}
+        },
         /* 模块配置 */
         "distribute" : {
             /* 应用发布信息 */
@@ -55,14 +57,28 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
-		"usingComponents": true, //启用微信自定组件
+        "usingComponents" : true, //启用微信自定组件
         "appid" : "wx52513ff872451e59",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,
             "postcss" : true,
             "minified" : true
-        },
-        "usingComponents" : true
+        }
     }
 }
+//H5配置
+//  "h5": {
+// 	"devServer": {
+// 		"port": 8000,
+// 		"disableHostCheck": true,
+// 		"proxy": {
+// 			"/dpc": {
+// 				"target": "https://ghfree.cn/api/v1",
+// 				"changeOrigin": true,  // target是域名的话，需要这个参数
+// 				"secure": true  // 设置支持https协议的代理
+// 			}
+// 		}
+// 	}
+// }
+

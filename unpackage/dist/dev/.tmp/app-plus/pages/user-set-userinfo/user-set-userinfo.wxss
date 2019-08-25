@@ -1,41 +1,41 @@
 /* 公共按钮 */
-.user-set-btn.data-v-622bce05{
+.user-set-btn.data-v-13abea17{
 	width: 100%;
 	margin: 20rpx 0;
 	background: #FFE933!important;
 	border: 0!important;
 	color: #333333!important;
 }
-.user-set-btn-disable.data-v-622bce05{
+.user-set-btn-disable.data-v-13abea17{
 	background: #F4F4F4!important;
 	border: 1rpx solid #EEEEEE!important;
 	color: #909090!important;
 }
-.body.data-v-622bce05{
+.body.data-v-13abea17{
 	padding: 0 20rpx!important;
 }
-.common-input.data-v-622bce05{
+.common-input.data-v-13abea17{
 	font-size: 30rpx;
 	border-bottom: 1rpx solid #F4F4F4;
 }
-.user-set-userinfo-list.data-v-622bce05 {
+.user-set-userinfo-list.data-v-13abea17 {
 	padding: 20rpx;
 	border-bottom: 1rpx solid#F4F4F4;
 }
-.user-set-userinfo-list>view.data-v-622bce05:first-child {
+.user-set-userinfo-list>view.data-v-13abea17:first-child {
 	font-size: 32rpx;
 	font-weight: bold;
 	color: #9B9B9B;
 }
-.user-set-userinfo-list>view:last-child>image.data-v-622bce05 {
+.user-set-userinfo-list>view:last-child>image.data-v-13abea17 {
 	width: 80rpx;
 	height: 80rpx;
 	border-radius: 100%;
 }
-.user-set-userinfo-list>view:last-child>input.data-v-622bce05 {
+.user-set-userinfo-list>view:last-child>input.data-v-13abea17 {
 	text-align: right;
 }
-.user-set-userinfo-list view.iconfont.data-v-622bce05 {
+.user-set-userinfo-list view.iconfont.data-v-13abea17 {
 	margin-left: 20rpx;
 	color: #9B9B9B;
 }

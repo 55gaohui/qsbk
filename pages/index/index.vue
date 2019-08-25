@@ -77,7 +77,6 @@
 		},
 		methods: {
 			//获取文章分类
-			
 			async getNav(){
 				let [err,res] = await this.$http.get('/postclass','',{
 					token: true
