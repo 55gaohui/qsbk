@@ -1,21 +1,21 @@
 
-.other-login.data-v-4c38610c {
+.other-login.data-v-50f50be8 {
 	padding: 20rpx 80rpx;
 }
-.other-login>view>view.data-v-4c38610c {
+.other-login>view>view.data-v-50f50be8 {
 	width: 100rpx;
 	height: 100rpx;
 	border-radius: 100%;
 	font-size: 55rpx;
 	color: #FFFFFF;
 }
-.other-login .icon-QQ.data-v-4c38610c {
+.other-login .icon-QQ.data-v-50f50be8 {
 	background: #2CAEFC;
 }
-.other-login .icon-weixin.data-v-4c38610c {
+.other-login .icon-weixin.data-v-50f50be8 {
 	background: #2BD19B;
 }
-.other-login .icon-xinlangweibo.data-v-4c38610c {
+.other-login .icon-xinlangweibo.data-v-50f50be8 {
 	background: #FC7729;
 }
 

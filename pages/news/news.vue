@@ -20,7 +20,7 @@
 					<scroll-view scroll-y class="list">
 						<!-- 搜索框 -->
 						<view class="search-input">
-							<input class="uni-input" placeholder-class="icon iconfont icon-sousuo topic-search" placeholder="搜索内容" />
+							<input class="uni-input" placeholder-class="icon iconfont icon-sousuo topic-search" placeholder="搜索话题" disabled="true" @tap="openSearch" />
 						</view>
 						<!-- 轮播图 -->
 						<swiper class="topic-swiper" :circular="true" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
@@ -259,6 +259,11 @@
 				}, 2000);
 				//如果没有数据显示
 				// this.guanzhu.loadtext = "没有更多数据";
+			},
+			openSearch(){
+				uni.navigateTo({
+					url: '../search/search?searchType=topic'
+				})
 			}
 		}
 	}

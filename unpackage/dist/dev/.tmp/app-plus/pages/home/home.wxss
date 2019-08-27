@@ -1,11 +1,11 @@
 
-.home-list.data-v-31469fe9 {
+.home-list.data-v-626c9157 {
 	padding: 20rpx;
 }
-.home-adv.data-v-31469fe9 {
+.home-adv.data-v-626c9157 {
 	padding: 40rpx;
 }
-.home-adv>image.data-v-31469fe9 {
+.home-adv>image.data-v-626c9157 {
 	border-radius: 20rpx;
 	width: 100%;
 	/* 		height: 150upx; */

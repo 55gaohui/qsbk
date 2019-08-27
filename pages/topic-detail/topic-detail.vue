@@ -50,132 +50,14 @@
 						id: "zuixin"
 					},
 				],
-				tablist: [{
-						loadtext: '上拉加载更多',
-						lists: [{
-								userpic: "../../static/demo/userpic/8.jpg",
-								username: "昵称",
-								sex: 0, // 0男，1女
-								age: 25,
-								isguanzhu: false,
-								title: "我是标题",
-								titlepic: "",
-								video: false,
-								share: false,
-								path: "深圳 龙岗",
-								sharenum: 20,
-								commentnum: 30,
-								goodnum: 20
-							},
-							// 图片
-							{
-								userpic: "../../static/demo/userpic/8.jpg",
-								username: "昵称",
-								sex: 0, // 0男，1女
-								age: 25,
-								isguanzhu: false,
-								title: "我是标题",
-								titlepic: "../../static/demo/datapic/28.jpg",
-								video: false,
-								share: false,
-								path: "深圳 龙岗",
-								sharenum: 20,
-								commentnum: 30,
-								goodnum: 20
-							},
-						]
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: [ // 视频
-							{
-								userpic: "../../static/demo/userpic/8.jpg",
-								username: "昵称",
-								sex: 1, // 0男，1女
-								age: 25,
-								isguanzhu: false,
-								title: "我是标题",
-								titlepic: "../../static/demo/datapic/28.jpg",
-								video: {
-									looknum: "20w",
-									long: "2:17"
-								},
-								share: false,
-								path: "深圳 龙岗",
-								sharenum: 20,
-								commentnum: 30,
-								goodnum: 20
-							},
-							// 分享
-							{
-								userpic: "../../static/demo/userpic/8.jpg",
-								username: "昵称",
-								sex: 0, // 0男，1女
-								age: 25,
-								isguanzhu: false,
-								title: "我是标题",
-								titlepic: "",
-								video: false,
-								share: {
-									title: "我是分享",
-									titlepic: "../../static/demo/datapic/14.jpg"
-								},
-								path: "深圳 龙岗",
-								sharenum: 20,
-								commentnum: 30,
-								goodnum: 20
-							}
-						]
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: [{
-								userpic: "../../static/demo/userpic/8.jpg",
-								username: "昵称",
-								sex: 0, // 0男，1女
-								age: 25,
-								isguanzhu: false,
-								title: "我是标题",
-								titlepic: "",
-								video: false,
-								share: false,
-								path: "深圳 龙岗",
-								sharenum: 20,
-								commentnum: 30,
-								goodnum: 20
-							},
-							// 图片
-							{
-								userpic: "../../static/demo/userpic/8.jpg",
-								username: "昵称",
-								sex: 0, // 0男，1女
-								age: 25,
-								isguanzhu: false,
-								title: "我是标题",
-								titlepic: "../../static/demo/datapic/28.jpg",
-								video: false,
-								share: false,
-								path: "深圳 龙岗",
-								sharenum: 20,
-								commentnum: 30,
-								goodnum: 20
-							},
-						]
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: []
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: []
-					},
-					{
-						loadtext: '上拉加载更多',
-						lists: []
-					},
+				tablist: [
+					{ loadtext:"上拉加载更多",list:[],firstload:false,page:1},
+					{ loadtext:"上拉加载更多",list:[],firstload:false,page:1},
 				]
 			}
+		},
+		onLoad(e) {
+			this.__init(JSON.parse(e.detail));
 		},
 		//上拉触底时间
 		onReachBottom() {
@@ -184,58 +66,76 @@
 		},
 		//下拉刷新
 		onPullDownRefresh() {
-			console.log('2');
-			this.getdata();
+			this.getList();
 		},
 		methods: {
-			//上拉刷新
-			getdata() {
-				setTimeout(() => {
-					//获取数据
-					let arr = [{
-							userpic: "../../static/demo/userpic/8.jpg",
-							username: "昵称",
-							sex: 0, // 0男，1女
-							age: 25,
-							isguanzhu: false,
-							title: "我是标题111",
-							titlepic: "",
-							video: false,
-							share: false,
-							path: "深圳 龙岗",
-							sharenum: 20,
-							commentnum: 30,
-							goodnum: 20
-						},
-						// 图片
-						{
-							userpic: "../../static/demo/userpic/8.jpg",
-							username: "昵称",
-							sex: 0, // 0男，1女
-							age: 25,
-							isguanzhu: false,
-							title: "我是标题",
-							titlepic: "../../static/demo/datapic/28.jpg",
-							video: false,
-							share: false,
-							path: "深圳 龙岗",
-							sharenum: 20,
-							commentnum: 30,
-							goodnum: 20
-						}
-					];
-					this.tablist[this.tabIndex].lists = arr;
-					uni.stopPullDownRefresh();
-				}, 2000);
+			//初始化
+			__init(obj){
+				uni.setNavigationBarTitle({title: obj.title});
+				this.topicInfo = obj;
+				// 获取列表数据
+				this.getList();
+			},
+			//获取数据
+			async getList() {
+				let url = `/topic/${this.topicInfo.id}/post/${this.tablist[this.tabIndex].page}`;
+				let [err,res] = await this.$http.get(url,'',{token:true});
+				let error = this.$http.errorCheck(err,res,()=>{
+					this.tablist[this.tabIndex].loadtext = '上拉加载更多';
+				},()=>{
+					this.tablist[this.tabIndex].loadtext = '上拉加载更多';
+				});
+				if(!error) return;
+				let arr = [];
+				let list = res.data.data.list;
+				for (let i = 0; i < list.length; i++) {
+					arr.push(this.__format(list[i]));
+				}
+				this.tablist[this.tabIndex].lists = this.tablist[this.tabIndex].page>1 ? this.tablist[this.tabIndex].lists.concat(arr) : arr;
+				this.tablist[this.tabIndex].firstload = true;
+				if(list.length<10){
+					this.tablist[this.tabIndex].loadtext = '没有更多数据了';
+				}else{
+					this.tablist[this.tabIndex].loadtext = '上拉加载更多';
+				}
+				return;
+			},
+			// 格式转化
+			__format(item){
+				return {
+					userid:item.user.id,
+					userpic:item.user.userpic,
+					username:item.user.username,
+					isguanzhu:!!item.user.fens.length,
+					id:item.id,
+					title:item.title,
+					type:"img", // img:图文,video:视频
+					titlepic:item.titlepic,
+					video:false,
+					path:item.path,
+					share:!!item.share,
+					infonum:{
+						index:(item.support.length>0) ? (item.support[0].type+1) : 0,//0:没有操作，1:顶,2:踩；
+						dingnum:item.ding_count,
+						cainum:item.cai_count,
+					},
+					goodnum:item.ding_count,
+					commentnum:item.comment_count,
+					sharenum:item.sharenum,
+					sex:item.user.userinfo.sex,
+					age:item.user.userinfo.age,
+				}
 			},
 			//点击事件
 			tabtap(index) {
 				this.tabIndex = index;
+				this.tablist[this.tabIndex].page = 1;
+				this.getList();
 			},
-			//滑动事件
-			tabChange(e) {
-				this.tabIndex = e.detail.current;
-			},
+			// //滑动事件
+			// tabChange(e) {
+			// 	this.tabIndex = e.detail.current;
+			// },
 			loadmore() {
 				//如果当前状态是还在加载中，或没有更多数据，直接返回
 				if (this.tablist[this.tabIndex].loadtext != "上拉加载更多") {
@@ -243,29 +143,10 @@
 				}
 				//修改状态
 				this.tablist[this.tabIndex].loadtext = "加载中";
-				//获取数据
-				setTimeout(() => {
-					//获取完成
-					let obj = {
-						userpic: "../../static/demo/userpic/8.jpg",
-						username: "昵称",
-						sex: 0, // 0男，1女
-						age: 25,
-						isguanzhu: false,
-						title: "我是标题",
-						titlepic: "../../static/demo/datapic/28.jpg",
-						video: false,
-						share: false,
-						path: "深圳 龙岗",
-						sharenum: 20,
-						commentnum: 30,
-						goodnum: 20
-					};
-					this.tablist[this.tabIndex].lists.push(obj);
-					this.tablist[this.tabIndex].loadtext = "上拉加载更多";
-				}, 2000);
-				//如果没有数据显示
-				// this.tablist[this.tabIndex].loadtext = "没有更多数据";
+				// 页数+1
+				this.tablist[this.tabIndex].page++;
+				// 获取数据
+				this.getList();
 			}
 		}
 	}
