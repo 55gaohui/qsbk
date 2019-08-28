@@ -1302,7 +1302,7 @@ Z([3,'u-f1 data-v-49ca0b58'])
 Z(z[3])
 Z([a,[[6],[[7],[3,'homeinfo']],[3,'username']]])
 Z(z[3])
-Z([a,[[2,'+'],[[2,'+'],[[2,'+'],[1,'总访客 '],[[6],[[7],[3,'homeinfo']],[3,'totalnum']]],[1,'  今日 ']],[[6],[[7],[3,'homeinfo']],[3,'todaynum']]]])
+Z([a,[[2,'+'],[[2,'+'],[[2,'+'],[1,'总文章 '],[[6],[[7],[3,'homeinfo']],[3,'totalnum']]],[1,'  今日 ']],[[6],[[7],[3,'homeinfo']],[3,'todaynum']]]])
 Z([3,'icon iconfont icon-jinru data-v-49ca0b58'])
 })(__WXML_GLOBAL__.ops_cached.$gwx_10);return __WXML_GLOBAL__.ops_cached.$gwx_10
 }
@@ -1968,7 +1968,7 @@ if( __WXML_GLOBAL__.ops_cached.$gwx_37)return __WXML_GLOBAL__.ops_cached.$gwx_37
 __WXML_GLOBAL__.ops_cached.$gwx_37=[];
 (function(z){var a=11;function Z(ops){z.push(ops)}
 Z([3,'data-v-626c9157'])
-Z([[2,'!'],[[7],[3,'islogin']]])
+Z([[2,'!'],[[7],[3,'loginStatus']]])
 Z([3,'u-f-ajc data-v-626c9157'])
 Z([3,'登录仿糗百，体验更多功能'])
 Z([3,'__l'])

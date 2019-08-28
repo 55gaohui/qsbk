@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<template v-if="!islogin">
+		<template v-if="!loginStatus">
 			<!-- 未登录 -->
 			<view class="u-f-ajc">登录仿糗百，体验更多功能</view>
 			<!-- 第三方登录 -->
@@ -43,7 +43,7 @@
 		},
 		data() {
 			return {
-				islogin: false,
+				loginStatus: true,
 				homeinfo: {
 					userpic: "../../static/demo/userpic/11.jpg",
 					username: "昵称",
@@ -63,7 +63,7 @@
 						num: 0
 					},
 					{
-						name: "收藏",
+						name: "粉丝",
 						num: 0
 					},
 				],
@@ -88,11 +88,43 @@
 				]
 			}
 		},
+		onShow() {
+			this.isLogin();
+		},
 		methods: {
 			openLogin() {
 				uni.navigateTo({
 					url: '../login/login'
 				});
+			},
+			// 判断用户是否登录
+			isLogin(){
+				if(!this.user.token){
+					this.loginStatus = false;
+					this.homeinfo={
+						userpic:"",
+						username:"",
+						totalnum:0,
+						todaynum:0,
+					};
+					this.homedata[0].num = 0;
+					this.homedata[1].num = 0;
+					this.homedata[2].num = 0;
+					this.homedata[3].num = 0;
+					return;
+				}
+				// 用户已登录
+				this.homeinfo.id = this.user.userinfo.id;
+				this.homeinfo.userpic = this.user.userinfo.userpic;
+				this.homeinfo.username = this.user.userinfo.username;
+				this.homeinfo.totalnum = this.user.counts.post_count || 0;
+				this.homeinfo.todaynum = this.user.counts.today_posts_count || 0;
+				this.homedata[0].num = this.user.counts.post_count || 0;
+				this.homedata[1].num = this.user.counts.post_count || 0;
+				this.homedata[2].num = this.user.counts.comments_count || 0;
+				this.homedata[3].num = this.user.counts.withfen_count || 0;
+				this.loginStatus = true;
+				
 			}
 		},
 		onNavigationBarButtonTap(e) {

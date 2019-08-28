@@ -37,7 +37,7 @@ export default {
 	post(url,data,options={}){
 		options.url = url;
 		options.data = data;
-		options.method = 'post';
+		options.method = 'POST';
 		return this.request(options);
 	},
 	errorCheck(err,res,errfun = false,resfun = false){

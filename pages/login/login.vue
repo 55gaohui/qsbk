@@ -59,7 +59,7 @@
 		},
 		data() {
 			return {
-				status: true, //false代表账号密码登录，true代表手机验证码登录
+				status: false, //false代表账号密码登录，true代表手机验证码登录
 				username: "",
 				password: "",
 				phone: "",
@@ -85,7 +85,9 @@
 		},
 		methods: {
 			back() {
-				uni.navigateBack({ delta: 1 });
+				uni.navigateBack({
+					delta: 1
+				})
 			},
 			// 验证手机号
 			isPhone(){
@@ -112,7 +114,7 @@
 				this.initInput();
 				this.status = !this.status;
 			},
-			getCheckNum() {
+			async getCheckNum() {
 				if(this.codetime>0){
 					uni.showToast({
 						title: '请稍后再试',
@@ -130,8 +132,14 @@
 					return;
 				}
 				// 请求服务器，发送验证码
+				let [err,res] = await this.$http.post('/user/sendcode',{
+					phone: this.phone
+				});
+				// 请求失败处理
+				this.$http.errorCheck(err,res)
+				if (res.data.errorCode === 30001) return;
 				// 发送成功，开启倒计时
-				this.codetime = 5;
+				this.codetime = 60;
 				let timer = setInterval(() =>{
 					this.codetime--;
 					if(this.codetime<1){
@@ -144,7 +152,13 @@
 			submit(){
 				// 账号密码登录
 				if(!this.status){
-					return;
+					return this.user.login({
+						url: '/user/login',
+						data: {
+							username: this.username,
+							password: this.password
+						}
+					})
 				}
 				// 验证码登录
 				// 验证手机号合法性
@@ -155,7 +169,14 @@
 					});
 					return;
 				}
-				console.log("提交登录")
+				
+				return this.user.login({
+					url: '/user/phonelogin',
+					data: {
+						phone: this.phone,
+						code: this.checknum
+					}
+				})
 			}
 		}
 	}

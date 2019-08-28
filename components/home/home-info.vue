@@ -3,7 +3,7 @@
 		<image :src="homeinfo.userpic" mode="widthFix" lazy-load></image>
 		<view class="u-f1">
 			<view>{{homeinfo.username}}</view>
-			<view>总访客 {{homeinfo.totalnum}}  今日 {{homeinfo.todaynum}}</view>
+			<view>总文章 {{homeinfo.totalnum}}  今日 {{homeinfo.todaynum}}</view>
 		</view>
 		<view class="icon iconfont icon-jinru"></view>
 	</view>

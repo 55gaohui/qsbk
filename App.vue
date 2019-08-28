@@ -4,6 +4,9 @@
 			// 网路监听（用户目前断网，切换wifi）
 			this.lib.NetWork.On();
 			// 更新检测
+			
+			// 初始化用户状态
+			this.user.__init();
 		},
 		onShow: function() {
 
