@@ -2581,7 +2581,9 @@ Z([3,'__l'])
 Z([[7],[3,'index']])
 Z([[7],[3,'item']])
 Z([[2,'+'],[1,'1-'],[[7],[3,'index']]])
+Z([3,'__e'])
 Z([3,'user-set-btn'])
+Z([[4],[[5],[[4],[[5],[[5],[1,'tap']],[[4],[[5],[[4],[[5],[[5],[1,'e0']],[[4],[[5],[1,'$event']]]]]]]]]]])
 Z([3,'primary'])
 Z([3,'退出登陆'])
 })(__WXML_GLOBAL__.ops_cached.$gwx_52);return __WXML_GLOBAL__.ops_cached.$gwx_52
@@ -4796,8 +4798,8 @@ return o2X
 }
 aXX.wxXCkey=4
 _2z(z,3,tYX,e,s,gg,aXX,'item','index','index')
-var f5X=_mz(z,'button',['class',9,'type',1],[],e,s,gg)
-var c6X=_oz(z,11,e,s,gg)
+var f5X=_mz(z,'button',['bindtap',9,'class',1,'data-event-opts',2,'type',3],[],e,s,gg)
+var c6X=_oz(z,13,e,s,gg)
 _(f5X,c6X)
 _(lWX,f5X)
 _(r,lWX)

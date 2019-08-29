@@ -15,8 +15,6 @@ export default {
 		this.token = uni.getStorageSync('token');
 		this.counts = uni.getStorageSync('counts');
 		this.userbind = uni.getStorageSync('userbind');
-		console.log(this.userinfo);
-		console.log(this.counts);
 	},
 	//权限验证跳转
 	navigate(options,type='navigateTo'){
@@ -53,9 +51,7 @@ export default {
 		}
 		// 登录成功 保存状态
 		this.token = res.data.data.token;
-		console.log(res.data.data);
 		this.userinfo = this.__formatUserinfo(res.data.data);
-		console.log(this.userinfo);
 		// 本地存储
 		uni.setStorageSync('token',this.token);
 		uni.setStorageSync('userinfo',this.userinfo);
@@ -74,10 +70,34 @@ export default {
 		}
 		return true;
 	},
+	//退出登录
+	async logout(showToast = true){
+		//退出登录
+		await $http.post('/user/logout',{},{
+			token: true,checkToken: true
+		});
+		//清除缓存
+		uni.removeStorageSync('token');
+		uni.removeStorageSync('userinfo');
+		uni.removeStorageSync('counts');
+		//清除状态
+		this.token =false;
+		this.userinfo = false;
+		this.userbind = false;
+		this.counts = {};
+		//关闭socket
+		
+		//返回home页面
+		uni.switchTab({url: '/pages/home/home',});
+		//退出成功
+		if(showToast){
+			return uni.showToast({title: '退出登录成功'})
+		}
+	},
 	// 获取用户相关统计信息
 	async getCounts(){
 		// 统计获取用户相关数据（总文章数，今日文章数，评论数 ，关注数，粉丝数，文章总点赞数） 
-		let [err,res] = await $http.get('/user/getcounts'+this.userinfo.id,{},{
+		let [err,res] = await $http.get('/user/getcounts/'+this.userinfo.id,{},{
 			token: true,checkToken: true
 		});
 		//请求错误处理

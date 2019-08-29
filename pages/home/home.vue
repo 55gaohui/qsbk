@@ -114,6 +114,7 @@
 					return;
 				}
 				// 用户已登录
+				console.log(this.user.counts);
 				this.homeinfo.id = this.user.userinfo.id;
 				this.homeinfo.userpic = this.user.userinfo.userpic;
 				this.homeinfo.username = this.user.userinfo.username;
