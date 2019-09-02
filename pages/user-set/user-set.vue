@@ -3,7 +3,7 @@
 		<block v-for="(item, index) in list" :key="index">
 			<home-list-item :item="item" :index="index"></home-list-item>
 		</block>
-		<button class="user-set-btn" type="primary" @tap="user.logout()">退出登陆</button>
+		<button class="user-set-btn" type="primary" @tap="User.logout()">退出登陆</button>
 	</view>
 </template>
 

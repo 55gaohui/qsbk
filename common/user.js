@@ -153,5 +153,15 @@ export default {
 			token: obj.token,
 			userinfo: false
 		}
-	}
+	},
+	// 转换第三方登录格式
+	__formatOtherLogin(provider,options){
+		return {
+			provider:provider,
+			openid:options.userInfo.unionId || options.userInfo.openId,
+			expires_in:options.authResult.expires_in,
+			nickName:options.userInfo.nickName,
+			avatarUrl:options.userInfo.avatarUrl,
+		}
+	},
 }

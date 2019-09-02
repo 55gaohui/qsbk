@@ -40,9 +40,8 @@
 							success: res => {
 								if(res.confirm){
 									uni.clearStorage();
-									uni.showToast({
-										title: '清除缓存成功！'
-									})
+									uni.showToast({title: '清除缓存成功！'});
+									this.User.logout(false);
 								}
 							},
 						});

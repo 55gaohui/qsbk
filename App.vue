@@ -6,7 +6,7 @@
 			// 更新检测
 			
 			// 初始化用户状态
-			this.user.__init();
+			this.User.__init();
 		},
 		onShow: function() {
 

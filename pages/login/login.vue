@@ -40,7 +40,7 @@
 		</view>
 		<!-- 第三方登陆 -->
 		<view class="other-login-title u-f-ajc login-padding login-font-color">第三方登录</view>
-		<other-login></other-login>
+		<other-login :noback="false"></other-login>
 		<!-- 协议 -->
 		<view class="login-rule u-f-ajc login-padding login-font-color">
 			注册即代表您同意<view>《XXX协议》</view>
@@ -152,7 +152,7 @@
 			submit(){
 				// 账号密码登录
 				if(!this.status){
-					return this.user.login({
+					return this.User.login({
 						url: '/user/login',
 						data: {
 							username: this.username,
@@ -170,7 +170,7 @@
 					return;
 				}
 				
-				return this.user.login({
+				return this.User.login({
 					url: '/user/phonelogin',
 					data: {
 						phone: this.phone,
