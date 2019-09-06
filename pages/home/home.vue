@@ -4,7 +4,7 @@
 			<!-- 未登录 -->
 			<view class="u-f-ajc">登录仿糗百，体验更多功能</view>
 			<!-- 第三方登录 -->
-			<other-login></other-login>
+			<other-login :noback="true" @logining="isLogin()"></other-login>
 			<!-- 账号密码登录 -->
 			<view class="u-f-ajc" @tap="openLogin">账号密码登陆 <view class="icon iconfont icon-jinru"></view>
 			</view>
@@ -99,7 +99,7 @@
 			},
 			// 判断用户是否登录
 			isLogin(){
-				if(!this.user.token){
+				if(!this.User.token){
 					this.loginStatus = false;
 					this.homeinfo={
 						userpic:"",
@@ -114,22 +114,22 @@
 					return;
 				}
 				// 用户已登录
-				this.homeinfo.id = this.user.userinfo.id;
-				this.homeinfo.userpic = this.user.userinfo.userpic;
-				this.homeinfo.username = this.user.userinfo.username;
-				this.homeinfo.totalnum = this.user.counts.post_count || 0;
-				this.homeinfo.todaynum = this.user.counts.today_posts_count || 0;
-				this.homedata[0].num = this.user.counts.post_count || 0;
-				this.homedata[1].num = this.user.counts.post_count || 0;
-				this.homedata[2].num = this.user.counts.comments_count || 0;
-				this.homedata[3].num = this.user.counts.withfen_count || 0;
+				this.homeinfo.id = this.User.userinfo.id;
+				this.homeinfo.userpic = this.User.userinfo.userpic;
+				this.homeinfo.username = this.User.userinfo.username;
+				this.homeinfo.totalnum = this.User.counts.post_count || 0;
+				this.homeinfo.todaynum = this.User.counts.today_posts_count || 0;
+				this.homedata[0].num = this.User.counts.post_count || 0;
+				this.homedata[1].num = this.User.counts.post_count || 0;
+				this.homedata[2].num = this.User.counts.comments_count || 0;
+				this.homedata[3].num = this.User.counts.withfen_count || 0;
 				this.loginStatus = true;
 				
 			}
 		},
 		onNavigationBarButtonTap(e) {
 			if (e.index == 0) {
-				this.user.navigate({
+				this.User.navigate({
 					url: '../user-set/user-set',
 				})
 			}

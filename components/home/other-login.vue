@@ -11,6 +11,12 @@
 <script>
 	export default {
 		name: "other-login",
+		props:{
+			noback:{
+				type: Boolean,
+				default: true
+			}
+		},
 		data(){
 			return{
 				providerList: []
@@ -64,14 +70,31 @@
 				uni.login({
 					provider: provider.id,
 					success: (res) => {
-						console.log('login success:', res);
+						// console.log('login success:', res);
+						uni.getUserInfo({
+							provider: provider.id,
+							success: (infoRes) =>{
+								// console.log(JSON.stringify(infoRes.userInfo));
+								this.loginEvent(this.User.__formatOtherLogin(provider.id,Object.assign(infoRes,res)));
+							}
+						})
 						// 更新保存在 store 中的登录状态
-						console.log('登录成功，保存到本地存储，修改当前用户登录状态')
+						// console.log('登录成功，保存到本地存储，修改当前用户登录状态')
 					},
 					fail: (err) => {
 						console.log('login fail:', err);
 					}
 				});
+			},
+			async loginEvent(data){
+				let res = await this.User.login({
+					url: '/user/otherlogin',
+					data: data,
+					Noback: this.noback
+				});
+				if(res){
+					this.$emit('logining')
+				}
 			}
 		}
 	}
