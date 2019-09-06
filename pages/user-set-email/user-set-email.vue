@@ -3,14 +3,10 @@
 		<input type="text" v-model="email"
 		class="uni-input common-input"
 		placeholder="输入邮箱" />
-		
-		<input type="text" v-model="password"
-		class="uni-input common-input" password
-		placeholder="输入密码" />
-		
+	
 		<button class="user-set-btn" 
-		:loading="loading" :class="{'user-set-btn-disable':disabled}" 
-		type="primary" :disabled="disabled" @tap="submit()">完成</button>
+		:loading="loading" :class="{'user-set-btn-disable':isbind}" 
+		type="primary" :disabled="disabled || isbind" @tap="submit()">{{isbind ? "已绑定":"立即绑定"}}</button>
 		
 	</view>
 </template>
@@ -20,24 +16,29 @@
 		name: "user-set-email",
 		data() {
 			return {
+				isbind: false,
 				email: "",
 				password: "",
 				disabled:true,
 				loading:false
 			}
 		},
+		onLoad(e) {
+			if (e.email && e.email !== 'false' && e.email !== 'null') {
+				this.email = e.email;
+				this.disabled = true;
+				this.isbind = true;
+			}
+		},
 		watch:{
 			email(val){
-				this.change();
-			},
-			password(val){
 				this.change();
 			}
 		},
 		methods: {
 			// 监听输入框
 			change(){
-				if(this.email && this.password){
+				if(this.email){
 					this.disabled=false;
 					return;
 				}
@@ -54,27 +55,35 @@
 					});
 					return false
 				}
-				if(!this.password || this.password == ""){
-					uni.showToast({
-						title: '密码有误',
-						icon: "none"
-					});
-					return false
-				}
 				return true;
 			},
 			//提交
-			submit(){
-				this.loading = true;
-				this.disabled = true;
-				if(!this.check()){this.loading = false;this.disabled = false; return ;}
-				uni.showToast({
-					title: '验证通过',
-					mask: false,
-					duration:1500
+			async submit(){
+				if(!this.check()) return; 
+				this.loading=this.disabled=true;
+				let [err,res] = await this.$http.post('/user/bindemail',{
+					email:this.email
+				},{
+					token: true,
+					checkToken: true
+				})
+				if(!this.$http.errorCheck(err,res)){
+					this.loading = this.disabled = false; 
+					return ;
+				}
+				// 绑定成功
+				this.isbind = true;
+				this.loading = this.disabled = false;
+				// 修改状态，缓存
+				this.User.userinfo.email = this.email;
+				uni.setStorageSync("userinfo",this.User.userinfo);
+				return uni.showToast({
+					title: '绑定成功！',
+					success: () => {
+						uni.navigateBack({ delta: 1 });
+					}
 				});
-				this.loading = false;
-				this.disabled = false;
+				
 			}
 		}
 	}

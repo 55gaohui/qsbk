@@ -18,12 +18,10 @@ export default {
 		options.url = this.config.baseUrl + options.url;
 		// TODO：token增加等操作
 		if(options.token){
-			if(options.checkToken && !User.token){
-				uni.showToast({title: '请先登录',icon: 'none'})
-				return uni.navigateTo({
-					url: '/pages/login/login'
-				});
-			}
+			// 验证用户是否登录
+			if(!this.checkToken(options.checkToken)) return;
+			// 验证用户操作权限（验证是否绑定手机号码）
+			if(!this.checkAuth(options.checkAuth)) return;
 			options.header.token = User.token;
 		}
 		return uni.request(options);
@@ -50,6 +48,28 @@ export default {
 		if(res.data.errorCode){
 			typeof resfun === 'function' && resfun();
 			uni.showToast({title: res.data.msg,icon:'none'})
+			return false;
+		}
+		return true;
+	},
+	// 验证用户是否登录
+	checkToken(checkToken){
+		if(checkToken && !User.token){
+			uni.showToast({title: '请先登录',icon: 'none'})
+			uni.navigateTo({
+				url: '/pages/login/login'
+			});
+			return false;
+		}
+		return true;
+	},
+	// 验证用户权限
+	checkAuth(checkAuth){
+		if(checkAuth && !User.userinfo.phone){
+			uni.showToast({title: '请先绑定手机号',icon: 'none'})
+			uni.navigateTo({
+				url: '/pages/user-safe/user-safe'
+			});
 			return false;
 		}
 		return true;

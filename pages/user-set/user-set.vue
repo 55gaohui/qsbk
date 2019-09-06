@@ -17,8 +17,7 @@
 		data() {
 			return {
 				list:[
-					{ icon:"",name:"账号与安全",clicktype:"navigateTo",url:"../../pages/user-set-repassword/user-set-repassword" },
-					{ icon:"",name:"绑定邮箱",clicktype:"navigateTo",url:"../../pages/user-set-email/user-set-email" },
+					{ icon:"",name:"账号与安全",clicktype:"navigateTo",url:"../../pages/user-safe/user-safe" },
 					{ icon:"",name:"资料编辑",clicktype:"navigateTo",url:"../../pages/user-set-userinfo/user-set-userinfo" },
 					{ icon:"",name:"小纸条",clicktype:"",url:"" },
 					{ icon:"",name:"清除缓存",clicktype:"clear",url:"" },

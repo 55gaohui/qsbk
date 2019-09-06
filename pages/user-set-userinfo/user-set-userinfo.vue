@@ -103,8 +103,8 @@
 				this.birthday = e.target.value
 			},
 			// 修改头像
-			changeimg() {
-				uni.chooseImage({
+			async changeimg() {
+				let [err,res] = await uni.chooseImage({
 					count: 1, //默认9
 					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
 					success: res => {
