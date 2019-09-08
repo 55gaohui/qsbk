@@ -1,7 +1,7 @@
 import $http from "./request.js";
 export default {
 	// 用户token 测试token：4cd36bf70649475ac0cd6fae78250954474a4350
-	token:'fda0b3e40d3fd9437be0050c025f50f624ac716f',
+	token:false,
 	// 用户信息
 	userinfo:false,
 	// 用户相关统计
@@ -19,9 +19,10 @@ export default {
 	//权限验证跳转
 	navigate(options,type='navigateTo'){
 		//权限验证
-		if(!this.token){
-			return uni.navigateTo({url: '/pages/login/login'})
-		};
+		// 验证用户是否登录
+		if(!$http.checkToken(true)) return;
+		// 验证用户操作权限（验证是否绑定手机号码）
+		if(!$http.checkAuth(true)) return;
 		//跳转
 		switch (type){
 			case 'navigateTo':
@@ -106,6 +107,18 @@ export default {
 		this.counts = res.data.data;
 		//储存缓存
 		uni.setStorageSync('counts',this.counts);
+	},
+	//获取当前用户第三方绑定情况
+	async getUserBind(){
+		let [err,res] = await $http.get('/user/getuserbind',{},{
+			token: true,
+			checkToken: true
+		});
+		if(!$http.errorCheck(err,res)) return false;
+		this.userbind = res.data.data;
+		// 存储缓存
+		uni.setStorageSync('userbind',this.userbind);
+		return true;
 	},
 	// userinfo格式转换
 	__formatUserinfo(obj){

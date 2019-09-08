@@ -4,7 +4,7 @@
 			<view v-if="item.icon" class="icon iconfont" :class="['icon-'+item.icon]"></view>
 			{{item.name}}
 		</view>
-		<view class="icon iconfont icon-jinru"></view>
+		<view class="icon iconfont" :class="{'icon-jinru' : !item.data}">{{item.data || '' }}</view>
 	</view>
 </template>
 
@@ -46,8 +46,50 @@
 							},
 						});
 						break;
+					case "bind":
+						//如果缓存中已绑定，直接返回
+						if(this.User.userbind[this.item.provider]) return;
+						this.bindother();
+						break;
 				}
 
+			},
+			bindother(){
+				uni.login({
+					provider: this.item.provider,
+					// #ifdef MP-ALIPAY
+					scopes: 'auth_user',  //支付宝小程序需设置授权类型
+					// #endif
+					success: (res) => {
+						uni.getUserInfo({
+						  provider:this.item.provider,
+						  success: (infoRes)=> {
+							let options = Object.assign(infoRes,res);
+							this.bindEvent(this.User.__formatOtherLogin(this.item.provider,options));
+						  }
+						});
+					},
+					fail: (err) => {
+						uni.showToast({ title: '绑定失败',icon:"none" });
+						console.log('login fail:', err);
+					}
+				});
+			},
+			async bindEvent(data){
+				uni.showLoading({title: '绑定中...', mask: false});
+				let [err,res] = await this.$http.post('/user/bindother',data,{
+					token: true,checkToken:true
+				})
+				if(!this.$http.errorCheck(err,res)) return uni.hideLoading();
+				//绑定成功
+				uni.hideLoading();
+				uni.showToast({title: '绑定成功！'});
+				//修改状态
+				this.User.userbind[this.item.provider] = {
+					nickname: data.nickName,
+				}
+				uni.setStorageSync('userbind',this.User.userbind);
+				this.$emit('updateuserbind');
 			}
 		}
 	}

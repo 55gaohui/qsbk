@@ -103,14 +103,38 @@
 				this.birthday = e.target.value
 			},
 			// 修改头像
-			changeimg() {
-				uni.chooseImage({
+			async changeimg() {
+				let [err,res] = await uni.chooseImage({
 					count: 1, //默认9
 					sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
-					success: res => {
-						this.userpic = res.tempFilePaths;
-					}
 				})
+				if(!res) return;
+				//上传
+				uni.showLoading({title: '上传中',mask: false});
+				let [err2,res2] = await this.$http.upload('/edituserpic',{
+					name: 'userpic',
+					filePath: res.tempFilePaths[0],
+					token:true,
+					checkToken:true
+				});
+				let data = JSON.parse(res2.data);
+				//上传失败
+				if(err2 || data.errorCode){
+					uni.showToast({
+						title: data.msg ?	 data.msg : '上传失败',
+						icon: 'none'
+					})
+					uni.hideLoading();
+					return false;
+				}
+				//成功
+				uni.hideLoading();
+				uni.showToast({ title: '修改头像成功!' });
+				this.userpic = data.data;
+				//修改状态 储存
+				this.User.userinfo.userpic = this.userpic;
+				uni.setStorageSync('userinfo',this.User.userinfo);
+				
 			},
 			// 修改性别 工作 情感
 			changeOne(type) {

@@ -2,7 +2,7 @@
 	<view class="body">
 		<input type="text" v-model="oldpassword"
 		class="uni-input common-input" password
-		placeholder="输入旧密码" />
+		placeholder="输入旧密码" v-if="hasPassword"/>
 		
 		<input type="text" v-model="newpassword"
 		class="uni-input common-input" password
@@ -23,12 +23,16 @@
 	export default {
 		data() {
 			return {
+				hasPassword:true,
 				oldpassword:"",
 				newpassword:"",
 				renewpassword:"",
 				disabled:true,
 				loading:false
 			}
+		},
+		onLoad(e) {
+			this.hasPassword = !!(e.password && e.password !== 'false');
 		},
 		watch:{
 			oldpassword(val){
@@ -44,15 +48,17 @@
 		methods: {
 			// 监听输入框
 			change(){
-				if(this.oldpassword && this.newpassword && this.renewpassword){
-					this.disabled=false;
-					return;
+				if(this.hasPassword && !this.oldpassword){
+					return this.disabled = true;
+				}
+				if(this.newpassword && this.renewpassword){
+					return this.disabled=false;
 				}
 				this.disabled=true;
 			},
 			//验证层
 			check(){
-				if(!this.oldpassword || this.oldpassword == ""){
+				if(this.hasPassword && (!this.oldpassword || this.oldpassword == "")){
 					uni.showToast({
 						title: '旧密码有误',
 						icon: "none"
@@ -82,17 +88,31 @@
 				return true;
 			},
 			//提交
-			submit(){
-				this.loading = true;
-				this.disabled = true;
-				if(!this.check()){this.loading = false;this.disabled = false; return ;}
-				uni.showToast({
-					title: '验证通过',
-					mask: false,
-					duration:1500
+			async submit(){
+				if(!this.check()) return;
+				this.loading = this.disabled = true;
+				let [err,res] = await this.$http.post('/repassword',{
+					oldpassword:this.oldpassword || 0,
+					newpassword:this.newpassword,
+					renewpassword:this.renewpassword,
+				},{
+					token: true,
+					checkToken: true
+				})
+				if(!this.$http.errorCheck(err,res)){
+					this.loading = this.disabled = false;
+					return;
+				}
+				// 修改状态，缓存
+				this.User.userinfo.password = true;
+				uni.setStorageSync('userinfo',this.User.userinfo);
+				this.loading = this.disabled = false;
+				return uni.showToast({
+					title: '修改密码成功！',
+					success: () => {
+						uni.navigateBack({ delta: 1 });
+					}
 				});
-				this.loading = false;
-				this.disabled = false;
 			}
 		}
 	}
