@@ -3,14 +3,14 @@
 		
 		<view v-if="item.gstime" class="user-chat-time u-f-ajc">{{item.gstime}}</view>
 		<view class="user-chat-list u-f" :class="{'user-chat-me':item.isme}">
-			<image v-if="!item.isme" :src="item.userpic" mode="widthFix" lazy-load></image>
+			<image v-if="!item.isme" :src="item.userpic" mode="aspectFill" lazy-load></image>
 			<view class="user-chat-list-body">
 				<!-- 文字 -->
 				<text v-if="item.type=='text'">{{item.data}}</text>
 				<!-- 图片 -->
 				<image v-if="item.type=='img'" :src="item.data" mode="widthFix" lazy-load></image>
 			</view>
-			<image v-if="item.isme" :src="item.userpic" mode="widthFix" lazy-load></image>
+			<image v-if="item.isme" :src="item.userpic" mode="aspectFill" lazy-load></image>
 		</view>
 		
 	</view>
