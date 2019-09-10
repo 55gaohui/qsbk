@@ -73,9 +73,9 @@
 			return {
 				userpic: "../../static/demo/userpic/11.jpg",
 				username: "",
-				sex: "保密",
-				job: "保密",
-				qg: "保密",
+				sex: 0,
+				job: "IT",
+				qg: 1,
 				birthday: "",
 				cityPickerValueDefault: [0, 0, 1],
 				pickerText: ""
