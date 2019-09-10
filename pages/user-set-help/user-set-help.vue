@@ -10,7 +10,7 @@
 			</block>
 		</uni-collapse>
 		<view class="body">
-			<button class="user-set-btn" type="primary">意见反馈</button>
+			<button class="user-set-btn" type="primary" @tap="openFeedback">意见反馈</button>
 		</view>
 	</view>
 </template>
@@ -41,7 +41,11 @@
 			}
 		},
 		methods: {
-
+			openFeedback(){
+				uni.navigateTo({
+					url: '../user-feedback/user-feedback'
+				});
+			}
 		}
 	}
 </script>

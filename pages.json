@@ -299,6 +299,12 @@
 				"navigationBarTitleText":"绑定手机号"
 			}
         }
+        ,{
+            "path" : "pages/user-feedback/user-feedback",
+            "style" : {
+				"navigationBarTitleText":"意见反馈"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

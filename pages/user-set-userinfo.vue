@@ -17,7 +17,7 @@
 		<view class="user-set-userinfo-list u-f-ac u-f-jsb">
 			<view>性别</view>
 			<view class="u-f-ac" @tap="changeOne('sex')">
-				<view>{{sexArr[sex]}}</view>
+				<view>{{sex}}</view>
 				<view class="icon iconfont icon-bianji1"></view>
 			</view>
 		</view>
@@ -31,14 +31,14 @@
 			</picker>
 		</view>
 		<view class="user-set-userinfo-list u-f-ac u-f-jsb">
-			<view>情感</view>
+			<view>职业</view>
 			<view class="u-f-ac" @tap="changeOne('qg')">
-				<view>{{qgArr[qg]}}</view>
+				<view>{{qg}}</view>
 				<view class="icon iconfont icon-bianji1"></view>
 			</view>
 		</view>
 		<view class="user-set-userinfo-list u-f-ac u-f-jsb">
-			<view>职业</view>
+			<view>情感</view>
 			<view class="u-f-ac" @tap="changeOne('job')">
 				<view>{{job}}</view>
 				<view class="icon iconfont icon-bianji1"></view>
@@ -60,11 +60,10 @@
 </template>
 
 <script>
-	let sexArr = ['保密', '男', '女'];
+	let sex = ['保密', '男', '女'];
 	let job = ['保密', 'IT', '老师'];
-	let qgArr = ['保密', '未婚', '已婚'];
+	let qg = ['保密', '未婚', '已婚'];
 	import mpvueCityPicker from "../../components/mpvue-citypicker/mpvueCityPicker.vue";
-	import Time from "../../common/time.js"
 	export default {
 		name: "user-set-userinfo",
 		components: {
@@ -72,27 +71,16 @@
 		},
 		data() {
 			return {
-				sexArr: sexArr,
-				qgArr: qgArr,
-				userpic: "",
+				userpic: "../../static/demo/userpic/11.jpg",
 				username: "",
 				sex: 0,
-				job: "",
-				qg: 0,
+				job: "IT",
+				qg: 1,
 				birthday: "",
 				cityPickerValueDefault: [0, 0, 1],
 				pickerText: ""
 
 			}
-		},
-		onLoad() {
-			this.userpic = this.User.userinfo.userpic;
-			this.username = this.User.userinfo.username;
-			this.sex = this.User.userinfo.userinfo.sex || 0;
-			this.qg = this.User.userinfo.userinfo.qg || 0;
-			this.job = this.User.userinfo.userinfo.job || "请填写";
-			this.birthday = this.User.userinfo.userinfo.birthday || "请填写";
-			this.pickerText = this.User.userinfo.userinfo.path || "请填写";
 		},
 		computed: {
 			startDate() {
@@ -103,26 +91,8 @@
 			}
 		},
 		methods: {
-			async submit() {
-				let data = {
-					name: this.username,
-					sex: this.sex,
-					qg: this.qg,
-					job: this.job,
-					birthday: this.birthday,
-					path: this.pickerText,
-					age: Time.gettime.getAgeByBirthday(this.birthday)
-				}
-				//上传信息
-				let [err,res] = await this.$http.post('/edituserinfo',data,{token:true,checkToken:true});
-				//失败
-				if(!this.$http.errorCheck(err,res)) return;
-				// 成功
-				uni.showToast({ title: '修改成功！' });
-				// 修改状态，缓存
-				this.User.userinfo.username = this.username;
-				this.User.userinfo.userinfo = data;
-				uni.setStorageSync('userinfo',this.User.userinfo);
+			submit() {
+
 			},
 			// 修改家乡 三级联动选择
 			showMulLinkageThreePicker() {
@@ -171,13 +141,13 @@
 				let arr;
 				switch (type) {
 					case 'sex':
-						arr = sexArr;
+						arr = sex;
 						break;
 					case 'job':
 						arr = job;
 						break;
 					case 'qg':
-						arr = qgArr;
+						arr = qg;
 						break;
 					default:
 						break;
@@ -187,13 +157,13 @@
 					success: res => {
 						switch (type) {
 							case 'sex':
-								this.sex = res.tapIndex;
+								this.sex = arr[res.tapIndex];
 								break;
 							case 'job':
 								this.job = arr[res.tapIndex];
 								break;
 							case 'qg':
-								this.qg = res.tapIndex;
+								this.qg = arr[res.tapIndex];
 								break;
 							default:
 								break;
