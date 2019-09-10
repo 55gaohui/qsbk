@@ -2,6 +2,9 @@
 	<view>
 		<!-- 聊天列表 -->
 		<scroll-view id="scrollview" scroll-y :scroll-top="scrollTop" :scroll-with-animation="true" :style="{height:style.contentH+'px'}">
+			<view class="u-f-ajc chat-load-more" 
+			hover-class="chat-load-more-hover"
+			@tap="loadmore">{{loadtext}}</view>
 			<!-- 聊天列表 -->
 			<block v-for="(item,index) in list" :key="index">
 				<view class="char-item">
@@ -40,7 +43,6 @@
 		onReady() {
 			this.getdata();
 			this.initdata();
-			this.pageToBottom(true);
 		},
 		methods: {
 			// 初始化参数
@@ -101,22 +103,31 @@
 					}
 				}
 				this.loadtext = list.length < 10 ? "没有更多数据啦" : "点击加载更多";
-				arr.reverse();
+				// arr.reverse();
 				this.list = [...arr,...this.list];
+				if(this.page === 1 && this.list.length>0){
+					this.pageToBottom(true);
+				}
 			},
 			async submit(data) {
 				// 构建数据
+				let [err,res] = await this.$http.post('/feedback',{data:data},{token:true,checkToken:true});
+				//错误处理
+				if(!this.$http.errorCheck(err,res)) return;
+				//成功
+				//构建数据
 				let now = new Date().getTime();
-				let obj = {
+				let gstime = time.gettime.getChatTime(now, this.list[this.list.length - 1].time);
+				this.list.push({
 					isme: true,
-					userpic: "../../static/demo/userpic/10.jpg",
+					userpic: this.User.userinfo.userpic,
 					type: "text",
 					data: data,
 					time: now,
-					gstime: time.gettime.getChatTime(now, this.list[this.list.length - 1].time)
-				};
-				this.list.push(obj);
+					gstime: gstime
+				});
 				this.pageToBottom();
+				uni.showToast({title: "反馈成功"});
 			}
 		}
 	}
