@@ -6,7 +6,7 @@
 					<image :src="item.userpic" mode="widthFix"></image>
 					{{item.username}}
 				</view>
-				<view class="u-f-ac" v-show="!isguanzhu" @tap="guanzhu">
+				<view class="u-f-ac" v-show="!item.isguanzhu" @tap="guanzhu">
 					<view class="icon iconfont icon-zengjia"></view>关注
 				</view>
 			</view>
@@ -25,12 +25,12 @@
 			<view class="index-list4 u-f-ac u-f-jsb">
 				<view class="u-f-ac">
 					<view class="u-f-ac" @tap="caozuo(index,'ding')">
-						<view class="icon iconfont icon-icon_xiaolian-mian" :class="{'active': (infonum.index == 1)}"></view>
-						{{infonum.dingnum}}
+						<view class="icon iconfont icon-icon_xiaolian-mian" :class="{'active': (item.infonum.index == 1)}"></view>
+						{{item.infonum.dingnum}}
 					</view>
 					<view class="u-f-ac" @tap="caozuo(index,'cai')">
-						<view class="icon iconfont icon-kulian" :class="{'active': (infonum.index == 2)}"></view>
-						{{infonum.cainum}}
+						<view class="icon iconfont icon-kulian" :class="{'active': (item.infonum.index == 2)}"></view>
+						{{item.infonum.cainum}}
 					</view>
 				</view>
 				<view class="u-f-ac">
@@ -56,9 +56,8 @@
 			index: Number
 		},
 		data() {
-			return {
-				isguanzhu: this.item.isguanzhu,
-				infonum: this.item.infonum
+			return{
+				
 			}
 		},
 		onLoad() {
@@ -66,39 +65,55 @@
 		},
 		methods: {
 			//点击关注事件
-			guanzhu() {
-				this.isguanzhu = true;
-				uni.showToast({
-					title: "关注成功",
-				})
+			async guanzhu() {
+				let [err,res] = await this.$http.post('/follow',{
+					follow_id: this.item.userid
+				},{
+					token: true,
+					checkToken:true,
+					checkAuth: true
+				});
+				//错误处理
+				if(!this.$http.errorCheck(err,res)) return;
+				//修改数据
+				uni.showToast({ title: '关注成功' });
+				let resData = {
+					type: 'guanzhu',
+					userid:this.item.userid,
+					data: true
+				}
+				// 通知父组件
+				this.$emit('changeevent',resData);
+				// 通知全局修改数据
+				uni.$emit('updateData',resData);
 			},
 			//顶踩事件
-			caozuo(index, type) {
-				switch (type) {
-					case 'ding':
-						if (this.infonum.index == 1) {
-							return;
-						};
-						this.infonum.dingnum++;
-						if (this.infonum.index == 2) {
-							this.infonum.cainum--;
-						}
-						this.infonum.index = 1;
-						break;
-					case 'cai':
-						if (this.infonum.index == 2) {
-							return
-						};
-						this.infonum.cainum++;
-						if (this.infonum.index == 1) {
-							this.infonum.dingnum--;
-						}
-						this.infonum.index = 2;
-						break;
-					default:
-						break;
-				};
-			},
+			// caozuo(index, type) {
+			// 	switch (type) {
+			// 		case 'ding':
+			// 			if (this.infonum.index == 1) {
+			// 				return;
+			// 			};
+			// 			this.infonum.dingnum++;
+			// 			if (this.infonum.index == 2) {
+			// 				this.infonum.cainum--;
+			// 			}
+			// 			this.infonum.index = 1;
+			// 			break;
+			// 		case 'cai':
+			// 			if (this.infonum.index == 2) {
+			// 				return
+			// 			};
+			// 			this.infonum.cainum++;
+			// 			if (this.infonum.index == 1) {
+			// 				this.infonum.dingnum--;
+			// 			}
+			// 			this.infonum.index = 2;
+			// 			break;
+			// 		default:
+			// 			break;
+			// 	};
+			// },
 			//进入详情页
 			opendetail() {
 				uni.navigateTo({

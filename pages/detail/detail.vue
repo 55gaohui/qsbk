@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<detail-info :item="detail" :index="index"></detail-info>
+		<detail-info :item="detail" :index="index" @changeevent="updateGuanZhu"></detail-info>
 		<view class="u-comment-title">最新评论 {{comment.count}}</view>
 		<view class="uni-comment u-comment">
 			<block v-for="(item, index) in comment.list" :key="index">
@@ -75,6 +75,11 @@
 			}
 		},
 		methods: {
+			// 更新关注信息
+			updateGuanZhu(data){
+				this.detail.isguanzhu = data.data;
+				console.log(this.detail);
+			},
 			//初始化分享
 			__initShare(obj){
 				this.sharedata = {
@@ -130,7 +135,6 @@
 				let [err,res] = await this.$http.get('/post/'+this.detail.id+'/comment');
 				if(!this.$http.errorCheck(err,res)) return;
 				let list = res.data.data.list;
-				console.log(list);
 				this.comment.list = this.comment.list.concat(this.__ArrSort(list));
 				// console.log(this.comment.list);
 			},

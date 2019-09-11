@@ -10,7 +10,7 @@
 						{{item.username}}
 						<tag-sex-age :sex="item.sex" :age="item.age"></tag-sex-age>
 					</view>
-					<view v-show="!isguanzhu" class="u-f-ac" @tap="guanzhu">
+					<view v-show="!item.isguanzhu" class="u-f-ac" @tap="guanzhu">
 						<view class="icon iconfont icon-zengjia"></view>关注
 					</view>
 				</view>
@@ -62,15 +62,30 @@
 		},
 		data() {
 			return {
-				isguanzhu: this.item.isguanzhu
 			}
 		},
 		methods: {
-			guanzhu() {
-				this.isguanzhu = true;
-				uni.showToast({
-					title: "关注成功"
-				})	
+			async guanzhu() {
+				let [err,res] = await this.$http.post('/follow',{
+					follow_id: this.item.userid
+				},{
+					token: true,
+					checkToken:true,
+					checkAuth: true
+				});
+				//错误处理
+				if(!this.$http.errorCheck(err,res)) return;
+				//修改数据
+				uni.showToast({ title: '关注成功' });
+				let resData = {
+					type: 'guanzhu',
+					userid:this.item.userid,
+					data: true
+				}
+				// 通知父组件
+				this.$emit('changeevent',resData);
+				// 通知全局修改数据
+				uni.$emit('updateData',resData);
 			},
 			imgdetail(index){
 				uni.previewImage({

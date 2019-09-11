@@ -8,7 +8,7 @@
 						<template v-if="items.lists.length>0">
 							<!-- 图片列表 -->
 							<block v-for="(item,index1) in items.lists" :key="index1">
-								<index-list :item="item" :index="index1"></index-list>
+								<index-list :item="item" :index="index1" @changeevent="updateGuanZhu"></index-list>
 							</block>
 							<!-- 上拉加载 -->
 							<loadMore :loadtext="items.loadtext" />
@@ -51,6 +51,8 @@
 		},
 		onLoad() {
 			this.getNav();
+			// 开启监听
+			uni.$on('updateData',this.updateGuanZhu);
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100);
@@ -76,6 +78,14 @@
 			}
 		},
 		methods: {
+			// 更新关注信息
+			updateGuanZhu(data){
+				this.newslist[this.tabIndex].lists.forEach((item,index)=>{
+					if(item.userid == data.userid){
+						item.isguanzhu = data.data;
+					}
+				})
+			},
 			//获取文章分类
 			async getNav(){
 				let [err,res] = await this.$http.get('/postclass','',{
@@ -104,6 +114,7 @@
 			//获取指定列表
 			async getList(){
 				let url = `/postclass/${this.tabBars[this.tabIndex].id}/post/${this.newslist[this.tabIndex].page}`;
+				console.log(url);
 				let [err,res] = await this.$http.get(url,'',{token:true});
 				let error = this.$http.errorCheck(err,res,()=>{
 					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
@@ -113,6 +124,7 @@
 				if(!error) return;
 				let arr = [];
 				let list = res.data.data.list;
+				console.log(list);
 				for (let i = 0; i < list.length; i++) {
 					arr.push(this.__format(list[i]));
 				}
