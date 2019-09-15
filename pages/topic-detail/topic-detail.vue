@@ -74,7 +74,10 @@
 			updateData(data){
 				switch (data.type){
 					case "guanzhu":
-					this.updateGuanZhu(data)
+						this.updateGuanZhu(data);
+						break;
+					case "support":
+						this.updateSupport(data);
 						break;
 				}
 			},
@@ -85,7 +88,17 @@
 						item.isguanzhu = data.data;
 					}
 				})
-				console.log(this.tablist[this.tabIndex].lists);
+			},
+			//更新顶踩
+			updateSupport(data){
+				let obj = this.tablist[this.tabIndex].lists.find((item)=>{
+					return item.id === data.post_id;
+				})
+				if(!obj || obj.infonum.index === 1) return;
+				if (data.do == 'ding') {
+					obj.infonum.index = 1;
+					obj.goodnum++;
+				}
 			},
 			//初始化
 			__init(obj){
@@ -111,7 +124,6 @@
 				}
 				this.tablist[this.tabIndex].lists = this.tablist[this.tabIndex].page>1 ? this.tablist[this.tabIndex].lists.concat(arr) : arr;
 				this.tablist[this.tabIndex].firstload = true;
-				console.log(this.tablist[this.tabIndex].lists);
 				if(list.length<10){
 					this.tablist[this.tabIndex].loadtext = '没有更多数据了';
 				}else{

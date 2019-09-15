@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<detail-info :item="detail" :index="index" @changeevent="updateGuanZhu"></detail-info>
+		<detail-info :item="detail" :index="index" @changeevent="updateData"></detail-info>
 		<view class="u-comment-title">最新评论 {{comment.count}}</view>
 		<view class="uni-comment u-comment">
 			<block v-for="(item, index) in comment.list" :key="index">
@@ -75,10 +75,28 @@
 			}
 		},
 		methods: {
+			updateData(data){
+				switch (data.type){
+					case "guanzhu":
+					this.updateGuanZhu(data)
+						break;
+					case "support":
+					this.updateSupport(data);
+						break;
+					case 'updateComment':
+					this.updateComment(data);
+						break;
+				}
+			},
 			// 更新关注信息
 			updateGuanZhu(data){
 				this.detail.isguanzhu = data.data;
-				console.log(this.detail);
+			},
+			updateSupport(data){
+				if (data.do == 'ding') {
+					this.detail.infonum.index = 1;
+					this.detail.goodnum++;
+				}
 			},
 			//初始化分享
 			__initShare(obj){
