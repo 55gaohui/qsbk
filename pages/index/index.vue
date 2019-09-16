@@ -69,8 +69,8 @@
 		onNavigationBarButtonTap(e) {
 			switch (e.index) {
 				case 1:
-					uni.navigateTo({
-						url: '../add-input/add-input',
+					this.User.navigate({
+						url: '../add-input/add-input?postclass='+JSON.stringify(this.tabBars),
 					});
 					break;
 				default:
@@ -114,7 +114,6 @@
 			//获取指定列表
 			async getList(){
 				let url = `/postclass/${this.tabBars[this.tabIndex].id}/post/${this.newslist[this.tabIndex].page}`;
-				console.log(url);
 				let [err,res] = await this.$http.get(url,'',{token:true});
 				let error = this.$http.errorCheck(err,res,()=>{
 					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
@@ -124,7 +123,6 @@
 				if(!error) return;
 				let arr = [];
 				let list = res.data.data.list;
-				console.log(list);
 				for (let i = 0; i < list.length; i++) {
 					arr.push(this.__format(list[i]));
 				}

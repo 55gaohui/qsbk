@@ -9,7 +9,7 @@
 							<!-- 话题列表 -->
 							<view class="topic-view">
 								<block v-for="(item,index1) in items.lists" :key="index1">
-									<topic-list :item="item" :index="index1"></topic-list>
+									<topic-list :ischange="ischange" :item="item" :index="index1"></topic-list>
 								</block>
 							</view>
 							<!-- 上拉加载 -->
@@ -43,13 +43,21 @@
 		},
 		data() {
 			return {
+				ischange: false,
 				tabIndex: 0,
 				swiperheight: 500,
 				tabBars: [],
 				newslist: []
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			if (e.ischange) {
+				this.ischange = true;
+				// 修改页面标题
+				uni.setNavigationBarTitle({
+					title:"选择所属话题"
+				})
+			}
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100);

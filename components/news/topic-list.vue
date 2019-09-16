@@ -13,11 +13,24 @@
 	export default {
 		name: "topic-list",
 		props: {
+			ischange:{
+				type: Boolean,
+				default: false
+			},
 			item: Object,
 			index: Number
 		},
 		methods: {
 			opendetail(){
+				if(this.ischange){
+					// 通知并返回
+					uni.$emit('changeTopic',{
+						id: this.item.id,
+						title: this.item.title
+					})
+					uni.navigateBack({ delta: 1 });
+					return;
+				}
 				uni.navigateTo({
 					url: '../../pages/topic-detail/topic-detail?detail='+JSON.stringify(this.item),
 				});

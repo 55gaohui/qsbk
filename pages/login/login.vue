@@ -11,7 +11,7 @@
 			<template v-if="!status">
 				<input type="text" v-model="username" class="uni-input common-input" placeholder="昵称/手机号/邮箱">
 				<view class="login-input-box">
-					<input type="text" v-model="password" class="uni-input common-input forget-input" placeholder="请输入密码" />
+					<input type="password" v-model="password" class="uni-input common-input forget-input" placeholder="请输入密码" />
 					<view class="forget u-f-ajc login-font-color">忘记密码？</view>
 				</view>
 			</template>
