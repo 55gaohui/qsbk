@@ -40,9 +40,9 @@
 			<view class="u-f-ac u-f-jsb">
 				<view>深圳 龙岗</view>
 				<view class="u-f-ac">
-					<view class="icon iconfont icon-zhuanfa">150</view>
-					<view class="icon iconfont icon-pinglun1">10</view>
-					<view class="icon iconfont icon-dianzan1">195</view>
+					<view class="icon iconfont icon-zhuanfa">{{item.sharenum}}</view>
+					<view class="icon iconfont icon-pinglun1">{{item.commentnum}}</view>
+					<view class="icon iconfont icon-dianzan1" @tap="caozuo('ding')">{{item.goodnum}}</view>
 				</view>
 			</view>
 		</view>
@@ -86,6 +86,29 @@
 				this.$emit('changeevent',resData);
 				// 通知全局修改数据
 				uni.$emit('updateData',resData);
+			},
+			//顶踩
+			async caozuo(type){
+				let index = (type == 'ding') ? 1 : 2;
+				let [err,res] = await this.$http.post('/support',{
+					post_id:this.item.id,
+					type:index-1
+				},{
+					token:true,
+					checkToken:true,
+					checkAuth:true
+				});
+				if (!this.$http.errorCheck(err,res)) return;
+				uni.showToast({ title: "顶成功" });
+				// 通知父组件
+				let resData = {
+					type:"support",
+					post_id:this.item.id,
+					do:type
+				};
+				this.$emit('changeevent',resData);
+				// 通知全局
+				return uni.$emit("updateData",resData);
 			},
 			imgdetail(index){
 				uni.previewImage({

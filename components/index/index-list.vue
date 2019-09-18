@@ -14,7 +14,9 @@
 				{{item.title}}
 			</view>
 			<view class="index-list3 u-f-ajc" @tap="opendetail()" v-show="item.titlepic">
-				<image :src="item.titlepic" mode="widthFix" lazy-load></image>
+				<template v-if="item.titlepic">
+					<image :src="item.titlepic" mode="widthFix" lazy-load></image>
+				</template>
 				<template v-if="item.type == 'video'">
 					<view class="index-list-play icon iconfont icon-bofang"></view>
 					<view class="index-list-playinfo">
@@ -24,11 +26,11 @@
 			</view>
 			<view class="index-list4 u-f-ac u-f-jsb">
 				<view class="u-f-ac">
-					<view class="u-f-ac" @tap="caozuo(index,'ding')">
+					<view class="u-f-ac" @tap="caozuo('ding')">
 						<view class="icon iconfont icon-icon_xiaolian-mian" :class="{'active': (item.infonum.index == 1)}"></view>
 						{{item.infonum.dingnum}}
 					</view>
-					<view class="u-f-ac" @tap="caozuo(index,'cai')">
+					<view class="u-f-ac" @tap="caozuo('cai')">
 						<view class="icon iconfont icon-kulian" :class="{'active': (item.infonum.index == 2)}"></view>
 						{{item.infonum.cainum}}
 					</view>
@@ -88,32 +90,33 @@
 				uni.$emit('updateData',resData);
 			},
 			//顶踩事件
-			// caozuo(index, type) {
-			// 	switch (type) {
-			// 		case 'ding':
-			// 			if (this.infonum.index == 1) {
-			// 				return;
-			// 			};
-			// 			this.infonum.dingnum++;
-			// 			if (this.infonum.index == 2) {
-			// 				this.infonum.cainum--;
-			// 			}
-			// 			this.infonum.index = 1;
-			// 			break;
-			// 		case 'cai':
-			// 			if (this.infonum.index == 2) {
-			// 				return
-			// 			};
-			// 			this.infonum.cainum++;
-			// 			if (this.infonum.index == 1) {
-			// 				this.infonum.dingnum--;
-			// 			}
-			// 			this.infonum.index = 2;
-			// 			break;
-			// 		default:
-			// 			break;
-			// 	};
-			// },
+			async caozuo(type) {
+				let index = (type == 'ding') ? 1 : 2;  // 操作后的状态
+				if(this.item.infonum.index == index) return; // 状态相同不修改
+				let [err,res] = await this.$http.post('/support',{
+					  post_id: this.item.id,
+					  type: index-1
+				},{
+					token: true,
+					checkToken: true,
+					checkAuth: true
+				});
+				// 错误处理
+				if (!this.$http.errorCheck(err,res)) return;
+				uni.showToast({
+					title: index == 1 ? "顶成功" : "踩成功"
+				});
+				let resDate = {
+					type: 'support',
+					post_id: this.item.id,
+					do: type 
+				};
+				// 通知父组件
+				this.$emit('changeevent',resDate);
+				// 通知全局
+				uni.$emit("updateData",resDate);
+				
+			},
 			//进入详情页
 			opendetail() {
 				uni.navigateTo({

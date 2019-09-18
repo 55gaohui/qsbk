@@ -8,7 +8,7 @@
 						<template v-if="items.lists.length>0">
 							<!-- 图片列表 -->
 							<block v-for="(item,index1) in items.lists" :key="index1">
-								<index-list :item="item" :index="index1" @changeevent="updateGuanZhu"></index-list>
+								<index-list :item="item" :index="index1" @changeevent="updateData"></index-list>
 							</block>
 							<!-- 上拉加载 -->
 							<loadMore :loadtext="items.loadtext" />
@@ -52,7 +52,7 @@
 		onLoad() {
 			this.getNav();
 			// 开启监听
-			uni.$on('updateData',this.updateGuanZhu);
+			uni.$on('updateData',this.updateData);
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100);
@@ -78,6 +78,16 @@
 			}
 		},
 		methods: {
+			updateData(data){
+				switch (data.type){
+					case 'guanzhu':
+					this.updateGuanZhu(data);
+						break;
+					case 'support':
+					this.updateSupport(data);
+						break;
+				}
+			},
 			// 更新关注信息
 			updateGuanZhu(data){
 				this.newslist[this.tabIndex].lists.forEach((item,index)=>{
@@ -85,6 +95,24 @@
 						item.isguanzhu = data.data;
 					}
 				})
+			},
+			//更新顶踩
+			updateSupport(data){
+				//拿到当前对象
+				let obj = this.newslist[this.tabIndex].lists.find(value =>{
+					return value.id == data.post_id;
+				});
+				if(!obj) return;
+				let oldindex = obj.infonum.index; // 操作前的状态
+				obj.infonum.index = (data.do == 'ding') ? 1 : 2; // 操作后的状态
+				if(oldindex !== 0){ //之前操作过
+					oldindex == 1 ? obj.infonum.dingnum-- : obj.infonum.cainum--;
+				}
+				if (obj.infonum.index !== 0) {  // 当前操作
+					obj.infonum.index == 1 
+						? obj.infonum.dingnum++ : obj.infonum.cainum++;
+				}
+				console.log('1');
 			},
 			//获取文章分类
 			async getNav(){

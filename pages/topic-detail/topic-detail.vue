@@ -9,7 +9,7 @@
 				<template v-if="tabIndex==index">
 					<!-- 列表 -->
 					<block v-for="(list,listindex) in item.lists" :key="listindex">
-						<common-list :item="list" :index="listindex" @changeevent="updateGuanZhu"></common-list>
+						<common-list @changeevent="updateData" :item="list" :index="listindex"></common-list>
 					</block>
 					<!-- 上拉加载 -->
 					<load-more :loadtext="item.loadtext"></load-more>
@@ -51,15 +51,15 @@
 					},
 				],
 				tablist: [
-					{ loadtext:"上拉加载更多",list:[],firstload:false,page:1},
-					{ loadtext:"上拉加载更多",list:[],firstload:false,page:1},
+					{ loadtext:"上拉加载更多",lists:[],firstload:false,page:1},
+					{ loadtext:"上拉加载更多",lists:[],firstload:false,page:1},
 				]
 			}
 		},
 		onLoad(e) {
 			this.__init(JSON.parse(e.detail));
 			// 开启监听
-			uni.$on('updateData',this.updateGuanZhu);
+			uni.$on('updateData',this.updateData);
 		},
 		//上拉触底时间
 		onReachBottom() {
@@ -71,6 +71,16 @@
 			this.getList();
 		},
 		methods: {
+			updateData(data){
+				switch (data.type){
+					case "guanzhu":
+						this.updateGuanZhu(data);
+						break;
+					case "support":
+						this.updateSupport(data);
+						break;
+				}
+			},
 			// 更新关注信息
 			updateGuanZhu(data){
 				this.tablist[this.tabIndex].lists.forEach((item,index)=>{
@@ -78,6 +88,17 @@
 						item.isguanzhu = data.data;
 					}
 				})
+			},
+			//更新顶踩
+			updateSupport(data){
+				let obj = this.tablist[this.tabIndex].lists.find((item)=>{
+					return item.id === data.post_id;
+				})
+				if(!obj || obj.infonum.index === 1) return;
+				if (data.do == 'ding') {
+					obj.infonum.index = 1;
+					obj.goodnum++;
+				}
 			},
 			//初始化
 			__init(obj){
@@ -89,7 +110,6 @@
 			//获取数据
 			async getList() {
 				let url = `/topic/${this.topicInfo.id}/post/${this.tablist[this.tabIndex].page}`;
-				console.log(url);
 				let [err,res] = await this.$http.get(url,'',{token:true});
 				let error = this.$http.errorCheck(err,res,()=>{
 					this.tablist[this.tabIndex].loadtext = '上拉加载更多';
@@ -99,7 +119,6 @@
 				if(!error) return;
 				let arr = [];
 				let list = res.data.data.list;
-				console.log(list);
 				for (let i = 0; i < list.length; i++) {
 					arr.push(this.__format(list[i]));
 				}

@@ -4,7 +4,7 @@
 			<!-- 图片列表 -->
 			<block v-for="(item,index) in list" :key="index">
 				<template v-if="searchType == 'post'">
-					<index-list :item="item" :index="index"></index-list>
+					<index-list @changeevent="updateData" :item="item" :index="index"></index-list>
 				</template>
 				<template v-else>
 					<view style="padding: 0 20upx;">
@@ -65,6 +65,7 @@
 		onLoad(e) {
 			if(!e) return;
 			this.searchType = e.searchType || 'post';
+			// #ifdef APP-PLUS
 			let pageTitle = '搜索文章';
 			if(this.searchType == 'topic'){
 				pageTitle = '搜索话题';
@@ -78,6 +79,9 @@
 			currentWebview.setStyle({
 				titleNView: tn
 			});
+			// #endif
+			// 开启监听
+			uni.$on('updateData',this.updateData);
 		},
 		//上拉加载
 		onReachBottom() {
@@ -91,6 +95,45 @@
 
 		},
 		methods: {
+			updateData(data){
+				switch (data.type){
+					case "guanzhu":
+					this.updateGuanZhu(data)
+						break;
+					case "support":
+					this.updateSupport(data);
+						break;
+					case 'updateComment':
+					this.updateComment(data);
+						break;
+				}
+			},
+			// 更新关注信息
+			updateGuanZhu(data){
+				this.list.forEach((item,index)=>{
+					if(item.userid == data.userid){
+						item.isguanzhu = data.data;
+					} 
+				})
+			},
+			//更新顶踩
+			updateSupport(data){
+				// 拿到当前对象
+				let obj = this.list.find(value =>{
+					return value.id === data.post_id;
+				});
+				if (!obj) return;
+				let oldindex = obj.infonum.index; // 操作前的状态
+				obj.infonum.index = (data.do == 'ding') ? 1 : 2; // 操作后的状态
+				if (oldindex !== 0) { //之前操作过
+					oldindex == 1 ? obj.infonum.dingnum-- : obj.infonum.cainum--;
+				}
+				if (obj.infonum.index !== 0) {  // 当前操作
+					obj.infonum.index == 1 
+						? obj.infonum.dingnum++ : obj.infonum.cainum++;
+				}
+				console.log('1');
+			},
 			// 搜索事件
 			async getlist() {
 				uni.showLoading({title:'Loading'});
