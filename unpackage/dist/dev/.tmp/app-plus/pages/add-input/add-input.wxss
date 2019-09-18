@@ -14,4 +14,14 @@
 	background: #ffe934;
 	color: #171606;
 }
+.addinput-foot{
+	background: #FFFFFF;
+	position: fixed;bottom: 0;left: 0;right: 0;height: 88rpx;border-top:1rpx solid #DDDDDD
+}
+.addinput-foot view{
+	height: 100%;
+}
+.addinput-foot-btn{
+	background: #F4F4F4;
+}
 
