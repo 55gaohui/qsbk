@@ -3,7 +3,7 @@
 		<view class="index-list animated fadeInLeft fast">
 			<view class="index-list1 u-f-ac u-f-jsb">
 				<view class="u-f-ac">
-					<image :src="item.userpic" mode="widthFix"></image>
+					<image :src="item.userpic" mode="aspectFill"></image>
 					{{item.username}}
 				</view>
 				<view class="u-f-ac" v-show="!item.isguanzhu" @tap="guanzhu">

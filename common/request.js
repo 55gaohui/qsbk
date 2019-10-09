@@ -45,7 +45,6 @@ export default {
 		options.filePath = options.filePath;
 		options.fileType = options.fileType || 'image';
 		options.formData = options.formData || {};
-		console.log(options.filePath);
 		// TODO：token增加等操作
 		if(options.token){
 			// 验证用户是否登录

@@ -12,7 +12,7 @@
 			<textarea v-model="text" placeholder="说一句话吧~" />
 		</view>
 		<!-- 上传多图 -->
-		<upload-images @upload="upload"/>
+		<upload-images @upload="upload" :image-list="imglist" @del="delImageList"/>
 		<!-- 弹出框 -->
 		<uni-popup :show="popupShow" position="middle" mode="fixed" @hidePopup="hidePopup">
 			<view class="gonggao">
@@ -59,7 +59,7 @@
 				isget: false,
 				yinsi: 1,
 				text: '',
-				imagesList: [],
+				imglist: [],
 				imglistIds:[],
 				postclass: {
 					id:0,     // 当前选中分类id
@@ -159,8 +159,47 @@
 				})
 			},
 			//发布帖子
-			submit(){
-				console.log('发布帖子');
+			async submit(){
+				if(!this.postclass.id){
+					return uni.showToast({
+						title: '请选择分类',icon:"none"
+					});
+				}
+				uni.showLoading({ title: '发布中...', mask: true });
+				try{
+					let [err,res] = await this.$http.post('/post/create',{
+						imglist: JSON.stringify(this.imglistIds),
+						type: this.imglistIds.length>0 ? 1 : 0,
+						text: this.text,
+						isopen: this.yinsi,
+						topic_id: this.topic.id,
+						post_class_id: this.postclass.id
+					},{
+						token:true,
+						checkToken:true,
+						checkAuth:true
+					})
+					//发布失败
+					if(!this.$http.errorCheck(err,res)){
+						return uni.hideLoading();
+					}
+					//发布成功
+					uni.hideLoading();
+					uni.showToast({
+						title: '发布成功！'
+					});
+					this.isget = true;
+					uni.$emit('updateData',{
+						type: 'updateList',
+						data: res.data.data.detail
+					});
+					uni.navigateBack({
+						delta:1
+					})
+				}catch(e){
+					return;
+				}
+				
 			},
 			//修改帖子查看权限
 			changelook(){
@@ -174,8 +213,15 @@
 					}
 				});
 			},
-			upload(arr){
-				this.imagesList = arr;
+			// 上传图片
+			upload(item){
+				this.imglist.push(item.url);
+				this.imglistIds.push({ id:item.id });
+			},
+			//删除图片
+			delImageList(index){
+				this.imglist.splice(index,1);
+				this.imglistIds.splice(index,1);
 			},
 			hidePopup(){
 				this.popupShow = false;
@@ -198,7 +244,6 @@
 							}
 							uni.setStorageSync('addinput',JSON.stringify(obj));
 						} else if (res.cancel) {
-							console.log('不保存');
 							uni.removeStorageSync('addinput'); // 清除缓存
 						}
 						this.isget = true;

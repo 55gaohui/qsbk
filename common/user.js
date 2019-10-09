@@ -108,6 +108,13 @@ export default {
 		//储存缓存
 		uni.setStorageSync('counts',this.counts);
 	},
+	// 监听用户统计变化
+	OnUserCounts(){
+		uni.$on('updateData',(data) => {
+			//文章数+1
+			
+		})
+	},
 	//获取当前用户第三方绑定情况
 	async getUserBind(){
 		let [err,res] = await $http.get('/user/getuserbind',{},{

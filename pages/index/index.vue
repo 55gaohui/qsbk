@@ -86,7 +86,24 @@
 					case 'support':
 					this.updateSupport(data);
 						break;
+					case "updateList":
+						this.updateList(data);
+						break;
+					
 				}
+			},
+			//更新用户发布信息
+			updateList(data){
+				// 第一种，直接追加
+				// 获取当前文章属于哪一类
+				let index = this.tabBars.findIndex((val) => {
+					return val.id = data.post_class_id;
+				})
+				// 添加至找的分类
+				if (index > -1) {
+					this.tabBars[index].lists.push(__format(data));
+				}
+				// 第二种，重新加载当前post_class_id信息
 			},
 			// 更新关注信息
 			updateGuanZhu(data){
