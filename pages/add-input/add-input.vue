@@ -56,7 +56,7 @@
 		data() {
 			return {
 				popupShow:true, 
-				isget: false,
+				isget: false,    //保存草稿弹窗开关
 				yinsi: 1,
 				text: '',
 				imglist: [],
@@ -79,6 +79,7 @@
 			}
 		},
 		onBackPress() {
+			//是否弹出保存不保存弹窗
 			if(!this.isget){
 				this.baocun();
 				return true;
@@ -188,14 +189,13 @@
 					uni.showToast({
 						title: '发布成功！'
 					});
+					//关闭保存草稿弹窗
 					this.isget = true;
 					uni.$emit('updateData',{
 						type: 'updateList',
 						data: res.data.data.detail
 					});
-					uni.navigateBack({
-						delta:1
-					})
+					uni.navigateBack({ delta: 1 });
 				}catch(e){
 					return;
 				}
