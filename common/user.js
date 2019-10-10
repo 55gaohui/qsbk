@@ -15,6 +15,8 @@ export default {
 		this.token = uni.getStorageSync('token');
 		this.counts = uni.getStorageSync('counts');
 		this.userbind = uni.getStorageSync('userbind');
+		//更新用户信息
+		this.OnUserCounts();
 	},
 	//权限验证跳转
 	navigate(options,type='navigateTo'){
@@ -111,8 +113,13 @@ export default {
 	// 监听用户统计变化
 	OnUserCounts(){
 		uni.$on('updateData',(data) => {
-			//文章数+1
-			
+			// 文章数+1
+			if (data.type == 'updateList'){
+				this.counts.post_count++;
+				this.counts.today_posts_count++;
+			}
+			// 更新缓存
+			uni.setStorageSync("counts", this.counts);
 		})
 	},
 	//获取当前用户第三方绑定情况

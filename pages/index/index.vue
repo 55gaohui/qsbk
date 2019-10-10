@@ -158,12 +158,13 @@
 			},
 			//获取指定列表
 			async getList(){
+				let currentIndex = this.tabIndex;
 				let url = `/postclass/${this.tabBars[this.tabIndex].id}/post/${this.newslist[this.tabIndex].page}`;
 				let [err,res] = await this.$http.get(url,'',{token:true});
 				let error = this.$http.errorCheck(err,res,()=>{
-					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
+					this.newslist[currentIndex].loadtext = '上拉加载更多';
 				},()=>{
-					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
+					this.newslist[currentIndex].loadtext = '上拉加载更多';
 				});
 				if(!error) return;
 				let arr = [];
@@ -171,12 +172,12 @@
 				for (let i = 0; i < list.length; i++) {
 					arr.push(this.__format(list[i]));
 				}
-				this.newslist[this.tabIndex].lists = this.newslist[this.tabIndex].page>1 ? this.newslist[this.tabIndex].lists.concat(arr) : arr;
-				this.newslist[this.tabIndex].firstload = true;
+				this.newslist[currentIndex].lists = this.newslist[currentIndex].page>1 ? this.newslist[currentIndex].lists.concat(arr) : arr;
+				this.newslist[currentIndex].firstload = true;
 				if(list.length<10){
-					this.newslist[this.tabIndex].loadtext = '没有更多数据了';
+					this.newslist[currentIndex].loadtext = '没有更多数据了';
 				}else{
-					this.newslist[this.tabIndex].loadtext = '上拉加载更多';
+					this.newslist[currentIndex].loadtext = '上拉加载更多';
 				}
 				return;
 			},
