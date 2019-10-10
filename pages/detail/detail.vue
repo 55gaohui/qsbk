@@ -9,7 +9,7 @@
 		</view>
 		<view style="height: 120upx;"></view>
 		<!-- 聊天输入框 -->
-		<user-chat-bottom @submit="submit" :focus="focus" @blur='blur()'></user-chat-bottom>
+		<user-chat-bottom @submit="submit" :focus="focus" @blur='blur'></user-chat-bottom>
 		
 		<!-- 分享 -->
 		<more-share :show="shareshow" @togle="togle" :sharedata="sharedata"></more-share>
@@ -184,12 +184,13 @@
 				return temp;			
 			},
 			async submit(data) {
-				uni.showLoading({title: '评论中...', mask: false})
+				uni.showLoading({title: '评论中...', mask: false});
+				console.log(this.reply_id);
 				let reply_id = this.reply_id;
 				let [err,res] = await this.$http.post('/post/comment',{
-					post_id: this.detail.id,
-					fid: reply_id,
-					data: data
+					post_id:this.detail.id,
+					fid:reply_id,
+					data:data
 				},{
 					token: true
 				});
@@ -223,10 +224,11 @@
 				}
 				// 二级评论
 				// 找出被评论id的索引
-				let index = this.comment.list.find( (val) => {
+				let index = this.comment.list.findIndex( (val) => {
 					return val.id === reply_id;
 				});
 				if(index > -1){
+					console.log(reply_id);
 					//中间插入
 					this.comment.list.splice(index+1,0,result);
 				}
@@ -256,11 +258,12 @@
 			reply(id){
 				this.reply_id = id;
 				this.focus = true;
+				console.log(this.reply_id);
 			},
 			//直接点击回复框 默认为一级评论
 			blur(){
 				this.focus = false;
-				this.reply_id = 0;
+				console.log('11');
 			}
 		}
 	}

@@ -118,6 +118,10 @@ export default {
 				this.counts.post_count++;
 				this.counts.today_posts_count++;
 			}
+			// 评论数+1
+			if (data.type == 'updateComment'){
+				this.counts.comments_count++;
+			}
 			// 更新缓存
 			uni.setStorageSync("counts", this.counts);
 		})

@@ -97,7 +97,7 @@
 			// 更新评论数
 			updateComment(data){
 				// 拿到当前对象
-				let obj = this.newslist[this.tabIndex].list.find((val) => {
+				let obj = this.newslist[this.tabIndex].lists.find((val) => {
 					return val.id === data.post_id;
 				})
 				if(!obj) return;

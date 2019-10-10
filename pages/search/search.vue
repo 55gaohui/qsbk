@@ -89,7 +89,6 @@
 		},
 		// 监听下拉刷新
 		onPullDownRefresh() {
-			console.log('2');
 			this.getlist();
 			uni.stopPullDownRefresh();
 
@@ -107,6 +106,16 @@
 					this.updateComment(data);
 						break;
 				}
+			},
+			// 更新评论数
+			updateComment(data){
+				// 拿到当前对象
+				let obj = this.list.find((val) => {
+					return val.id === data.post_id;
+				})
+				if(!obj) return;
+				console.log(obj);
+				obj.commentnum++;   // 评论数+1
 			},
 			// 更新关注信息
 			updateGuanZhu(data){
