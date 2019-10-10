@@ -4,12 +4,12 @@
 		<view class="u-comment-title">最新评论 {{comment.count}}</view>
 		<view class="uni-comment u-comment">
 			<block v-for="(item, index) in comment.list" :key="index">
-				<comment-list :item="item" :index="index"></comment-list>
+				<comment-list :item="item" :index="index" @reply="reply"></comment-list>
 			</block>
 		</view>
 		<view style="height: 120upx;"></view>
 		<!-- 聊天输入框 -->
-		<user-chat-bottom @submit="submit"></user-chat-bottom>
+		<user-chat-bottom @submit="submit" :focus="focus" @blur='blur()'></user-chat-bottom>
 		
 		<!-- 分享 -->
 		<more-share :show="shareshow" @togle="togle" :sharedata="sharedata"></more-share>
@@ -32,6 +32,8 @@
 		},
 		data() {
 			return {
+				reply_id: 0, 	//回复id
+				focus: false,   //评论框是否是选中状态
 				sharedata:{
 					title: '',
 					url: '',
@@ -181,21 +183,84 @@
 				forFn(arr,id,lev);
 				return temp;			
 			},
-			submit(data) {
-				// 构建数据
-				let obj = {
-					id: 6,
-					fid: 0,
-					userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
-					username: "小猫咪",
-					time: time.gettime.gettime(new Date().getTime()),
-					data: data,
+			async submit(data) {
+				uni.showLoading({title: '评论中...', mask: false})
+				let reply_id = this.reply_id;
+				let [err,res] = await this.$http.post('/post/comment',{
+					post_id: this.detail.id,
+					fid: reply_id,
+					data: data
+				},{
+					token: true
+				});
+				//错误处理
+				if(err || res.data.errorCode){
+					let msg = res.data.errorCode ? res.data.msg : '发送失败，请检查网络~';
+					uni.hideLoading();
+					uni.showToast({
+						title: msg, icon: 'none'
+					});
 				}
-				this.comment.list.push(obj);
+				//成功处理
+				uni.hideLoading();
+				uni.showToast({
+					title: '发送成功～'
+				});
+				let result = {
+					id: res.data.data.id,
+					fid: reply_id,
+					userpic: this.User.userinfo.userpic,
+					username: this.User.userinfo.username,
+					time: time.gettime.gettime(new Date().getTime()),
+					data: data
+				}
+				// 评论+1
+				this.comment.count++;
+				this.detail.commentnum++;
+				//一级评论
+				if(reply_id === 0){
+					return this.comment.list.push(result);
+				}
+				// 二级评论
+				// 找出被评论id的索引
+				let index = this.comment.list.find( (val) => {
+					return val.id === reply_id;
+				});
+				if(index > -1){
+					//中间插入
+					this.comment.list.splice(index+1,0,result);
+				}
+				// 通知首页更新评论数，通知会员中心更新评论数
+				uni.$emit('updateData',{
+					type:'updateComment',
+					post_id:this.detail.id
+				})
+				
+				
+				
+				// // 构建数据
+				// let obj = {
+				// 	id: 6,
+				// 	fid: 0,
+				// 	userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
+				// 	username: "小猫咪",
+				// 	time: time.gettime.gettime(new Date().getTime()),
+				// 	data: data,
+				// }
+				// this.comment.list.push(obj);
 			},
 			// 分享组件显示控制
 			togle(){
 				this.shareshow=!this.shareshow
+			},
+			reply(id){
+				this.reply_id = id;
+				this.focus = true;
+			},
+			//直接点击回复框 默认为一级评论
+			blur(){
+				this.focus = false;
+				this.reply_id = 0;
 			}
 		}
 	}

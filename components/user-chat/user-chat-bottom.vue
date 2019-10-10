@@ -1,6 +1,6 @@
 <template>
 	<view class="user-chat-bottom u-f-ac animated fadeInDown fast">
-		<input type="text" placeholder="文明发言" v-model="text" />
+		<input type="text" placeholder="文明发言" :focus="focus" @blur="blur" v-model="text" />
 		<view class="icon iconfont icon-fabu u-f-ajc" @tap="submit"></view>
 	</view>
 </template>
@@ -8,6 +8,12 @@
 <script>
 	export default {
 		name: "user-chat-bottom",
+		props:{
+			focus: {
+				type: Boolean,
+				default: false
+			}
+		},
 		data() {
 			return {
 				text: ''
@@ -17,6 +23,9 @@
 			submit(){
 				this.$emit('submit',this.text);
 				this.text = '';
+			},
+			blur(){
+				this.$emit('blur');
 			}
 		}
 	}

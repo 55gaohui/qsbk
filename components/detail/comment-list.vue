@@ -3,7 +3,7 @@
 		<view class="uni-comment-face">
 			<image :src="item.userpic" mode="widthFix"></image>
 		</view>
-		<view class="uni-comment-body">
+		<view class="uni-comment-body" @tap.stop="reply">
 			<view class="uni-comment-top">
 				<text>{{item.username}}</text>
 			</view>
@@ -21,6 +21,11 @@
 		props:{
 			item: Object,
 			index: Number
+		},
+		methods:{
+			reply() {
+				this.$emit('reply',this.item.id);
+			},
 		}
 	}
 </script>

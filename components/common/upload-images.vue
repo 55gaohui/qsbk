@@ -63,7 +63,7 @@
 					success: (res) => {
 						for (let i = 0; i < res.tempFilePaths.length; i++) {
 							this.Upload(res.tempFilePaths[i]);
-							console.log(res.tempFilePaths);
+							console.log(res.tempFilePaths[i]);
 						}
 					}
 				})

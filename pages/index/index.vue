@@ -89,8 +89,20 @@
 					case "updateList":
 						this.updateList(data);
 						break;
-					
+					case "updateComment":
+						this.updateComment(data);
+						break;		
 				}
+			},
+			// 更新评论数
+			updateComment(data){
+				// 拿到当前对象
+				let obj = this.newslist[this.tabIndex].list.find((val) => {
+					return val.id === data.post_id;
+				})
+				if(!obj) return;
+				console.log(obj);
+				obj.commentnum++;   // 评论数+1
 			},
 			//更新用户发布信息
 			updateList(data){
@@ -129,7 +141,6 @@
 					obj.infonum.index == 1 
 						? obj.infonum.dingnum++ : obj.infonum.cainum++;
 				}
-				console.log('1');
 			},
 			//获取文章分类
 			async getNav(){
