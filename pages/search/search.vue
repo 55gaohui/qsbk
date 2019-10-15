@@ -114,7 +114,6 @@
 					return val.id === data.post_id;
 				})
 				if(!obj) return;
-				console.log(obj);
 				obj.commentnum++;   // 评论数+1
 			},
 			// 更新关注信息

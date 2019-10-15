@@ -185,7 +185,6 @@
 			},
 			async submit(data) {
 				uni.showLoading({title: '评论中...', mask: false});
-				console.log(this.reply_id);
 				let reply_id = this.reply_id;
 				let [err,res] = await this.$http.post('/post/comment',{
 					post_id:this.detail.id,
@@ -198,7 +197,7 @@
 				if(err || res.data.errorCode){
 					let msg = res.data.errorCode ? res.data.msg : '发送失败，请检查网络~';
 					uni.hideLoading();
-					uni.showToast({
+					return uni.showToast({
 						title: msg, icon: 'none'
 					});
 				}
