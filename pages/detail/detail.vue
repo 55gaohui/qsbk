@@ -148,6 +148,7 @@
 				this.detail.morepic = images;
 				this.detail.age = data.user.userinfo.age;
 				this.detail.sex = data.user.userinfo.sex;
+				this.detail.create_time = data.create_time;
 				return uni.hideLoading();
 			},
 			//获取评论
@@ -156,7 +157,7 @@
 				if(!this.$http.errorCheck(err,res)) return;
 				let list = res.data.data.list;
 				this.comment.list = this.comment.list.concat(this.__ArrSort(list));
-				// console.log(this.comment.list);
+				// console.log(this.comment.list[0]);
 			},
 			// 无限级分类
 			__ArrSort(arr,id=0){
@@ -227,7 +228,6 @@
 					return val.id === reply_id;
 				});
 				if(index > -1){
-					console.log(reply_id);
 					//中间插入
 					this.comment.list.splice(index+1,0,result);
 				}
@@ -236,19 +236,6 @@
 					type:'updateComment',
 					post_id:this.detail.id
 				})
-				
-				
-				
-				// // 构建数据
-				// let obj = {
-				// 	id: 6,
-				// 	fid: 0,
-				// 	userpic: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
-				// 	username: "小猫咪",
-				// 	time: time.gettime.gettime(new Date().getTime()),
-				// 	data: data,
-				// }
-				// this.comment.list.push(obj);
 			},
 			// 分享组件显示控制
 			togle(){
@@ -259,10 +246,11 @@
 				this.focus = true;
 				console.log(this.reply_id);
 			},
-			//直接点击回复框 默认为一级评论
+			//直接点击回复框 默认为一级评论(输入框失去焦点执行)
 			blur(){
 				this.focus = false;
-				console.log('11');
+				this.reply_id = 0; //(H5端会一直未一级评论)
+				console.log(this.reply_id);
 			}
 		}
 	}

@@ -57,7 +57,7 @@ const gettime = {
 	dateFormat(date, formatStr) {
 		let dateObj = {},
 			rStr = /\{([^}]+)\}/,
-			mons = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'];
+			mons = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 		 
 		dateObj["Y"] = date.getFullYear();
 		dateObj["M"] = date.getMonth() + 1;

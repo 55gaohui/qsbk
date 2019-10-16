@@ -8,11 +8,19 @@
 				<!-- 关注 -->
 				<swiper-item>
 					<scroll-view scroll-y class="list" @scrolltolower="loadmore()">
-						<!-- 列表 -->
-						<block v-for="(item, index) in guanzhu.list" :key="index">
-							<common-list :item="item" :index="index"></common-list>
-						</block>
-						<load-more :loadtext="guanzhu.loadtext" />
+						<template v-if="guanzhu.list.length>0">
+							<!-- 列表 -->
+							<block v-for="(item, index) in guanzhu.list" :key="index">
+								<common-list :item="item" :index="index"></common-list>
+							</block>
+							<load-more :loadtext="guanzhu.loadtext" />
+						</template>
+						<template v-else-if="!guanzhu.firstload">
+							<view style="font-size: 50upx;font-weight: bold;color: #CCCCCC; padding-top: 100upx;" class="u-f-ajc">Loading ...</view>
+						</template>
+						<template v-else>
+							<noThing />
+						</template>
 					</scroll-view>
 				</swiper-item>
 				<!-- 话题 -->
@@ -52,13 +60,15 @@
 	import loadMore from "../../components/common/load-more.vue"
 	import topicNav from "../../components/news/topic-nav.vue"
 	import topicList from "../../components/news/topic-list.vue"
+	import noThing from "../../components/common/no-thing.vue"
 	export default {
 		components: {
 			newsNavBar,
 			commonList,
 			loadMore,
 			topicNav,
-			topicList
+			topicList,
+			noThing
 		},
 		data() {
 			return {
@@ -73,80 +83,12 @@
 						id: "huati"
 					}
 				],
+				
 				guanzhu: {
+					firstload: false,
 					loadtext: '上拉加载更多',
-					list: [
-						//文字
-						{
-							userpic: "../../static/demo/userpic/8.jpg",
-							username: "昵称",
-							sex: 0, // 0男，1女
-							age: 25,
-							isguanzhu: false,
-							title: "我是标题",
-							titlepic: "",
-							video: false,
-							share: false,
-							path: "深圳 龙岗",
-							sharenum: 20,
-							commentnum: 30,
-							goodnum: 20
-						},
-						// 图片
-						{
-							userpic: "../../static/demo/userpic/8.jpg",
-							username: "昵称",
-							sex: 0, // 0男，1女
-							age: 25,
-							isguanzhu: false,
-							title: "我是标题",
-							titlepic: "../../static/demo/datapic/28.jpg",
-							video: false,
-							share: false,
-							path: "深圳 龙岗",
-							sharenum: 20,
-							commentnum: 30,
-							goodnum: 20
-						},
-						// 视频
-						{
-							userpic: "../../static/demo/userpic/8.jpg",
-							username: "昵称",
-							sex: 1, // 0男，1女
-							age: 25,
-							isguanzhu: false,
-							title: "我是标题",
-							titlepic: "../../static/demo/datapic/28.jpg",
-							video: {
-								looknum: "20w",
-								long: "2:17"
-							},
-							share: false,
-							path: "深圳 龙岗",
-							sharenum: 20,
-							commentnum: 30,
-							goodnum: 20
-						},
-						// 分享
-						{
-							userpic: "../../static/demo/userpic/8.jpg",
-							username: "昵称",
-							sex: 0, // 0男，1女
-							age: 25,
-							isguanzhu: false,
-							title: "我是标题",
-							titlepic: "",
-							video: false,
-							share: {
-								title: "我是分享",
-								titlepic: "../../static/demo/datapic/14.jpg"
-							},
-							path: "深圳 龙岗",
-							sharenum: 20,
-							commentnum: 30,
-							goodnum: 20
-						}
-					]
+					list: [],
+					page: 1,
 				}
 				,
 				topic: {
@@ -165,12 +107,40 @@
 			}),
 			this.__init();
 		},
+		onShow(){
+			this.getFollowPostList();
+		},
 		methods: {
 			//初始化数据
 			__init(){
 				this.getSwiper();
 				this.getNav();
 				this.getHot();
+			},
+			//获取关注列表数据
+			async getFollowPostList(){
+				let url = `/followpost/${this.guanzhu.page}`;
+				let [err,res] = await this.$http.get(url,{},{
+					token: true
+				});
+				//错误处理
+				if(!this.$http.errorCheck(err,res)) {
+					this.guanzhu.firstload = true;
+					return this.guanzhu.loadtext = '上拉加载更多';
+				}
+				//成功
+				let arr = [];
+				console.log('1');
+				console.log(res);
+				let list = res.data.data.list;
+				for (let i = 0; i < list.length; i++) {
+					arr.push(this.__format(list[i]))
+				}
+				
+				this.guanzhu.list = this.guanzhu.page > 1 ? this.guanzhu.list.concat(arr) : arr;
+				this.guanzhu.firstload = true;
+				this.guanzhu.loadtext = list.length < 10 ? '没有更多数据了' : '上拉加载更多';
+				return;
 			},
 			//获取banner
 			async getSwiper(){
@@ -227,44 +197,39 @@
 				this.tabIndex = e.detail.current;
 			},
 			loadmore() {
-				//如果当前状态是还在加载中，或没有更多数据，直接返回
-				if (this.guanzhu.loadtext != "上拉加载更多") {
-					return;
-				}
-				//修改状态
-				this.guanzhu.loadtext = "加载中";
-				//获取数据
-				setTimeout(() => {
-					//获取完成
-					let obj = {
-						userpic: "../../static/demo/userpic/8.jpg",
-						username: "昵称",
-						sex: 1, // 0男，1女
-						age: 25,
-						isguanzhu: false,
-						title: "我是标题",
-						titlepic: "../../static/demo/datapic/28.jpg",
-						video: {
-							looknum: "20w",
-							long: "2:17"
-						},
-						share: false,
-						path: "深圳 龙岗",
-						sharenum: 20,
-						commentnum: 30,
-						goodnum: 20
-					};
-					this.guanzhu.list.push(obj);
-					this.guanzhu.loadtext = "上拉加载更多";
-				}, 2000);
-				//如果没有数据显示
-				// this.guanzhu.loadtext = "没有更多数据";
+				if(this.guanzhu.loadtext!="上拉加载更多") return;
+				this.guanzhu.loadtext = '加载中...';
+				this.guanzhu.page++;
+				this.getFollowPostList();
 			},
 			openSearch(){
 				uni.navigateTo({
 					url: '../search/search?searchType=topic'
 				})
-			}
+			},
+			// 格式转化
+			__format(item){
+				return {
+					userid:item.user.id,
+					userpic:item.user.userpic,
+					username:item.user.username,
+					isguanzhu:!!item.user.fens.length,
+					id:item.id,
+					title:item.title,
+					type:"img", // img:图文,video:视频
+					titlepic:item.titlepic,
+					video:false,
+					path:item.path,
+					share:!!item.share,
+					infonum:{
+						index:(item.support.length>0) ? (item.support[0].type+1) : 0,//0:没有操作，1:顶,2:踩；
+						dingnum:item.ding_count,
+						cainum:item.cai_count,
+					},
+					commentnum:item.comment_count,
+					sharenum:item.sharenum,
+				}
+			},
 		}
 	}
 </script>
