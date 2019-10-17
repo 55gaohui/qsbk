@@ -37,7 +37,7 @@
 				<view class="u-f-ac">
 					<view class="icon iconfont icon-zhuanfa">{{item.sharenum}}</view>
 					<view class="icon iconfont icon-pinglun1">{{item.commentnum}}</view>
-					<view class="icon iconfont icon-dianzan1" @tap="caozuo('ding')">{{item.goodnum}}</view>
+					<view class="icon iconfont icon-dianzan1" :class="{'active': (item.infonum.index == 1)}" @tap="caozuo('ding')">{{item.goodnum}}</view>
 				</view>
 			</view>
 		</view>
@@ -123,4 +123,7 @@
 
 <style>
 	@import '../../common/list.css';
+	.active {
+		color: #C5F61C;
+	}
 </style>

@@ -75,4 +75,7 @@
 	height: 150rpx;
 	margin-right: 10rpx;
 }
+.active {
+	color: #C5F61C;
+}
 

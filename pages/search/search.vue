@@ -6,10 +6,13 @@
 				<template v-if="searchType == 'post'">
 					<index-list @changeevent="updateData" :item="item" :index="index"></index-list>
 				</template>
-				<template v-else>
+				<template v-else-if="searchType == 'topic'">
 					<view style="padding: 0 20upx;">
-						<topic-list :item="item" :index="index1"></topic-list>
+						<topic-list :item="item" :index="index"></topic-list>
 					</view>
+				</template>
+				<template v-else>
+					<user-list-com :item="item" :index="index"></user-list-com>
 				</template>
 			</block>
 			<!-- 上拉加载 -->
@@ -26,13 +29,15 @@
 	import loadMore from "../../components/common/load-more.vue"
 	import noThing from "../../components/common/no-thing.vue"
 	import topicList from "../../components/news/topic-list.vue"
+	import userListCom from "../../components/user-list/user-list-com.vue"
 	export default {
 		name: "search",
 		components: {
 			indexList,
 			loadMore,
 			noThing,
-			topicList
+			topicList,
+			userListCom
 		},
 		data() {
 			return {
@@ -69,6 +74,9 @@
 			let pageTitle = '搜索文章';
 			if(this.searchType == 'topic'){
 				pageTitle = '搜索话题';
+			}
+			if(this.searchType == 'user'){
+				pageTitle = '搜索用户';
 			}
 			//获取当前页面webview对象实例
 			let currentWebview = this.$mp.page.$getAppWebview();
@@ -161,6 +169,7 @@
 				for (let i = 0; i < list.length; i++) {
 					arr.push(this.__format(list[i]));
 				}
+				console.log(list);
 				this.list = this.page>1 ? this.lists.concat(arr) : arr;
 				this.issearch = true;
 				if(list.length<10){
@@ -204,6 +213,16 @@
 							desc:item.desc,
 							totalnum:item.post_count,
 							todaynum:item.todaypost_count,
+						}
+						break;
+					case 'user':
+						return{
+							id:item.id,
+							userpic:item.userpic,
+							username:item.username,
+							age:item.userinfo.age,
+							sex:item.userinfo.sex,
+							isguanzhu:false,
 						}
 						break;
 				}

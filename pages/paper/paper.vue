@@ -128,7 +128,7 @@
 		onNavigationBarButtonTap(e) {
 			switch (e.index) {
 				case 0:
-					this.user.navigate({
+					this.User.navigate({
 						url: '../user-list/user-list'
 					});
 					this.hidepopup();

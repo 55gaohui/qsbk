@@ -106,6 +106,7 @@
 				}
 			}),
 			this.__init();
+			uni.$on('updateData',this.updateData);
 		},
 		onShow(){
 			this.getFollowPostList();
@@ -116,6 +117,36 @@
 				this.getSwiper();
 				this.getNav();
 				this.getHot();
+			},
+			updateData(data){
+				switch (data.type){
+					case "support":
+						this.updateSupport(data);
+						break;
+					case "updateComment":
+						this.updateComment(data);
+						break;	
+				}
+			},
+			// 更新评论数
+			updateComment(data){
+				// 拿到当前对象
+				let obj = this.guanzhu.list.find((val) => {
+					return val.id === data.post_id;
+				})
+				if(!obj) return;
+				obj.commentnum++;   // 评论数+1
+			},
+			//更新顶踩
+			updateSupport(data){
+				let obj = this.guanzhu.list.find((item)=>{
+					return item.id === data.post_id;
+				})
+				if(!obj || obj.infonum.index === 1) return;
+				if (data.do == 'ding') {
+					obj.infonum.index = 1;
+					obj.goodnum++;
+				}
 			},
 			//获取关注列表数据
 			async getFollowPostList(){

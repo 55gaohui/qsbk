@@ -122,6 +122,10 @@ export default {
 			if (data.type == 'updateComment'){
 				this.counts.comments_count++;
 			}
+			// 评论数+1
+			if (data.type == 'guanzhu'){
+				data.data ? this.counts.withfollow_count++ : this.counts.withfollow_count--;
+			}
 			// 更新缓存
 			uni.setStorageSync("counts", this.counts);
 		})

@@ -177,7 +177,7 @@
 							"borderRadius": "4px",
 							"placeholder": "搜索用户",
 							"placeholderColor": "#CCCCCC",
-							"disabled": false
+							"disabled": true
 						},
 						//搜索框右按钮
 						"buttons": [
