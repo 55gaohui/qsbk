@@ -3,7 +3,7 @@
 		<view class="index-list animated fadeInLeft fast">
 			<view class="index-list1 u-f-ac u-f-jsb">
 				<view class="u-f-ac">
-					<image :src="item.userpic" mode="aspectFill"></image>
+					<image :src="item.userpic" mode="aspectFill" @tap.stop="openSpace"></image>
 					{{item.username}}
 				</view>
 				<view class="u-f-ac" v-show="!item.isguanzhu" @tap="guanzhu">
@@ -115,7 +115,12 @@
 				this.$emit('changeevent',resDate);
 				// 通知全局
 				uni.$emit("updateData",resDate);
-				
+			},
+			//打开用户空间
+			openSpace(){
+				uni.navigateTo({
+					url: '/pages/user-space/user-space?userid='+this.item.userid
+				})
 			},
 			//进入详情页
 			opendetail() {

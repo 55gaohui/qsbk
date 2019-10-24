@@ -5,11 +5,11 @@
 		<view class="papar-left-popup" v-show="show">
 			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="lahei">
 				<view class="icon iconfont icon-sousuo"></view>
-				拉黑
+				{{isbalck ? '移除黑名单' : '加入黑名单'}}
 			</view>
-			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="beizhu">
+			<view v-if="!isbalck" class="u-f-ac" hover-class="papar-left-popup-h" @tap="chat">
 				<view class="icon iconfont icon-qingchu"></view>
-				备注
+				聊天
 			</view>
 		</view>
 	</view>
@@ -19,6 +19,10 @@
 	export default {
 		name: "user-space-popup",
 		props:{
+			isbalck:{
+				type: Boolean,
+				default: false
+			},
 			show: Boolean
 		},
 		methods:{
@@ -28,8 +32,8 @@
 			lahei(){
 				this.$emit('lahei');
 			},
-			beizhu(){
-				this.$emit('beizhu');
+			chat(){
+				this.$emit('chat');
 			}
 		}
 	}

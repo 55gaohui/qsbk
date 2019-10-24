@@ -27,7 +27,7 @@
 				return t.gettime.sumAge(this.userinfo.regtime);
 			},
 			getXingZuo(){
-				return t.gettime.getHoroscope(this.userinfo.birthday);
+				return this.userinfo.birthday ? t.gettime.getHoroscope(this.userinfo.birthday) : '未知';
 			}
 		}
 	}

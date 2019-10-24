@@ -124,11 +124,43 @@ export default {
 			}
 			// 评论数+1
 			if (data.type == 'guanzhu'){
-				data.data ? this.counts.withfollow_count++ : this.counts.withfollow_count--;
+				if(data.data){
+					this.counts.withfollow_count++;
+					console.log('1');
+					if(this.counts.fens_arr.indexOf(data.userid) != -1){
+						this.counts.friend_count++;
+					}
+				}else{
+					this.counts.withfollow_count--;
+					if(this.counts.fens_arr.indexOf(data.userid) != -1){
+						this.counts.friend_count--;
+					}
+				}				
 			}
 			// 更新缓存
+			console.log(this.counts);
 			uni.setStorageSync("counts", this.counts);
 		})
+	},
+	// 加入浏览历史
+	addHistoryList(item){
+		// 取出缓存
+		let list = uni.getStorageSync('HistoryList_'+this.userinfo.id);
+		list = list ? JSON.parse(list) : [];
+		// 查看当前记录是否存在
+		let index = list.findIndex((val)=>{
+			return val.id === item.id;
+		})
+		// 不存在直接追加
+		if (index == -1) {
+			list.push(item);
+			uni.setStorageSync('HistoryList_'+this.userinfo.id,JSON.stringify(list))
+			console.log("加入缓存成功");
+		}
+	},
+	//清楚浏览历史记录
+	clearHistory(){
+		uni.removeStorageSync('HistoryList_'+this.userinfo.id);
 	},
 	//获取当前用户第三方绑定情况
 	async getUserBind(){

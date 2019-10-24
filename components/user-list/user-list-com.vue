@@ -1,6 +1,6 @@
 <template>
 	<view class="user-list u-f-ac animated fadeIn fast">
-		<image :src="item.userpic" mode="widthFix" lazy-load></image>
+		<image :src="item.userpic" mode="widthFix" @tap.stop="openSpace" lazy-load></image>
 		<view>
 			<view>{{item.username}}</view>
 			<view style="display: inline-block;">
@@ -22,6 +22,14 @@
 		props:{
 			item:Object,
 			index:Number
+		},
+		methods: {
+			//打开用户空间
+			openSpace(){
+				uni.navigateTo({
+					url: '/pages/user-space/user-space?userid='+this.item.id
+				})
+			},
 		}
 	}
 </script>

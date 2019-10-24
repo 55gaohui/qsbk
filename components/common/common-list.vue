@@ -1,7 +1,7 @@
 <template>
 	<view class="common-list u-f animated fadeInLeft fast">
 		<view class="common-list-l">
-			<image :src="item.userpic" mode="widthFix" lazy-load></image>
+			<image :src="item.userpic" @tap.stop="openSpace" mode="aspectFill" lazy-load></image>
 		</view>
 		<view class="common-list-r">
 			<view class="u-f-ac u-f-jsb">
@@ -110,6 +110,12 @@
 				this.$emit('changeevent',resData);
 				// 通知全局
 				return uni.$emit("updateData",resData);
+			},
+			//打开用户空间
+			openSpace(){
+				uni.navigateTo({
+					url: '/pages/user-space/user-space?userid='+this.item.userid
+				})
 			},
 			//跳转详情页
 			opendetail(){

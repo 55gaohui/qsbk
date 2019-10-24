@@ -70,19 +70,19 @@
 				list: [{
 						icon: "liulan",
 						name: "浏览历史",
-						clicktype: "",
-						url: ""
+						clicktype: "navigateTo",
+						url: "/pages/user-history/user-history"
 					},
 					{
 						icon: "huiyuanvip",
 						name: "糗百认证",
-						clicktype: "",
+						clicktype: "noThing",
 						url: ""
 					},
 					{
 						icon: "keyboard",
 						name: "审核糗事",
-						clicktype: "",
+						clicktype: "noThing",
 						url: ""
 					},
 				]

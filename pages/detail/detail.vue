@@ -123,6 +123,8 @@
 				obj.goodnum = obj.infonum.dingnum;
 				this.detail = obj;
 				this.comment.count = obj.commentnum;
+				//添加文章到浏览历史记录
+				this.User.addHistoryList(this.detail);
 				//获取文章详情
 				this.getdetail();
 				if(this.comment.count){

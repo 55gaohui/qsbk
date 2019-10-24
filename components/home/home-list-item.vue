@@ -51,6 +51,9 @@
 						if(this.User.userbind[this.item.provider]) return;
 						this.bindother();
 						break;
+					case "noThing":
+						uni.showToast({title: "功能更新中...",icon: 'none'})
+						break;
 				}
 
 			},

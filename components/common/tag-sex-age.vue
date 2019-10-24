@@ -1,5 +1,5 @@
 <template>
-	<view class="tag-sex icon iconfont" :class="[sex == 0 ? 'icon-nan' : 'icon-nv']">{{age}}</view>
+	<view class="tag-sex icon iconfont" :class="[sex == 1 ? 'icon-nan' : 'icon-nv']">{{age}}</view>
 </template>
 
 <script>

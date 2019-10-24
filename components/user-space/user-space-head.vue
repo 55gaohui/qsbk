@@ -2,12 +2,12 @@
 	<view class="user-space-head u-f-ajc">
 		<image :src="getBgImg" mode="widthFix" lazy-load @tap.stop="changBgImg()"></image>
 		<view class="user-space-head-info u-f-ajc u-f-column">
-			<image :src="userinfo.userpic" mode="widthFix" lazy-load></image>
+			<image :src="userinfo.userpic" mode="aspectFill" lazy-load></image>
 			<view class="user-space-margin u-f-ac">
 				{{userinfo.username}}
 				<tag-sex-age :age="userinfo.age" :sex="userinfo.sex"></tag-sex-age>
 			</view>
-			<view class="icon iconfont user-space-head-btn user-space-margin" :class="[isguanzhu ? 'active' : 'icon-zengjia']" @tap.stop="guanzhu">{{isguanzhu ? '已关注' : '关注'}}</view>
+			<view v-if="!userinfo.isme" class="icon iconfont user-space-head-btn user-space-margin" :class="getGuanzhu" @tap.stop="guanzhu">{{userinfo.isguanzhu ? '已关注' : '关注'}}</view>
 		</view>
 	</view>
 </template>
@@ -24,12 +24,15 @@
 		},
 		data(){
 			return{
-				isguanzhu: this.userinfo.isguanzhu
+
 			}
 		},
 		computed:{
 			getBgImg(){
 				return "../../static/bgimg/"+this.userinfo.bgimg+".jpg";
+			},
+			getGuanzhu(){
+				return this.userinfo.isguanzhu ? 'active' : 'icon-zengjia'
 			}
 		},
 		methods:{
@@ -40,8 +43,36 @@
 				this.userinfo.bgimg =no<4 ? ++no : 1;
 			},
 			// 关注
-			guanzhu(){
-				this.isguanzhu = !this.isguanzhu;
+			async guanzhu(){
+				try{
+					let url = this.userinfo.isguanzhu ? '/unfollow' : '/follow'
+					uni.showLoading({
+						title: 'loading...',
+						mask: false
+					});
+					let [err,res] = await this.$http.post(url,{
+						follow_id: this.userinfo.id
+					},{
+						token: true,
+						checkToken: true,
+						checkAuth: true
+					});
+					//错误处理
+					if(!this.$http.errorCheck(err,res)){
+						return uni.hideLoading();
+					}
+					//成功
+					uni.hideLoading();
+					uni.showToast({ 
+						title: this.userinfo.isguanzhu ? '取消关注成功' : '关注成功' ,
+					});
+					// 通知父组件修改状态
+					this.$emit('update',!this.userinfo.isguanzhu);
+				}catch(e){
+					//TODO handle the exception
+					return;
+				}
+				
 			}
 		}
 	}

@@ -305,6 +305,21 @@
 				"navigationBarTitleText":"意见反馈"
 			}
         }
+        ,{
+            "path" : "pages/user-history/user-history",
+            "style" : {
+				"navigationBarTitleText":"浏览历史",
+				"app-plus":{
+					"titleNView":{
+						"buttons": [
+							{
+								"type": "close"
+							}
+						]
+					}
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

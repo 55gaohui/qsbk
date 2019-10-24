@@ -17,9 +17,9 @@
 		},
 		methods:{
 			ToUserSpace(){
-				uni.navigateTo({
-					url: '../../pages/user-space/user-space'
-				});
+				this.User.navigate({
+					url: '../../pages/user-space/user-space?userid='+this.homeinfo.id,
+				})
 			}
 		}
 	}

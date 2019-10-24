@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-comment-list" :class="{'u-comment-list-child': (item.fid > 0)}">
 		<view class="uni-comment-face">
-			<image :src="item.userpic" mode="widthFix"></image>
+			<image :src="item.userpic" mode="widthFix" @tap.stop="openSpace" lazy-load></image>
 		</view>
 		<view class="uni-comment-body" @tap.stop="reply">
 			<view class="uni-comment-top">
@@ -23,6 +23,11 @@
 			index: Number
 		},
 		methods:{
+			openSpace(){
+				uni.navigateTo({
+					url: '/pages/user-space/user-space?userid='+this.item.userid
+				})
+			},
 			reply() {
 				this.$emit('reply',this.item.id);
 			},
