@@ -64,7 +64,46 @@ export default{
 	},
 	//发送信息
 	send(data){
-		
+		// 发送的格式
+		let senddata = this.__format(data,{type:'send'});
+		// 存储到chatdetail
+		this.__UpdateChatdetail(senddata);
+		// 存储到chatlist（将当前会话置顶，修改chatlist中当前会话的data和time显示）
+		this.__UpdateChatlist(senddata);
+		// 发送到服务器（交由页面去做）
+		return senddata;
+	},
+	//读取当前会话
+	Read(item){
+		/*
+		item的格式
+		{
+			userid:12,
+			userpic:"../../static/demo/userpic/12.jpg",
+			username:"昵称",
+			time:"10:21",
+			data:"我是信息",
+			noreadnum:2
+		}
+		*/
+		if(!item.noreadnum) return;
+		let chatlist = uni.getStorageSync('chatlist'+User.userinfo.id);
+		chatlist = chatlist ? JSON.parse(chatlist) : [];
+		//拿到当前会话索引
+		let index = chatlist.findIndex( (val) =>{
+			return val.userid == item.userid;
+		})
+		// 如果会话存在
+		if(index !== -1){
+			chatlist[index].noreadnum = 0;
+			// 存储
+			uni.setStorage({
+				key: 'chatlist'+User.userinfo.id,
+				data: JSON.stringify(chatlist)
+			})
+			// 更新tabbar的badge
+			this.__UpdateNoReadNum({type: 'read', num: oldnoreadnum});
+		}
 	},
 	//用户绑定
 	UserBind(client_id){
@@ -125,9 +164,45 @@ export default{
 				this.__UpdateNoReadNum({type: 'add'});
 			}
 		})
+	},	
+	//总未读数+1，修改tabbar信息数
+	__UpdateNoReadNum(option={}){
+		//获取总未读数
+		let noreadnum = uni.getStorageSync('noreadnum'+User.userinfo.id);
+		noreadnum = noreadnum || 0;
+		if(option.type == 'add'){
+			//总未读数+1
+			noreadnum++;
+			//响铃震动提示
+			this.__Notify();
+		}else{
+			noreadnum -= option.num;	// 读取信息减少
+		}
+		noreadnum = noreadnum > 0 ? noreadnum : 0;
+		//修改tabbar信息数
+		this.__UpdateTabbarBadge(noreadnum);
+		//储存
+		uni.setStorage({
+			key:'noreadnum'+User.userinfo.id,
+			data:noreadnum
+		})
+		
+	},
+	// 渲染到tabbar提示数
+	__UpdateTabbarBadge(num){
+		if(num && num > 0){
+			return uni.setTabBarBadge({
+				index: Config.TabbarIndex,
+				text: num > 99 ? '99+' : num.toString()
+			})
+		}
+		//如果num为零 移除tabber提示数
+		return uni.removeTabBarBadge({
+			index: Config.TabbarIndex
+		})
 	},
 	//更新聊天列表界面信息 更新chatlist（将当前会话置顶，修改chatlist中当前会话的data和time显示）
-	__UpdateChatlist(){
+	__UpdateChatlist(data){
 		/*
 		// 组织格式，本地存储
 		{
@@ -141,24 +216,118 @@ export default{
 		*/
 	   //获取旧数据
 		let chatlist = uni.getStorageSync('chatlist'+User.userinfo.id);
+		chatlist = chatlist ? JSON.parse(chatlist) : [];
+		// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
+		let index = chatlist.findIndex( (item) => {
+			return item.userid == res.to_id || item.userid == res.from_id
+		});
+		//不存在
+		if(index == -1){
+			let obj = this.__format(res,{type:'chatlist'});
+			//忽略本人发送
+			if(res.from_id !== User.userinfo.id){
+				obj.noreadnum = 1;
+			}
+			chalist.unshift(obj);
+		}else{
+			// 存在：将当前会话置顶,修改chatlist中当前会话的data和time显示
+			chatlist[index].data = res.data;
+			chatlist[index].type = res.type;
+			chatlist[index].time = res.time;
+			// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
+			if(res.from_id !== User.userinfo.id && this.CurrentToUser.userid !== chatlist[index].userid){
+				chatlist[index].noreadnum++;
+			}
+			//置顶当前会话
+			chatlist = this.__toFirst(chatlist,index);
+		}
+		//储存到本地存储
+		uni.setStorage({
+			key: 'chatlist'+User.userinfo.id,
+			data: JSON.stringify(chatlist)
+		})
 	},
 	//更新聊天内容信息  存储到chatdetail（我与某位用户的历史记录）
-	__UpdateChatdetail(res){
-	
+	__UpdateChatdetail(res,issend = false){
+		let userid = issend ? this.CurrentToUser.userid : res.from_id;
+		//旧数据（ chatdetail_[当前用户id]_[聊天对象id] ）
+		let list = uni.getStorageSync('chatdetail_'+User.userinfo.id+'_'+userid);
+		list = list ? JSON.parse(list) : [];
+		//追加
+		list.push(this.__format(res,{
+			type: 'chatdetail',
+			isme: issend,
+			olddata: list
+		}));\
+		//储存
+		uni.setStorage({
+			key:'chatdetail_'+User.userinfo.id+'_'+userid,
+			data: JSON.stringify(list)
+		})
 	},
 	//初始化tabbarbadge
 	initTabbarBadge(){
 		//获取总未读数
 		let noreadnum = uni.getStorageSync('noreadnum'+User.userinfo.id);
-		if(noreadnum > 0){
-			return uni.setTabBarBadge({
-				index: Config.TabbarIndex,
-				text: noreadnum > 99 ? '99+' : noreadnum.toString();
-			})
+		this.__UpdateNoReadNum(noreadnum);
+	}
+	//格式化数据
+	__format(data,option={}){
+		switch (option.type){
+			case 'chatlist':	// 新增会话用到
+				let obj = {
+					userid: data.from_id,
+					username: data.from_username,
+					userpic: data.from_userpic,
+					time: data.time,
+					data: data.data,
+					noreadnum: 0
+				}
+				//本人发送的信息
+				if(data.from_id == User.userinfo.id){
+					obj.userid = this.CurrentToUser.userid;
+					obj.username = this.CurrentToUser.username;
+					obj.userpic = this.CurrentToUser.userpic;
+				}
+				return obj;
+				break;
+			case 'chatdetail':
+				let oldlist = option.list;	//旧数据
+				let chattime: new Date().getTime();	//获取当前时间
+				let length = list.length;
+				return {
+					isme: option.isme,
+					userpic: option.isme ? User.userinfo.userpic : data.from_userpic,
+					type: data.type,
+					data: data.data,
+					time: chattime,
+					gstime: Time.gettime.getChatTime(chattime,(length > 0) ? list[length-1].time : 0);	//格式化时间		作用 获取聊天时间（相差300s内的信息不会显示时间）
+				};
+				break;
+			case 'send':
+				return {
+					to_id: this.CurrentToUser.userid,
+					from_id: User.userinfo.id,
+					from_username: User.userinfo.username,
+					from_userpic:User.userinfo.userpic,
+					type: data.type,
+					data: data.data,
+					time: new Date().getTime()
+				}
+				break;
 		}
-		return uni.removeTabBarBadge({
-			index: Config.TabbarIndex
-		})
+	},
+	// 数组置顶
+	__toFirst(arr,index){
+		//当index为0，已为置顶不需操作
+		if(index != 0){
+			arr.unshift(arr.splice(index,1)[0]);
+		}
+		return arr;
+	},
+	//消息提示音震动
+	__Notify(){
+		uni.vibrateLong();
 	}
 	
 }
