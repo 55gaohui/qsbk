@@ -21,7 +21,8 @@
     "pages/user-space/user-space",
     "pages/user-safe/user-safe",
     "pages/user-bind-phone/user-bind-phone",
-    "pages/user-feedback/user-feedback"
+    "pages/user-feedback/user-feedback",
+    "pages/user-history/user-history"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -68,6 +69,6 @@
     "autoclose": false
   },
   "appname": "仿糗事百科",
-  "compilerVersion": "2.3.3",
+  "compilerVersion": "2.3.7",
   "usingComponents": {}
 }

@@ -1,4 +1,5 @@
 import $http from "./request.js";
+import $chat from "./chat.js"
 export default {
 	// 用户token 测试token：4cd36bf70649475ac0cd6fae78250954474a4350
 	token:false,
@@ -17,6 +18,11 @@ export default {
 		this.userbind = uni.getStorageSync('userbind');
 		//更新用户信息
 		this.OnUserCounts();
+		//连接socket
+		console.log('1');
+		if(this.userinfo.id){
+			$chat.Open();
+		}
 	},
 	//权限验证跳转
 	navigate(options,type='navigateTo'){
@@ -61,7 +67,9 @@ export default {
 		// 获取用户相关统计
 		await this.getCounts();
 		// 连接socket
-		
+		if(this.userinfo.id){
+			$chat.Open();
+		}
 		// 成功提示
 		uni.hideLoading();
 		uni.showToast({ title: '登录成功' });
@@ -89,7 +97,7 @@ export default {
 		this.userbind = false;
 		this.counts = {};
 		//关闭socket
-		
+		$chat.Close();
 		//返回home页面
 		uni.switchTab({url: '/pages/home/home',});
 		//退出成功

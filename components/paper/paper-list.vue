@@ -7,8 +7,8 @@
 			</view>
 			<view class="u-f-ac u-f-jsb">
 				{{item.data}}
-				<template v-if="item.noreadnum>0">
-					<uni-badge :text="item.noreadnum" type="error" />
+				<template v-if="getItemNoreadnum > 0">
+					<uni-badge :text="getItemNoreadnum" type="error" />
 				</template>
 				
 			</view>
@@ -27,11 +27,23 @@
 			item: Object,
 			index: Number
 		},
+		computed:{
+			getItemNoreadnum() {
+				return this.item.noreadnum
+			}
+		},
 		methods: {
 			opendetail(){
-				uni.navigateTo({
-					url: '../user-chat/user-chat'
+				let obj = {
+					userid: this.item.userid,
+					username: this.item.username,
+					userpic: this.item.userpic
+				}
+				this.User.navigate({
+					url: '/pages/user-chat/user-chat?userinfo='+JSON.stringify(obj)
 				});
+				//更新未读状态
+				this.$chat.Read(this.item);
 			}
 		}
 	}

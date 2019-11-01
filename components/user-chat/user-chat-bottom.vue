@@ -1,6 +1,6 @@
 <template>
 	<view class="user-chat-bottom u-f-ac animated fadeInDown fast">
-		<input type="text" placeholder="文明发言" :focus="focus" @blur="blur" v-model="text" />
+		<input type="text" placeholder="文明发言" :focus="focus" v-model="text" @confirm="submit" />
 		<view class="icon iconfont icon-fabu u-f-ajc" @tap="submit"></view>
 	</view>
 </template>

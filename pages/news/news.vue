@@ -161,8 +161,6 @@
 				}
 				//成功
 				let arr = [];
-				console.log('1');
-				console.log(res);
 				let list = res.data.data.list;
 				for (let i = 0; i < list.length; i++) {
 					arr.push(this.__format(list[i]))

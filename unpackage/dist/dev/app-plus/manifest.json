@@ -11,7 +11,7 @@
     "code": "100"
   },
   "description": "",
-  "launch_path": "__uniapptabbar.html",
+  "launch_path": "__uniappview.html",
   "developer": {
     "name": "",
     "email": "",
@@ -25,7 +25,7 @@
   },
   "plus": {
     "useragent": {
-      "value": "uni-app appservice",
+      "value": "uni-app",
       "concatenate": true
     },
     "splashscreen": {
@@ -35,7 +35,11 @@
       "delay": 0
     },
     "popGesture": "close",
-    "launchwebview": {},
+    "launchwebview": {
+      "id": "1",
+      "kernel": "WKWebview",
+      "uni-app": "auto"
+    },
     "statusbar": {
       "immersed": "supportedDevice",
       "style": "dark",
@@ -87,18 +91,47 @@
       }
     },
     "uni-app": {
-      "compilerVersion": "2.3.3",
+      "compilerVersion": "2.3.7",
       "control": "v8",
       "nvueCompiler": "weex",
       "renderer": "auto"
     },
-    "secondwebview": {
-      "id": "1",
-      "launch_path": "__uniappview.html",
-      "kernel": "WKWebview",
-      "mode": "child",
-      "top": 0,
-      "bottom": 56
+    "tabBar": {
+      "color": "#ADADAD",
+      "selectedColor": "#FEE42A",
+      "backgroundColor": "#FFFFFF",
+      "borderStyle": "rgba(0,0,0,0.4)",
+      "list": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "糗事",
+          "iconPath": "static/tabbar/index.png",
+          "selectedIconPath": "static/tabbar/indexed.png"
+        },
+        {
+          "pagePath": "pages/news/news",
+          "text": "动态",
+          "iconPath": "static/tabbar/news.png",
+          "selectedIconPath": "static/tabbar/newsed.png"
+        },
+        {
+          "pagePath": "pages/paper/paper",
+          "text": "小纸条",
+          "iconPath": "static/tabbar/paper.png",
+          "selectedIconPath": "static/tabbar/papered.png"
+        },
+        {
+          "pagePath": "pages/home/home",
+          "text": "我的",
+          "iconPath": "static/tabbar/home.png",
+          "selectedIconPath": "static/tabbar/homeed.png"
+        }
+      ],
+      "height": "50px",
+      "child": [
+        "lauchwebview"
+      ],
+      "selected": 0
     }
   }
 }

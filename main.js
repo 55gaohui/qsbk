@@ -17,6 +17,10 @@ Vue.prototype.User = User
 import request from "./common/request.js"
 Vue.prototype.$http = request
 
+//聊天信息模块
+import chat from "./common/chat.js"
+Vue.prototype.$chat = chat
+
 App.mpType = 'app'
 
 const app = new Vue({

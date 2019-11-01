@@ -7,10 +7,20 @@
 		:show="show"
 		></paper-left-popup>
 		<!-- 小纸条列表 -->
-		<block v-for="(item, index) in list" :key="index">
-			<paper-list :item="item" :index="index"></paper-list>
-		</block>
-		<load-more :loadtext="loadtext" />
+		<template v-if="list.length > 0">
+			<block v-for="(item, index) in list" :key="index">
+				<paper-list :item="item" :index="index"></paper-list>
+			</block>
+		</template>
+		<template v-else-if="!firstload">
+			<view style="font-size: 50upx;font-weight: bold;color: #CCCCCC;
+			padding-top: 100upx;" class="u-f-ajc">Loading ...</view>
+		</template>
+		<template v-else>
+			<!-- 无内容默认 -->
+			<no-thing></no-thing>
+		</template>
+		
 	</view>
 </template>
 
@@ -18,113 +28,32 @@
 	import paperList from "../../components/paper/paper-list.vue"
 	import loadMore from "../../components/common/load-more.vue"
 	import paperLeftPopup from "../../components/paper/paper-left-popup.vue";
+	import noThing from "../../components/common/no-thing.vue"
+	import Time from "../../common/time.js"
 	export default {
 		name: "paper",
 		components: {
 			paperList,
 			loadMore,
-			paperLeftPopup
+			paperLeftPopup,
+			noThing
 		},
 		data() {
 			return {
-				loadtext: "上拉加载更多",
+				firstload: false,
 				show: false,
-				list: [{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 2
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 0
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 0
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 11
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 2
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 0
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 0
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 11
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 0
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 11
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 0
-					},
-					{
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称",
-						time: "10:21",
-						data: "我是信息",
-						noreadnum: 11
-					}
-				]
+				list: []
 			}
 		},
 		//上拉加载
-		onPullDownRefresh() {
-			//获取数据
-			this.getdata();
-		},
+		// onPullDownRefresh() {
+		// 	//获取数据
+		// 	this.getdata();
+		// },
 		//上拉触底事件
-		onReachBottom() {
-			this.loadmore();
-		},
+		// onReachBottom() {
+			
+		// },
 		onNavigationBarButtonTap(e) {
 			switch (e.index) {
 				case 0:
@@ -140,71 +69,50 @@
 					break;
 			}
 		},
-		methods: {
-			getdata() {
-				setTimeout(() => {
-					let arr = [{
-							userpic: "../../static/demo/userpic/12.jpg",
-							username: "昵称11",
-							time: "10:21",
-							data: "我是下拉刷新信息",
-							noreadnum: 62
-						},
-						{
-							userpic: "../../static/demo/userpic/12.jpg",
-							username: "昵称",
-							time: "10:21",
-							data: "我是下拉刷新信息",
-							noreadnum: 2
-						},
-						{
-							userpic: "../../static/demo/userpic/12.jpg",
-							username: "昵称",
-							time: "10:21",
-							data: "我是下拉刷新信息",
-							noreadnum: 0
-						},
-						{
-							userpic: "../../static/demo/userpic/12.jpg",
-							username: "昵称",
-							time: "10:21",
-							data: "我是下拉刷新信息",
-							noreadnum: 0
-						},
-						{
-							userpic: "../../static/demo/userpic/12.jpg",
-							username: "昵称",
-							time: "10:21",
-							data: "我是信息",
-							noreadnum: 11
-						}
-					];
-					this.list = arr;
-					uni.stopPullDownRefresh();
-				}, 2000)
-			},
-			loadmore() {
-				//如果当前状态是还在加载中，或没有更多数据，直接返回
-				if (this.loadtext != "上拉加载更多") {
+		onLoad(){
+			uni.$on('UserChat',(data)=>{
+				let index = this.list.findIndex((val) => {
+					return val.userid = data.from_id
+				})
+				//会话存在
+				if(index !== -1){
+					this.list[index].data = data.data;
+					this.list[index].time = Time.gettime.gettime(data.time);
+					this.list[index].noreadnum++;
+					//置顶
+					this.list = this.$chat.__toFirst(this.list,index);
 					return;
 				}
-				//修改状态
-				this.loadtext = "加载中";
-				//获取数据
-				setTimeout(() => {
-					//获取完成
-					let obj = {
-						userpic: "../../static/demo/userpic/12.jpg",
-						username: "昵称ss",
-						time: "10:21",
-						data: "我是信息ssss",
-						noreadnum: 0
-					};
-					this.list.push(obj);
-					this.loadtext = "上拉加载更多";
-				}, 2000);
-				//如果没有数据显示
-				// this.loadtext = "没有更多数据";
+				//追加
+				let obj = this.$chat.__format(data,{type: 'chatlist'});
+				//格式化时间
+				obj.time = Time.gettime.gettime(obj.time);
+				obj.noreadnum = 1;
+				this.list.unshift(obj);
+			})
+		},
+		onShow() {
+			this.getdata();
+		},
+		methods: {
+			// 获取数据
+			getdata() {
+				try{
+					let userid = this.User.userinfo.id;
+					if(!userid){
+						return this.firstload = true;
+					}
+					let list = uni.getStorageSync('chatlist'+this.User.userinfo.id);
+					list = list ? JSON.parse(list) : [];
+					for (let i = 0; i < list.length; i++) {
+						list[i].time = Time.gettime.gettime(list[i].time);
+					}
+					this.list = list;
+					this.firstload = true;
+				}catch(e){
+					return e;
+				}
+				
 			},
 			showpopup() {
 				this.show = true;

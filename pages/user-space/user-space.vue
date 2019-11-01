@@ -253,7 +253,10 @@
 				};
 				this.User.navigate({
 					url: '/pages/user-chat/user-chat?userinfo='+JSON.stringify(obj)
-				})
+				});
+				this.togleShow();
+				//更新未读信息
+				this.$chat.Read(this.userinfo);
 			},
 			loadmore() {
 				//如果当前状态是还在加载中，或没有更多数据，直接返回

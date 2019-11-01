@@ -5,10 +5,10 @@
  *  时间类库     import Time from "/common/time.js";
  *  接口请求库     import $http from "/common/request.js"
  */
-import Time from "/common/time.js"
-import $http from "/common/request.js"
-import User from "/common/user.js"
-import Config from "/common/config.js"
+import Time from "./time.js"
+import $http from "./request.js"
+import User from "./user.js"
+import Config from "./config.js"
 
 export default{
 	//socket 地址
@@ -31,7 +31,7 @@ export default{
 		if(this.IsOpen) return;	// 防止重复连接
 		//连接
 		this.SocketTask = uni.connectSocket({
-			url: url,
+			url: this.url,
 			complete: (e)=>{}
 		});
 		if(!this.SocketTask) return;
@@ -65,9 +65,10 @@ export default{
 	//发送信息
 	send(data){
 		// 发送的格式
+		console.log('1');
 		let senddata = this.__format(data,{type:'send'});
 		// 存储到chatdetail
-		this.__UpdateChatdetail(senddata);
+		this.__UpdateChatdetail(senddata,true);
 		// 存储到chatlist（将当前会话置顶，修改chatlist中当前会话的data和time显示）
 		this.__UpdateChatlist(senddata);
 		// 发送到服务器（交由页面去做）
@@ -93,6 +94,7 @@ export default{
 		let index = chatlist.findIndex( (val) =>{
 			return val.userid == item.userid;
 		})
+		let oldnoreadnum = chatlist[index].noreadnum;
 		// 如果会话存在
 		if(index !== -1){
 			chatlist[index].noreadnum = 0;
@@ -202,7 +204,7 @@ export default{
 		})
 	},
 	//更新聊天列表界面信息 更新chatlist（将当前会话置顶，修改chatlist中当前会话的data和time显示）
-	__UpdateChatlist(data){
+	__UpdateChatlist(res){
 		/*
 		// 组织格式，本地存储
 		{
@@ -228,7 +230,7 @@ export default{
 			if(res.from_id !== User.userinfo.id){
 				obj.noreadnum = 1;
 			}
-			chalist.unshift(obj);
+			chatlist.unshift(obj);
 		}else{
 			// 存在：将当前会话置顶,修改chatlist中当前会话的data和time显示
 			chatlist[index].data = res.data;
@@ -258,7 +260,7 @@ export default{
 			type: 'chatdetail',
 			isme: issend,
 			olddata: list
-		}));\
+		}));
 		//储存
 		uni.setStorage({
 			key:'chatdetail_'+User.userinfo.id+'_'+userid,
@@ -270,7 +272,7 @@ export default{
 		//获取总未读数
 		let noreadnum = uni.getStorageSync('noreadnum'+User.userinfo.id);
 		this.__UpdateNoReadNum(noreadnum);
-	}
+	},
 	//格式化数据
 	__format(data,option={}){
 		switch (option.type){
@@ -292,16 +294,16 @@ export default{
 				return obj;
 				break;
 			case 'chatdetail':
-				let oldlist = option.list;	//旧数据
-				let chattime: new Date().getTime();	//获取当前时间
-				let length = list.length;
+				let list = option.oldlist;	//旧数据
+				let chattime = new Date().getTime();	//获取当前时间
+				let length = list ? list.length : 0;
 				return {
 					isme: option.isme,
 					userpic: option.isme ? User.userinfo.userpic : data.from_userpic,
 					type: data.type,
 					data: data.data,
 					time: chattime,
-					gstime: Time.gettime.getChatTime(chattime,(length > 0) ? list[length-1].time : 0);	//格式化时间		作用 获取聊天时间（相差300s内的信息不会显示时间）
+					gstime: Time.gettime.getChatTime(chattime,(length > 0) ? list[length-1].time : 0) 	//格式化时间		作用 获取聊天时间（相差300s内的信息不会显示时间）
 				};
 				break;
 			case 'send':
