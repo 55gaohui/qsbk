@@ -1,29 +1,26 @@
 <template>
-	<view>
+	<view class="uni-tab-bar">
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" />
-		<view class="uni-tab-bar">
-			<swiper class="swiper-box" :current="tabIndex" :style="{height: swiperheight+'px'}" @change="tabChange">
-				<swiper-item v-for="(items, index) in newslist" :key="index">
-					<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
-						<template v-if="items.lists.length>0">
-							<!-- 图片列表 -->
-							<block v-for="(item,index1) in items.lists" :key="index1">
-								<index-list :item="item" :index="index1" @changeevent="updateData"></index-list>
-							</block>
-							<!-- 上拉加载 -->
-							<loadMore :loadtext="items.loadtext" />
-						</template>
-						<template v-else-if="!items.firstload">
-							<view style="font-size: 50upx; font-weight: bold; color: #CCCCCC; padding-top: 100upx;" class="u-f-ajc">Loading ...</view>
-						</template>
-						<template v-else>
-							<no-thing />
-						</template>
-					</scroll-view>
-				</swiper-item>
-			</swiper>
-		</view>
-
+		<swiper class="swiper-box" :current="tabIndex" @change="tabChange">
+			<swiper-item v-for="(items, index) in newslist" :key="index">
+				<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
+					<template v-if="items.lists.length>0">
+						<!-- 图片列表 -->
+						<block v-for="(item,index1) in items.lists" :key="index1">
+							<index-list :item="item" :index="index1" @changeevent="updateData"></index-list>
+						</block>
+						<!-- 上拉加载 -->
+						<loadMore :loadtext="items.loadtext" />
+					</template>
+					<template v-else-if="!items.firstload">
+						<view style="font-size: 50upx; font-weight: bold; color: #CCCCCC; padding-top: 100upx;" class="u-f-ajc">Loading ...</view>
+					</template>
+					<template v-else>
+						<no-thing />
+					</template>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
 	</view>
 </template>
 
@@ -43,7 +40,6 @@
 		data() {
 			return {
 				tabIndex: 0,
-				swiperheight: 500,
 				currentIndex: 0,
 				tabBars: [],
 				newslist: []
@@ -53,12 +49,6 @@
 			this.getNav();
 			// 开启监听
 			uni.$on('updateData',this.updateData);
-			uni.getSystemInfo({
-				success: (res) => {
-					let height = res.windowHeight - uni.upx2px(100);
-					this.swiperheight = height;
-				}
-			})
 		},
 		//监听搜索框点击事件
 		onNavigationBarSearchInputClicked() {

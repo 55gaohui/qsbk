@@ -93,12 +93,12 @@
 				try{
 					let list = uni.getStorageSync('chatdetail_'+this.User.userinfo.id+'_'+this.$chat.CurrentToUser.userid);
 					list = list ? JSON.parse(list) : [];
-					// for (let i = 0; i < list.length; i++) {
-					// 	list[i].gstime = time.gettime.getChatTime(list[i].time, i > 0 ? list[i - 1].time : 0);
-					// }
+					for (let i = 0; i < list.length; i++) {
+						list[i].gstime = time.gettime.getChatTime(list[i].time, i > 0 ? list[i - 1].time : 0);
+					}
 					// 首次加载十条
 					if(!isall && list.length>10){
-						return this.list = list.splice(0,10);
+						return this.list = list.splice(-10);
 					}
 					// 加载剩下的数据
 					this.list = list;
@@ -124,6 +124,11 @@
 					});
 				}
 				this.list.push(this.$chat.__format(result,{
+					type:"chatdetail", // 转化类型
+					olddata:this.list,
+					isme:true
+				}));
+				console.log(this.$chat.__format(result,{
 					type:"chatdetail", // 转化类型
 					olddata:this.list,
 					isme:true

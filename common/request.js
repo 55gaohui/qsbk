@@ -85,7 +85,7 @@ export default {
 		if(checkAuth && !User.userinfo.phone){
 			uni.showToast({title: '请先绑定手机号',icon: 'none'})
 			uni.navigateTo({
-				url: '/pages/user-safe/user-safe'
+				url: '/pages/user-bind-phone/user-bind-phone'
 			});
 			return false;
 		}

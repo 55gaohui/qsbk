@@ -129,7 +129,7 @@
 		},
 		onNavigationBarButtonTap(e) {
 			if (e.index == 0) {
-				this.User.navigate({
+				uni.navigateTo({
 					url: '../user-set/user-set',
 				})
 			}

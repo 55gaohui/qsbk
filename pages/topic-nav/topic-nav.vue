@@ -1,30 +1,28 @@
 <template>
-	<view>
+	<view class="uni-tab-bar">
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" />
-		<view class="uni-tab-bar">
-			<swiper class="swiper-box" :current="tabIndex" :style="{height: swiperheight+'px'}" @change="tabChange">
-				<swiper-item v-for="(items, index) in newslist" :key="index">
-					<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
-						<template v-if="items.lists.length>0">
-							<!-- 话题列表 -->
-							<view class="topic-view">
-								<block v-for="(item,index1) in items.lists" :key="index1">
-									<topic-list :ischange="ischange" :item="item" :index="index1"></topic-list>
-								</block>
-							</view>
-							<!-- 上拉加载 -->
-							<loadMore :loadtext="items.loadtext" />
-						</template>
-						<template v-else-if="!items.firstload">
-							<view style="font-size: 50upx; font-weight: bold; color: #CCCCCC; padding-top: 100upx;" class="u-f-ajc">Loading ...</view>
-						</template>
-						<template v-else>
-							<no-thing />
-						</template>
-					</scroll-view>
-				</swiper-item>
-			</swiper>
-		</view>
+		<swiper class="swiper-box" :current="tabIndex" @change="tabChange">
+			<swiper-item v-for="(items, index) in newslist" :key="index">
+				<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
+					<template v-if="items.lists.length>0">
+						<!-- 话题列表 -->
+						<view class="topic-view">
+							<block v-for="(item,index1) in items.lists" :key="index1">
+								<topic-list :ischange="ischange" :item="item" :index="index1"></topic-list>
+							</block>
+						</view>
+						<!-- 上拉加载 -->
+						<loadMore :loadtext="items.loadtext" />
+					</template>
+					<template v-else-if="!items.firstload">
+						<view style="font-size: 50upx; font-weight: bold; color: #CCCCCC; padding-top: 100upx;" class="u-f-ajc">Loading ...</view>
+					</template>
+					<template v-else>
+						<no-thing />
+					</template>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
 	</view>
 </template>
 
@@ -45,7 +43,6 @@
 			return {
 				ischange: false,
 				tabIndex: 0,
-				swiperheight: 500,
 				tabBars: [],
 				newslist: []
 			}
@@ -58,12 +55,6 @@
 					title:"选择所属话题"
 				})
 			}
-			uni.getSystemInfo({
-				success: (res) => {
-					let height = res.windowHeight - uni.upx2px(100);
-					this.swiperheight = height;
-				}
-			})
 			this.getNav();
 			
 		},

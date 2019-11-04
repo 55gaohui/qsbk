@@ -17,12 +17,12 @@
 		data() {
 			return {
 				list:[
-					{ icon:"",name:"账号与安全",clicktype:"navigateTo",url:"../../pages/user-safe/user-safe" },
-					{ icon:"",name:"资料编辑",clicktype:"navigateTo",url:"../../pages/user-set-userinfo/user-set-userinfo" },
-					{ icon:"",name:"小纸条",clicktype:"",url:"" },
+					{ icon:"",name:"账号与安全",clicktype:"navigateTo",url:"../../pages/user-safe/user-safe",auth:true},
+					{ icon:"",name:"资料编辑",clicktype:"navigateTo",url:"../../pages/user-set-userinfo/user-set-userinfo",auth:true},
+					// { icon:"",name:"小纸条",clicktype:"",url:""},
 					{ icon:"",name:"清除缓存",clicktype:"clear",url:"" },
-					{ icon:"",name:"意见反馈",clicktype:"navigateTo",url:"../../pages/user-set-help/user-set-help" },
-					{ icon:"",name:"关于糗百",clicktype:"navigateTo",url:"../../pages/user-set-about/user-set-about" },
+					{ icon:"",name:"意见反馈",clicktype:"navigateTo",url:"../../pages/user-set-help/user-set-help",auth:true},
+					{ icon:"",name:"关于糗百",clicktype:"navigateTo",url:"../../pages/user-set-about/user-set-about",auth:false},
 				]
 			}
 		},

@@ -20,9 +20,11 @@
 				switch (this.item.clicktype) {
 					case "navigateTo":
 						if (this.item.url) {
-							uni.navigateTo({
-								url: this.item.url
-							})
+							let option = {url: this.item.url};
+							if(this.item.auth){
+								return this.User.navigate(option)
+							}
+							uni.navigateTo(option);
 						}
 						break;
 					case "switchTab":

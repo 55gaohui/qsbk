@@ -26,4 +26,12 @@
 	@import './common/animate.css';
 	/*引入flex公共样式库*/
 	@import './common/common.css';
+	
+	page {
+		background: #FFFFFF;
+		height: 100%;
+	}
+	::-webkit-scrollbar{
+		display: none;
+	}
 </style>

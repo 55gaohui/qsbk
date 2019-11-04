@@ -46,10 +46,10 @@
 			}
 		},
 		//上拉加载
-		// onPullDownRefresh() {
-		// 	//获取数据
-		// 	this.getdata();
-		// },
+		onPullDownRefresh() {
+			//获取数据
+			this.getdata();
+		},
 		//上拉触底事件
 		// onReachBottom() {
 			
@@ -100,7 +100,8 @@
 				try{
 					let userid = this.User.userinfo.id;
 					if(!userid){
-						return this.firstload = true;
+						this.firstload = true;
+						return uni.stopPullDownRefresh();
 					}
 					let list = uni.getStorageSync('chatlist'+this.User.userinfo.id);
 					list = list ? JSON.parse(list) : [];
@@ -110,8 +111,9 @@
 					this.list = list;
 					this.firstload = true;
 				}catch(e){
-					return e;
+					return uni.stopPullDownRefresh();
 				}
+				uni.stopPullDownRefresh();
 				
 			},
 			showpopup() {
@@ -121,10 +123,22 @@
 				this.show = false;
 			},
 			addfriend() {
-				this.show = false;
+				this.User.navigate({
+					url: '../search/search?searchType=user',
+				})
+				this.hidepopup();
 			},
 			clear() {
-				this.show = false;
+				if(this.User.userinfo.id){
+					uni.removeStorageSync('noreadnum'+this.User.userinfo.id);
+					uni.removeStorageSync('chatlist'+this.User.userinfo.id);
+					this.$chat.initTabbarBadge();
+					this.getdata();
+					uni.showToast({
+						title: '清除成功'
+					})
+				}
+				this.hidepopup();
 			}
 		}
 	}

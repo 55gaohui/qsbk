@@ -4924,4 +4924,8 @@ to {
 	    -ms-flex-direction: column;
 	        flex-direction: column;
 }
+page {
+	background: #FFFFFF;
+	height: 100%;
+}
 

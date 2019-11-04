@@ -1,11 +1,11 @@
 <template>
-	<view>
+	<view class="uni-tab-bar body">
 		<!-- tab切换 -->
 		<swiper-tab-head :tabBars="tabbars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33%;" scrollStyle="border-bottom:0;">
 		</swiper-tab-head>
 
-		<view class="uni-tab-bar">
-			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
+		<view>
+			<swiper class="swiper-box" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
 					<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
 						<template v-if="items.lists.length>0">
@@ -43,7 +43,6 @@
 		data() {
 			return {
 				tabIndex: 0,
-				swiperheight: 500,
 				tabbars: [
 					{ name: "互关", id: "huguan", num: 10 },
 					{ name: "关注", id: "guanzhu", num: 10 },
@@ -157,14 +156,6 @@
 					delta: 1
 				});
 			}
-		},
-		onLoad() {
-			uni.getSystemInfo({
-				success: (res) => {
-					let height = res.windowHeight - uni.upx2px(100);
-					this.swiperheight = height;
-				}
-			})
 		},
 	}
 </script>

@@ -1,3 +1,4 @@
+import $http from "./request.js"
 // 网络监听
 const NetWork = {
 	// 网络状态
@@ -31,36 +32,61 @@ const NetWork = {
 }
 
 // app更新
-const Update = function() {
+const Update = function(showToast = false) {
 	// #ifdef APP-PLUS  
 	plus.runtime.getProperty(plus.runtime.appid, function(widgetInfo) {
-		uni.request({
-			url: 'http://www.example.com/update/',
-			data: {
-				version: widgetInfo.version,
-				name: widgetInfo.name
-			},
-			success: (result) => {
-				var data = result.data;
-				if (data.update && data.wgtUrl) {
-					uni.downloadFile({
-						url: data.wgtUrl,
-						success: (downloadResult) => {
-							if (downloadResult.statusCode === 200) {
-								plus.runtime.install(downloadResult.tempFilePath, {
-									force: false
-								}, function() {
-									console.log('install success...');
-									plus.runtime.restart();
-								}, function(e) {
-									console.error('install fail...');
-								});
-							}
-						}
-					});
+		/*	
+		{
+			"msg": "ok",
+			"data": {
+				"id": 1,
+				"url": "http://www.baidu.com",
+				"version": "1.0.1",
+				"status": 1,
+				"create_time": null
+			}
+		}
+		*/
+		$http.post('/update',{
+			ver: widgetInfo.version, 
+		}).then((res) =>{
+			let [err,result] = res;
+			//错误处理
+			if(!$http.errorCheck(err,result)) return;
+			// 成功
+			let data = result.data.data;
+			if(!data.url){
+				//无需更新
+				if(showToast){
+					return uni.showToast({title:'已是最新版本',icon:'none'});
 				}
 			}
-		});
+			uni.showModal({
+				title: '发现新的版本',
+				cancelText: '放弃更新',
+				confirmText: '立即更新',
+				success: res => {
+					if(res.confirm){
+						uni.downloadFile({
+							url: data.wgtUrl,
+							success: (downloadResult) => {
+								if (downloadResult.statusCode === 200) {
+									plus.runtime.install(downloadResult.tempFilePath, {
+										force: false
+									}, function() {
+										console.log('install success...');
+										plus.runtime.restart();
+									}, function(e) {
+										console.error('install fail...');
+									});
+								}
+							}
+						});
+					}
+				}
+			})
+			
+		})
 	});
 	// #endif  
 }

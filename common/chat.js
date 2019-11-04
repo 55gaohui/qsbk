@@ -38,7 +38,7 @@ export default{
 		//监听开启
 		this.SocketTask.onOpen(()=>{
 			// 将连接状态设为已连接
-			this.IsOnline = true;
+			this.IsOpen = true;
 		});
 		//监听信息
 		this.Message();
@@ -55,6 +55,7 @@ export default{
 	},
 	//关闭连接
 	Close(){
+		console.log(this.IsOpen);
 		if(this.IsOpen){
 			this.SocketTask.close();
 			return uni.removeTabBarBadge({
@@ -138,8 +139,49 @@ export default{
 		this.SocketTask.close();
 	},
 	//接收未读信息
-	getChatMessages(){
-		
+	async getChatMessages(){
+		// $http.post('/chat/get',{},{
+		// 	token:true,
+		// }).then((data)=>{
+		// 	let [err,res] = data;
+		// 	if (!err && res && res.statusCode === 200 && res.data.data.length > 0) {
+		// 		for (let i = 0; i < res.data.data.length; i++) {
+		// 			let msg = res.data.data[i];
+		// 			// 全局通知接口
+		// 			uni.$emit('UserChat',msg);
+		// 			// 存储到chatdetail
+		// 			this.__UpdateChatdetail(msg);
+		// 			// 更新chatlist（将当前会话置顶，修改chatlist中当前会话的data和time显示）
+		// 			this.__UpdateChatlist(msg);
+		// 			// 总未读数+1，修改tabbar信息数
+		// 			if (this.CurrentToUser.userid !== msg.from_id) {
+		// 				this.__UpdateNoReadNum({ type:"add" });
+		// 			}
+		// 		}
+		// 	}
+		// });
+		let [err,res] = await $http.post('/chat/get',{},{
+			token:true
+		});
+		//错误处理
+		if(!$http.errorCheck(err,res)) return;
+		//成功
+		if(res.statusCode === 200 && res.data.data.length > 0){
+			console.log('10');
+			for (let i = 0; i < res.data.data.length; i++) {
+				let msg = res.data.data[i];
+				//全局通知接口
+				uni.$emit('UserChat',msg);
+				//储存到chatdetail
+				this.__UpdateChatdetail(msg);
+				//更新到chatlist
+				this.__UpdateChatlist(msg);
+				//总未读数+1，修改tabbar信息署  （当前不在聊天界面，CurrentToUser.userid=0）
+				if(this.CurrentToUser.userid !== msg.from_id){
+					this.__UpdateNoReadNum({type: 'add'});
+				}
+			}
+		}
 	},
 	// 监听服务器的消息事件
 	Message(){
@@ -275,6 +317,7 @@ export default{
 	},
 	//格式化数据
 	__format(data,option={}){
+		console.log('1');
 		switch (option.type){
 			case 'chatlist':	// 新增会话用到
 				let obj = {
@@ -294,7 +337,7 @@ export default{
 				return obj;
 				break;
 			case 'chatdetail':
-				let list = option.oldlist;	//旧数据
+				let list = option.olddata;	//旧数据
 				let chattime = new Date().getTime();	//获取当前时间
 				let length = list ? list.length : 0;
 				return {
