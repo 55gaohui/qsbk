@@ -1,11 +1,11 @@
 
-.home-data.data-v-145493ca {
+.home-data.data-v-c73f8f34 {
 	padding: 20rpx 40rpx;
 }
-.home-data>view.data-v-145493ca {
+.home-data>view.data-v-c73f8f34 {
 	color: #989898;
 }
-.home-data>view>view.data-v-145493ca {
+.home-data>view>view.data-v-c73f8f34 {
 	font-size: 32rpx;
 	color: #333333;
 }

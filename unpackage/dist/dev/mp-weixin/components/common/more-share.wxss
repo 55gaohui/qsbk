@@ -250,7 +250,7 @@
 
 
 /* 分享 */
-.more-share-model.data-v-4038474e {
+.more-share-model.data-v-ba66bb86 {
 	background: rgba(51, 51, 51, 0.49);
 	position: fixed;
 	top: 0;
@@ -259,7 +259,7 @@
 	bottom: 0;
 	z-index: 100;
 }
-.more-share.data-v-4038474e {
+.more-share.data-v-ba66bb86 {
 	position: fixed;
 	z-index: 110;
 	bottom: 0;
@@ -267,12 +267,12 @@
 	right: 0;
 	background: #FFFFFF;
 }
-.more-share-title.data-v-4038474e,
-.more-share-bottom.data-v-4038474e {
+.more-share-title.data-v-ba66bb86,
+.more-share-bottom.data-v-ba66bb86 {
 	font-size: 32rpx;
 	padding: 25rpx;
 }
-.more-share-body.data-v-4038474e {
+.more-share-body.data-v-ba66bb86 {
 	white-space: nowrap;
 	width: 100%;
 	height: 200rpx;
@@ -283,7 +283,7 @@
 	display: flex !important;
 	line-height: 200rpx !important;
 }
-.more-share-item.data-v-4038474e {
+.more-share-item.data-v-ba66bb86 {
 	width: 25%;
 	display: -webkit-inline-box;
 	display: -webkit-inline-flex;
@@ -304,29 +304,29 @@
 	        flex-direction: column;
 	height: 100%;
 }
-.more-share-item>view.data-v-4038474e:first-child {
+.more-share-item>view.data-v-ba66bb86:first-child {
 	width: 100rpx;
 	height: 100rpx;
 	border-radius: 100%;
 	font-size: 55rpx;
 	color: #FFFFFF;
 }
-.more-share-item>view.data-v-4038474e:last-child {
+.more-share-item>view.data-v-ba66bb86:last-child {
 	color: #7A7A7A;
 }
-.more-share-hover.data-v-4038474e {
+.more-share-hover.data-v-ba66bb86 {
 	background: #EEEEEE;
 }
-.more-share-wx.data-v-4038474e {
+.more-share-wx.data-v-ba66bb86 {
 	background: #2AD19B;
 }
-.more-share-pyq.data-v-4038474e {
+.more-share-pyq.data-v-ba66bb86 {
 	background: #514D4C;
 }
-.more-share-wb.data-v-4038474e {
+.more-share-wb.data-v-ba66bb86 {
 	background: #EE5E5E;
 }
-.more-share-qq.data-v-4038474e {
+.more-share-qq.data-v-ba66bb86 {
 	background: #4A73BA;
 }
 

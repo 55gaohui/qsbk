@@ -1,19 +1,19 @@
 
-.home-list-item.data-v-3419e21c {
+.home-list-item.data-v-dc7c2854 {
 	padding: 20rpx;
 	border-top: 1rpx solid #F4F4F4;
 	border-bottom: 1rpx solid #F4F4F4;
 }
-.home-list-item>view.data-v-3419e21c:first-child {
+.home-list-item>view.data-v-dc7c2854:first-child {
 	color: #333333;
 }
-.home-list-item>view:first-child>view.data-v-3419e21c {
+.home-list-item>view:first-child>view.data-v-dc7c2854 {
 	margin-right: 10rpx;
 }
-.home-list-item>view.data-v-3419e21c:last-child {
+.home-list-item>view.data-v-dc7c2854:last-child {
 	color: #CCCCCC;
 }
-.home-list-hover.data-v-3419e21c {
+.home-list-hover.data-v-dc7c2854 {
 	background: #f4f4f4;
 }
 

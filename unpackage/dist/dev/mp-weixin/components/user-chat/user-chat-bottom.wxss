@@ -1,5 +1,5 @@
 
-.user-chat-bottom.data-v-22945596 {
+.user-chat-bottom.data-v-06436fd1 {
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -9,7 +9,7 @@
 	background: #FFFFFF;
 	border-top: 1rpx solid #EEEEEE;
 }
-.user-chat-bottom>input.data-v-22945596 {
+.user-chat-bottom>input.data-v-06436fd1 {
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	    -ms-flex: 1;
@@ -19,7 +19,7 @@
 	border-radius: 10rpx;
 	background: #F7F7F7;
 }
-.user-chat-bottom>view.data-v-22945596 {
+.user-chat-bottom>view.data-v-06436fd1 {
 	width: 80rpx;
 	font-size: 45rpx;
 }

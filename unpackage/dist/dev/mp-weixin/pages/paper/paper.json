@@ -5,6 +5,7 @@
     "paper-list": "/components/paper/paper-list",
     "load-more": "/components/common/load-more",
     "paper-left-popup": "/components/paper/paper-left-popup",
-    "no-thing": "/components/common/no-thing"
+    "no-thing": "/components/common/no-thing",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
   }
 }

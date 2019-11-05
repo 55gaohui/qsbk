@@ -1,5 +1,22 @@
 <template>
 	<view class="uni-tab-bar">
+		<!-- 导航栏 -->
+		<!-- #ifdef MP-WEIXIN -->
+			<uni-nav-bar :shadow="false" :border="false" @click-left="clickLeft" @click-right="clickRight">
+				<!-- 左边图标 -->
+				<block slot="left">
+					<view class="iconfont icon-qiandao" style="font-size: 22px;color: #FF9619;margin-left: 20upx;"></view>
+				</block>
+				<!-- 中间搜索框 -->
+				<view style="display: flex;justify-content: center;align-items: center;border-radius: 4px;margin-left: -46upx;height: 60upx;margin-top: 12upx;color: #CCCCCC;background: #F7F7F7;" @tap="openSearch">
+					<view class="iconfont icon-sousuo" style="margin-right: 6upx;"></view>搜索糗事
+				</view>
+				<!-- 右边图标 -->
+				<block slot="right">
+					<view class="icon iconfont icon-bianji1" style="font-size: 22px;color: #000000;"></view>
+				</block>
+			</uni-nav-bar>
+		<!-- #endif -->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" />
 		<swiper class="swiper-box" :current="tabIndex" @change="tabChange">
 			<swiper-item v-for="(items, index) in newslist" :key="index">
@@ -29,13 +46,19 @@
 	import swiperTabHead from "../../components/index/swiper-tab-head.vue"
 	import loadMore from "../../components/common/load-more.vue"
 	import noThing from "../../components/common/no-thing.vue"
+	// #ifdef MP-WEIXIN
+	import uniNavBar from "../../components/uni-nav-bar/uni-nav-bar.vue"
+	// #endif
 	export default {
 		name: "index",
 		components: {
 			indexList,
 			swiperTabHead,
 			loadMore,
-			noThing
+			noThing,
+			// #ifdef MP-WEIXIN
+			uniNavBar
+			// #endif
 		},
 		data() {
 			return {
@@ -68,6 +91,22 @@
 			}
 		},
 		methods: {
+			// #ifndef APP-PLUS
+			clickLeft(){
+				console.log('左边事件');
+			},
+			clickRight(){
+				this.User.navigate({
+					url: '../add-input/add-input?postclass='+JSON.stringify(this.tabBars)
+				})
+			},
+			openSearch(){
+				uni.navigateTo({
+					url: "../search/search",
+				})
+			},
+			// #endif
+			
 			updateData(data){
 				switch (data.type){
 					case 'guanzhu':

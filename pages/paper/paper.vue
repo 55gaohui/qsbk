@@ -1,5 +1,18 @@
 <template>
 	<view>
+		<!-- 导航 -->
+		<!-- #ifdef MP-WEIXIN -->
+		<uni-nav-bar :shadow="false" :border="false" @click-left="clickLeft()" @click-right="clickRight()" title="小纸条">
+			<!-- 左边图标 -->
+			<block slot="left">
+				<view class="iconfont icon-user-detail" style="font-size: 22px;margin-left: 20upx;"></view>
+			</block>
+			<!-- 右边图标 -->
+			<block slot="right">
+				<view class="icon iconfont icon-zengjia" style="font-size: 22px;"></view>
+			</block>
+		</uni-nav-bar>
+		<!-- #endif -->
 		<paper-left-popup
 		@hidepopup="hidepopup" 
 		@addfriend="addfriend"
@@ -30,13 +43,19 @@
 	import paperLeftPopup from "../../components/paper/paper-left-popup.vue";
 	import noThing from "../../components/common/no-thing.vue"
 	import Time from "../../common/time.js"
+	// #ifdef MP-WEIXIN
+	import uniNavBar from "../../components/uni-nav-bar/uni-nav-bar.vue"
+	// #endif
 	export default {
 		name: "paper",
 		components: {
 			paperList,
 			loadMore,
 			paperLeftPopup,
-			noThing
+			noThing,
+			// #ifdef MP-WEIXIN
+			uniNavBar
+			// #endif
 		},
 		data() {
 			return {
@@ -95,6 +114,17 @@
 			this.getdata();
 		},
 		methods: {
+			// #ifdef MP-WEIXIN
+			clickLeft(){
+				this.User.navigate({
+					url: '../user-list/user-list'
+				});
+				this.hidepopup();
+			},
+			clickRight(){
+				this.showpopup();
+			},
+			// #endif
 			// 获取数据
 			getdata() {
 				try{

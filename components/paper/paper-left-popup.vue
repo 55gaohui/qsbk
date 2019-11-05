@@ -48,6 +48,9 @@
 		position: fixed;
 		right: 0;
 		top: 10upx;
+		/* #ifdef MP-WEIXIN */
+		top: 100upx;
+		/* #endif */
 		background: #FFFFFF;
 		z-index: 2000;
 		width: 55%;

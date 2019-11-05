@@ -1,7 +1,9 @@
 <template>
 	<view class="uni-navbar">
-		<view :class="{'uni-navbar--fixed': fixed,'uni-navbar--shadow':border,'uni-navbar--border':border}" :style="{'background-color':backgroundColor}" class="uni-navbar__content">
+		<view  style="z-index: 9999;" :class="{'uni-navbar--fixed': fixed,'uni-navbar--shadow':border,'uni-navbar--border':border}" :style="{'background-color':backgroundColor}" class="uni-navbar__content">
+			<!-- #ifdef APP-PLUS -->
 			<uni-status-bar v-if="statusBar" />
+			<!-- #endif -->
 			<view :style="{color:color}" class="uni-navbar__header">
 				<view class="uni-navbar__header-btns" @tap="onClickLeft">
 					<view v-if="leftIcon.length">
@@ -26,7 +28,9 @@
 			</view>
 		</view>
 		<view v-if="fixed" class="uni-navbar__placeholder">
+			<!-- #ifdef APP-PLUS -->
 			<uni-status-bar v-if="statusBar" />
+			<!-- #endif -->
 			<view class="uni-navbar__placeholder-view" />
 		</view>
 	</view>

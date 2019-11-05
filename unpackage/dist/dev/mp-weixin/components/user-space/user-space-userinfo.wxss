@@ -1,15 +1,15 @@
 
-.user-space-userinfo.data-v-1fa8edb9 {
+.user-space-userinfo.data-v-2b6fda55 {
 	padding: 0 30rpx;
 }
-.user-space-userinfo-item.data-v-1fa8edb9 {
+.user-space-userinfo-item.data-v-2b6fda55 {
 	padding: 20rpx 0;
 	border-bottom: 1rpx solid #EEEEEE;
 }
-.user-space-userinfo-item>view.data-v-1fa8edb9 {
+.user-space-userinfo-item>view.data-v-2b6fda55 {
 	color: #AAAAAA;
 }
-.user-space-userinfo-item>view.data-v-1fa8edb9:first-child {
+.user-space-userinfo-item>view.data-v-2b6fda55:first-child {
 	color: #333333;
 	font-size: 35rpx;
 	padding: 15rpx 0;

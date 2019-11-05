@@ -1,22 +1,22 @@
 
-.topic-news>view.data-v-1836b086:first-child{
+.topic-news>view.data-v-dcc0c12c:first-child{
 	padding-bottom: 5rpx;
 	font-size: 32rpx;
 }
-.topic-list.data-v-1836b086{
+.topic-list.data-v-dcc0c12c{
 	padding: 20rpx 0;
 	border-bottom: 1rpx solid #EEEEEE;
 }
-.topic-list image.data-v-1836b086{
+.topic-list image.data-v-dcc0c12c{
 	width: 150rpx;
 	height: 150rpx;
 	border-radius: 10rpx;
 	margin-right: 20rpx;
 }
-.topic-list>view>view.data-v-1836b086{
+.topic-list>view>view.data-v-dcc0c12c{
 	color: #A4A4A4;
 }
-.topic-list>view>view.data-v-1836b086:first-child{
+.topic-list>view>view.data-v-dcc0c12c:first-child{
 	font-size: 32rpx;
 	color: #333333;
 }
