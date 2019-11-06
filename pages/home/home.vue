@@ -85,6 +85,17 @@
 						clicktype: "noThing",
 						url: ""
 					},
+					// #ifdef MP-WEIXIN
+					{
+						icon: "shezhi",
+						name: "我的设置",
+						clicktype: "navigateTo",
+						url: "/pages/user-set/user-set",
+						auth: true,
+						NoCheck: true
+					},
+					// #endif
+					
 				]
 			}
 		},

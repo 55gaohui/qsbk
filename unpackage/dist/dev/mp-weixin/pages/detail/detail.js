@@ -200,6 +200,13 @@ var _time = _interopRequireDefault(__webpack_require__(/*! ../../common/time.js 
 
     }
   },
+  //微信小程序分享
+  onShareAppMessage: function onShareAppMessage(e) {
+    return {
+      title: this.detail.title,
+      path: '/pages/detail/detail?detailData=' + JSON.stringify(this.detail) };
+
+  },
   methods: {
     updateData: function updateData(data) {
       switch (data.type) {

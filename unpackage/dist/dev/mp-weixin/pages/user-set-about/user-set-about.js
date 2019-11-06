@@ -146,7 +146,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   data: function data() {
     return {
       list: [
-      { icon: "", name: "新版本检测", clicktype: "", url: "" },
+
+
+
       { icon: "", name: "仿糗事百科用户协议", clicktype: "", url: "" }] };
 
 

@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<!-- #ifdef MP-WEIXIN -->
+		<uni-nav-bar :shadow="false" :border="false" rightText="清除" title="浏览历史" @click-right="clickRight"></uni-nav-bar>
+		<!-- #endif -->
 		<template v-if="list.length > 0">
 			<uni-list>
 				<block v-for="(item,index) in list" :key="index">
@@ -22,11 +25,17 @@
 	import uniList from "../../components/uni-list/uni-list.vue"
 	import uniListItem from "../../components/uni-list-item/uni-list-item.vue"
 	import noThing from "../../components/common/no-thing.vue"
+	// #ifdef MP-WEIXIN
+	import uniNavBar from "../../components/uni-nav-bar/uni-nav-bar.vue"
+	// #endif
 	export default {
 		components:{
 			uniList,
 			uniListItem,
-			noThing
+			noThing,
+			// #ifdef MP-WEIXIN
+			uniNavBar
+			// #endif
 		},
 		data() {
 			return {
@@ -41,6 +50,11 @@
 			this.getList();
 		},
 		methods: {
+			// #ifdef MP-WEIXIN
+			clickRight(){
+				this.clear();
+			},
+			// #endif
 			getList(){
 				try{
 					let list = uni.getStorageSync('HistoryList_'+this.User.userinfo.id);

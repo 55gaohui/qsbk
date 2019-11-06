@@ -22,7 +22,9 @@
 		data() {
 			return {
 				list:[
+					// #ifdef APP-PLUS
 					{ icon:"",name:"新版本检测",clicktype:"",url:"" },
+					// #endif
 					{ icon:"",name:"仿糗事百科用户协议",clicktype:"",url:"" },
 				]
 			}

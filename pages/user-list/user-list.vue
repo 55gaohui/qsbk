@@ -1,9 +1,22 @@
 <template>
 	<view class="uni-tab-bar body">
+		<!-- 自定义导航 -->
+		<!-- #ifdef MP-WEIXIN -->
+		<uni-nav-bar :shadow="false" :border="false" @click-right="clickRight">
+			<!-- 搜索框 -->
+			<view style="display: flex;justify-content: center;align-items: center;border-radius: 4px;margin-left: -120upx;height: 60upx;margin-top: 12upx;color: #CCCCCC;background: #F7F7F7;" @tap="openSearch">
+				<view class="iconfont icon-sousuo" style="margin-right: 6upx;"></view>搜索用户
+			</view>
+			<!-- 右边按钮 -->
+			<block slot="right">
+				<view>取消</view>
+			</block>
+		</uni-nav-bar>
+		<!-- #endif -->
+		
 		<!-- tab切换 -->
 		<swiper-tab-head :tabBars="tabbars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33%;" scrollStyle="border-bottom:0;">
 		</swiper-tab-head>
-
 		<view>
 			<swiper class="swiper-box" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
@@ -32,13 +45,19 @@
 	import userListCom from "../../components/user-list/user-list-com.vue"
 	import loadMore from "../../components/common/load-more.vue";
 	import noThing from "../../components/common/no-thing.vue";
+	// #ifdef MP-WEIXIN
+	import uniNavBar from "../../components/uni-nav-bar/uni-nav-bar.vue"
+	// #endif
 	export default {
 		name: "user-list",
 		components: {
 			swiperTabHead,
 			userListCom,
 			loadMore,
-			noThing
+			noThing,
+			// #ifdef MP-WEIXIN
+			uniNavBar
+			// #endif
 		},
 		data() {
 			return {
@@ -71,6 +90,14 @@
 		},
 		onShow() {
 			this.__init();
+		},
+		// 监听导航按钮事件
+		onNavigationBarButtonTap(e) {
+			if(e.index==0){
+				uni.navigateBack({
+					delta: 1
+				});
+			}
 		},
 		onNavigationBarSearchInputClicked() {
 			uni.navigateTo({
@@ -149,6 +176,18 @@
 					isguanzhu:currentIndex !== 2 
 				}
 			},
+			// #ifdef MP-WEIXIN
+			openSearch(){
+				uni.navigateTo({
+					url: '../search/search?searchType=user'
+				})	
+			},
+			clickRight(){
+				uni.navigateBack({
+					delta: 1
+				});
+			}
+			// #endif
 		},
 		onNavigationBarButtonTap(e) {
 			if (e.index == 0) {

@@ -76,6 +76,13 @@
 				
 			}
 		},
+		//微信小程序分享
+		onShareAppMessage(e) {
+			return {
+				title: this.detail.title,
+				path: '/pages/detail/detail?detailData='+JSON.stringify(this.detail)
+			}
+		},
 		methods: {
 			updateData(data){
 				switch (data.type){

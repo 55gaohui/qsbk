@@ -135,7 +135,7 @@ var _default =
       this.$emit("addfriend");
     },
     clear: function clear() {
-      this.$emit("addfriend");
+      this.$emit("clear");
     } } };exports.default = _default;
 
 /***/ }),

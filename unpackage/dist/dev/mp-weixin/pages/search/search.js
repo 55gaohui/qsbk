@@ -152,6 +152,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   name: "search",
   components: {
@@ -189,6 +208,21 @@ __webpack_require__.r(__webpack_exports__);
       this.getlist();
     }
   },
+  computed: {
+
+    getPlaceholder: function getPlaceholder() {
+      var type = '文章';
+      if (this.searchType == 'post') {
+        type = '文章';
+      } else if (this.searchType == 'topic') {
+        type = '话题';
+      } else if (this.searchType == 'user') {
+        type = '用户';
+      }
+      return '搜索' + type;
+    } },
+
+
   onLoad: function onLoad(e) {
     if (!e) return;
     this.searchType = e.searchType || 'post';
@@ -356,6 +390,12 @@ __webpack_require__.r(__webpack_exports__);
       this.loadtext = "加载中";
       this.page++;
       this.getlist();
+
+    },
+
+    goBack: function goBack() {
+      uni.navigateBack({
+        delta: 1 });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

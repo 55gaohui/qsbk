@@ -207,7 +207,18 @@ __webpack_require__.r(__webpack_exports__);
         icon: "keyboard",
         name: "审核糗事",
         clicktype: "noThing",
-        url: "" }] };
+        url: "" },
+
+
+      {
+        icon: "shezhi",
+        name: "我的设置",
+        clicktype: "navigateTo",
+        url: "/pages/user-set/user-set",
+        auth: true,
+        NoCheck: true }] };
+
+
 
 
 

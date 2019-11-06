@@ -19,18 +19,20 @@ export default {
 		//更新用户信息
 		this.OnUserCounts();
 		//连接socket
-		console.log('1');
 		if(this.userinfo.id){
 			$chat.Open();
 		}
 	},
 	//权限验证跳转
-	navigate(options,type='navigateTo'){
+	navigate(options,NoCheck=false,type='navigateTo'){
 		//权限验证
 		// 验证用户是否登录
 		if(!$http.checkToken(true)) return;
-		// 验证用户操作权限（验证是否绑定手机号码）
-		if(!$http.checkAuth(true)) return;
+		//是否需要验证绑定手机
+		if(!NoCheck){
+			// 验证用户操作权限（验证是否绑定手机号码）
+			if(!$http.checkAuth(true)) return;
+		}
 		//跳转
 		switch (type){
 			case 'navigateTo':

@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="iconfont icon-zengjia" style="position: absolute;right: 15upx;top: 15upx;z-index: 1000;color: #FFFFFF;background: rgba(51, 51, 51, 0.4);border-radius: 100%;padding: 20upx;font-size: 32upx;line-height: 1;" @tap="togleShow"></view>
+		<!-- #endif -->
 		<!-- 背景图 + 用户基本信息 -->
 		<user-space-head :userinfo="userinfo" @update="updateGuanzhu"></user-space-head>
 		<!-- 统计 -->

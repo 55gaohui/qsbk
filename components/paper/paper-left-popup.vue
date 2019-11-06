@@ -2,11 +2,11 @@
 	<view>
 		<view class="papar-left-popup-mask" v-show="show" @tap="hidepopup"></view>
 		<view class="papar-left-popup" v-show="show">
-			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="hidepopup">
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="addfriend">
 				<view class="icon iconfont icon-sousuo"></view>
 				加糗友
 			</view>
-			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="hidepopup">
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="clear">
 				<view class="icon iconfont icon-qingchu"></view>
 				清除缓存
 			</view>
@@ -28,7 +28,7 @@
 				this.$emit("addfriend")
 			},
 			clear(){
-				this.$emit("addfriend")
+				this.$emit("clear")
 			}
 		}
 	}

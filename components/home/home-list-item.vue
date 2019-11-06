@@ -17,12 +17,13 @@
 		},
 		methods: {
 			clickevent() {
+				console.log('1');
 				switch (this.item.clicktype) {
 					case "navigateTo":
 						if (this.item.url) {
 							let option = {url: this.item.url};
 							if(this.item.auth){
-								return this.User.navigate(option)
+								return this.User.navigate(option,this.item.NoCheck)
 							}
 							uni.navigateTo(option);
 						}

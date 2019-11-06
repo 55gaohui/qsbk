@@ -124,12 +124,13 @@ var _default =
 
   methods: {
     clickevent: function clickevent() {var _this = this;
+      console.log('1');
       switch (this.item.clicktype) {
         case "navigateTo":
           if (this.item.url) {
             var option = { url: this.item.url };
             if (this.item.auth) {
-              return this.User.navigate(option);
+              return this.User.navigate(option, this.item.NoCheck);
             }
             uni.navigateTo(option);
           }

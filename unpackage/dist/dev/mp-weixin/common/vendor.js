@@ -1872,18 +1872,20 @@ var _chat = _interopRequireDefault(__webpack_require__(/*! ./chat.js */ 22));fun
     //更新用户信息
     this.OnUserCounts();
     //连接socket
-    console.log('1');
     if (this.userinfo.id) {
       _chat.default.Open();
     }
   },
   //权限验证跳转
-  navigate: function navigate(options) {var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'navigateTo';
+  navigate: function navigate(options) {var NoCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'navigateTo';
     //权限验证
     // 验证用户是否登录
     if (!_request.default.checkToken(true)) return;
-    // 验证用户操作权限（验证是否绑定手机号码）
-    if (!_request.default.checkAuth(true)) return;
+    //是否需要验证绑定手机
+    if (!NoCheck) {
+      // 验证用户操作权限（验证是否绑定手机号码）
+      if (!_request.default.checkAuth(true)) return;
+    }
     //跳转
     switch (type) {
       case 'navigateTo':

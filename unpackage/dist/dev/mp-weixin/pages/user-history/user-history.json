@@ -3,6 +3,7 @@
   "usingComponents": {
     "uni-list": "/components/uni-list/uni-list",
     "uni-list-item": "/components/uni-list-item/uni-list-item",
-    "no-thing": "/components/common/no-thing"
+    "no-thing": "/components/common/no-thing",
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
   }
 }

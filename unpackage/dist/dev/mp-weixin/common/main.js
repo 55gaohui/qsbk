@@ -116,7 +116,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   onLaunch: function onLaunch() {
     // 网路监听（用户目前断网，切换wifi）
     this.lib.NetWork.On();
-    // 更新检测
+
+
+
 
     // 初始化用户状态
     this.User.__init();

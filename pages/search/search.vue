@@ -1,5 +1,24 @@
 <template>
 	<view>
+		<!-- 自定义导航 -->
+		<!-- #ifdef MP-WEIXIN -->
+		<view style="display: flex;
+		align-items: center;
+		padding:0 20upx;height: 88upx;
+		position: fixed;z-index: 9999;
+		left: 0;
+		top: 0;
+		right: 0;
+		background: #FFFFFF;">
+			<!-- 左边图标 -->
+			<view class="iconfont icon-sousuo" style="position: absolute;left: 30upx;color: #CCCCCC;"></view>
+			<!-- 搜索框 -->
+			<input style="flex: 1;padding: 5upx 0 5upx 50upx;border-radius: 4px;background: #F7F7F7;"  type="text" :placeholder="getPlaceholder" v-model="searchtext" @confirm="getlist" placeholder-style="color: #CCCCCC;"/>
+			<!-- 右边图标 -->
+			<text style="padding-left:20upx;" @click="goBack">取消</text>
+		</view>
+		<view style="height: 88upx;"></view>
+		<!-- #endif -->
 		<template v-if="list.length>0">
 			<!-- 图片列表 -->
 			<block v-for="(item,index) in list" :key="index">
@@ -37,7 +56,7 @@
 			loadMore,
 			noThing,
 			topicList,
-			userListCom
+			userListCom,
 		},
 		data() {
 			return {
@@ -66,6 +85,21 @@
 			if (e.text) {
 				this.getlist();
 			}
+		},
+		computed:{
+			// #ifdef MP-WEIXIN
+			getPlaceholder(){
+				let type = '文章'
+				if (this.searchType == 'post') {
+					type = '文章';
+				}else if(this.searchType == 'topic'){
+					type = '话题';
+				}else if(this.searchType == 'user'){
+					type = '用户';
+				}
+				return '搜索'+type;
+			}
+			// #endif
 		},
 		onLoad(e) {
 			if(!e) return;
@@ -235,7 +269,15 @@
 				this.page++;
 				this.getlist();
 				
+			},
+			// #ifdef MP-WEIXIN
+			goBack(){
+				uni.navigateBack({
+					delta: 1
+				});
 			}
+			// #endif
+			
 		}
 	}
 </script>
