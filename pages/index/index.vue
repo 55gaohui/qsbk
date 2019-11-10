@@ -225,7 +225,7 @@
 			__format(item){
 				return {
 					userid:item.user.id,
-					userpic:item.user.userpic,
+					userpic:item.user.userpic ? item.user.userpic : 'x',
 					username:item.user.username,
 					isguanzhu:!!item.user.fens.length,
 					id:item.id,

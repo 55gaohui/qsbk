@@ -9,4 +9,9 @@
 	margin-left: 70rpx;
 	width: auto;
 }
+.uni-comment-face image.data-v-7d70167c{
+	width: 70rpx;
+	height: 70rpx;
+	border-radius: 50%;
+}
 

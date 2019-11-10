@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-comment-list" :class="{'u-comment-list-child': (item.fid > 0)}">
 		<view class="uni-comment-face">
-			<image :src="item.userpic" mode="widthFix" @tap.stop="openSpace" lazy-load></image>
+			<image :src="item.userpic" mode="aspectFill" @tap.stop="openSpace" lazy-load></image>
 		</view>
 		<view class="uni-comment-body" @tap.stop="reply">
 			<view class="uni-comment-top">
@@ -44,5 +44,10 @@
 		margin: 0;
 		margin-left: 70upx;
 		width: auto;
+	}
+	.uni-comment-face image{
+		width: 70upx;
+		height: 70upx;
+		border-radius: 50%;
 	}
 </style>

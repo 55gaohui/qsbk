@@ -58,10 +58,10 @@
     "mp-weixin" : {
         /* 小程序特有相关 */
         "usingComponents" : true, //启用微信自定组件
-        "appid" : "wx52513ff872451e59",
+        "appid" : "wx512420565a5b96d0",
         "setting" : {
-            "urlCheck" : false,
-            "es6" : false,
+            "urlCheck" : true,
+            "es6" : true,
             "postcss" : true,
             "minified" : true
         }

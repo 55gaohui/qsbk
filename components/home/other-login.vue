@@ -1,10 +1,15 @@
 <template>
 	<view class="other-login u-f-ac">
+		<!-- #ifdef H5 -->
 		<block v-for="(item, index) in providerList" :key="index">
 			<view class="u-f-ajc u-f1"  @tap="tologin(item)">
 				<view class="icon iconfont u-f-ajc" :class="['icon-'+item.icon]"></view>
 			</view>
 		</block>
+		<!-- #endif -->	
+		<!-- #ifdef MP-WEIXIN -->
+		<button type="primary" open-type="getUserInfo" @getuserinfo="myGetUserInfo">微信登录</button>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -26,8 +31,72 @@
 			this.getLoginAuth();
 		},
 		methods:{
+			// #ifdef MP-WEIXIN
+			//小程序获取用户信息
+			myGetUserInfo(result){
+				uni.showLoading({
+					title: '登录中...',
+					mask:false
+				});
+				
+				// 获取失败
+				if(result.detail.errMsg !== 'getUserInfo:ok'){
+					uni.hideLoading();
+					uni.showModal({
+						title: '获取用户信息失败',
+						content: '错误原因：'+result.detail.errMsg,
+						showCancel: false
+					});
+					return;
+				}
+				let userinfo = result.detail.userInfo;
+				//成功
+				uni.login({
+					provider: 'weixin',
+					success: (res)=>{
+						this.$http.post('/wxLogin',{
+							code: res.code,
+							nickName: userinfo.nickName,
+							avatarUrl: userinfo.avatarUrl
+						}).then( data => {
+							let [err2,res2] = data;
+							//登录失败
+							if(!this.$http.errorCheck(err2,res2)){
+								return false;
+							}
+							//登录成功	保存状态
+							this.User.token = res2.data.data.token;
+							this.User.userinfo = this.User.__formatUserinfo(res2.data.data);
+							
+							//本地储存
+							uni.setStorageSync('userinfo',this.User.userinfo);
+							uni.setStorageSync('token',this.User.token);
+							
+							//获取用户统计
+							this.User.getCounts();
+							
+							//连接socket
+							if(this.User.userinfo.id){
+								this.$chat.Open();
+							}
+							
+							//成功提示
+							uni.showToast({
+								title: '登录成功'
+							});
+							this.$emit('logining');
+							
+						})
+					},
+					complete:()=>{
+						uni.hideLoading();
+					}
+				})
+			},
+			// #endif
 			// 获取当前登录渠道
 			getLoginAuth(){
+				console.log('1');
 				uni.getProvider({
 					service: 'oauth',
 					success: (result) => {
@@ -95,7 +164,7 @@
 				if(res){
 					this.$emit('logining')
 				}
-			}
+			},
 		}
 	}
 </script>
